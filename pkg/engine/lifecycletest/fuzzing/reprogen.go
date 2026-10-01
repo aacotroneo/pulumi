@@ -984,7 +984,7 @@ func writeReadFStatements(provSpec *ProviderSpec) func(g *generator) {
 		g.writeBlock(
 			"return plugin.ReadResponse{",
 			func(g *generator) {
-				g.writeLine("ReadResult: plugin.ReadResult{Outputs: resource.PropertyMap{}},")
+				g.writeLine("ReadResult: plugin.ReadResult{Outputs: ptrMap(resource.PropertyMap{})},")
 				g.writeLine("Status: resource.StatusOK,")
 			},
 			"}, nil",

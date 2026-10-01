@@ -44,6 +44,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func ptrMap(m resource.PropertyMap) *property.Map {
+	if m == nil {
+		return nil
+	}
+	pm := resource.FromResourcePropertyMap(m)
+	return &pm
+}
+
 func doResourceSpec(withList bool) schema.PackageSpec {
 	res := schema.ResourceSpec{
 		ObjectTypeSpec: schema.ObjectTypeSpec{
@@ -355,10 +363,10 @@ func TestDoCmdResourceReadDeletePatch(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID: "res-1",
-							Outputs: resource.PropertyMap{
+							Outputs: ptrMap(resource.PropertyMap{
 								"name": resource.NewProperty("read"),
 								"size": resource.NewProperty(3.0),
-							},
+							}),
 						},
 					}, nil
 				},
@@ -380,8 +388,8 @@ func TestDoCmdResourceReadDeletePatch(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID:      req.ID,
-							Inputs:  resource.PropertyMap{"name": resource.NewProperty("in")},
-							Outputs: resource.PropertyMap{"name": resource.NewProperty("out")},
+							Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("in")}),
+							Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("out")}),
 						},
 					}, nil
 				},
@@ -412,16 +420,16 @@ func TestDoCmdResourceReadDeletePatch(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID: "res-1",
-							Inputs: resource.PropertyMap{
+							Inputs: ptrMap(resource.PropertyMap{
 								"name":    resource.NewProperty("old"),
 								"size":    resource.NewProperty(1.0),
 								"enabled": resource.NewProperty(false),
-							},
-							Outputs: resource.PropertyMap{
+							}),
+							Outputs: ptrMap(resource.PropertyMap{
 								"name":    resource.NewProperty("old"),
 								"size":    resource.NewProperty(1.0),
 								"enabled": resource.NewProperty(false),
-							},
+							}),
 						},
 					}, nil
 				},
@@ -482,14 +490,14 @@ enabled = true
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID: "res-1",
-							Inputs: resource.PropertyMap{
+							Inputs: ptrMap(resource.PropertyMap{
 								"name":    resource.NewProperty("existing"),
 								"enabled": resource.NewProperty(false),
-							},
-							Outputs: resource.PropertyMap{
+							}),
+							Outputs: ptrMap(resource.PropertyMap{
 								"name":    resource.NewProperty("existing"),
 								"enabled": resource.NewProperty(false),
-							},
+							}),
 						},
 					}, nil
 				},
@@ -535,8 +543,8 @@ func TestDoCmdResourceMissingResourceNotFound(t *testing.T) {
 				ReadF: func(ctx context.Context, req plugin.ReadRequest) (plugin.ReadResponse, error) {
 					return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 						ID:      req.ID,
-						Inputs:  resource.PropertyMap{},
-						Outputs: resource.PropertyMap{},
+						Inputs:  ptrMap(resource.PropertyMap{}),
+						Outputs: ptrMap(resource.PropertyMap{}),
 					}}, nil
 				},
 				DeleteF: func(ctx context.Context, req plugin.DeleteRequest) (plugin.DeleteResponse, error) {
@@ -554,12 +562,12 @@ func TestDoCmdResourceMissingResourceNotFound(t *testing.T) {
 	notFoundResponses := map[string]plugin.ReadResponse{
 		"nil outputs": {},
 		"empty outputs": {ReadResult: plugin.ReadResult{
-			Inputs:  resource.PropertyMap{},
-			Outputs: resource.PropertyMap{},
+			Inputs:  ptrMap(resource.PropertyMap{}),
+			Outputs: ptrMap(resource.PropertyMap{}),
 		}},
 		"blank id": {ReadResult: plugin.ReadResult{
-			Inputs:  resource.PropertyMap{"name": resource.NewProperty("stale")},
-			Outputs: resource.PropertyMap{"name": resource.NewProperty("stale")},
+			Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("stale")}),
+			Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("stale")}),
 		}},
 	}
 
@@ -761,8 +769,8 @@ func TestDoCmdResourceDeleteDryRun(t *testing.T) {
 				return plugin.ReadResponse{
 					ReadResult: plugin.ReadResult{
 						ID:      req.ID,
-						Inputs:  resource.PropertyMap{"name": resource.NewProperty("read")},
-						Outputs: resource.PropertyMap{"name": resource.NewProperty("read")},
+						Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("read")}),
+						Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("read")}),
 					},
 				}, nil
 			},
@@ -792,7 +800,7 @@ func TestDoCmdResourceDryRunIgnoredForReadOnlyOps(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID:      req.ID,
-							Outputs: resource.PropertyMap{"name": resource.NewProperty("read")},
+							Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("read")}),
 						},
 					}, nil
 				},
@@ -890,8 +898,8 @@ func TestDoCmdResourceConfirmationSummary(t *testing.T) {
 				ReadF: func(ctx context.Context, req plugin.ReadRequest) (plugin.ReadResponse, error) {
 					return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 						ID:      "res-1",
-						Inputs:  resource.PropertyMap{"name": resource.NewProperty("read")},
-						Outputs: resource.PropertyMap{"name": resource.NewProperty("read")},
+						Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("read")}),
+						Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("read")}),
 					}}, nil
 				},
 			},
@@ -915,8 +923,8 @@ func TestDoCmdResourceConfirmationSummary(t *testing.T) {
 				ReadF: func(ctx context.Context, req plugin.ReadRequest) (plugin.ReadResponse, error) {
 					return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 						ID:      "res-1",
-						Inputs:  resource.PropertyMap{},
-						Outputs: resource.PropertyMap{"name": resource.MakeSecret(resource.NewProperty("hunter2"))},
+						Inputs:  ptrMap(resource.PropertyMap{}),
+						Outputs: ptrMap(resource.PropertyMap{"name": resource.MakeSecret(resource.NewProperty("hunter2"))}),
 					}}, nil
 				},
 			},
@@ -935,8 +943,8 @@ func TestDoCmdResourceConfirmationSummary(t *testing.T) {
 				ReadF: func(ctx context.Context, req plugin.ReadRequest) (plugin.ReadResponse, error) {
 					return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 						ID:      "res-1",
-						Inputs:  resource.PropertyMap{"name": resource.NewProperty("old")},
-						Outputs: resource.PropertyMap{"name": resource.NewProperty("old")},
+						Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("old")}),
+						Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("old")}),
 					}}, nil
 				},
 				CheckF: func(ctx context.Context, req plugin.CheckRequest) (plugin.CheckResponse, error) {
@@ -986,8 +994,8 @@ func TestDoCmdResourceConfirmationSummary(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID:      req.ID,
-							Inputs:  resource.PropertyMap{"name": resource.NewProperty("in")},
-							Outputs: resource.PropertyMap{"name": resource.NewProperty("out")},
+							Inputs:  ptrMap(resource.PropertyMap{"name": resource.NewProperty("in")}),
+							Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("out")}),
 						},
 					}, nil
 				},
@@ -1222,7 +1230,7 @@ func TestDoCmdResourceProviderFlagMergesStackInputs(t *testing.T) {
 				ReadF: func(_ context.Context, _ plugin.ReadRequest) (plugin.ReadResponse, error) {
 					return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 						ID:      "res-1",
-						Outputs: resource.PropertyMap{"name": resource.NewProperty("hello")},
+						Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("hello")}),
 					}}, nil
 				},
 			},
@@ -1265,8 +1273,8 @@ func TestDoCmdResourceProviderErrorTidied(t *testing.T) {
 			ReadF: func(ctx context.Context, req plugin.ReadRequest) (plugin.ReadResponse, error) {
 				return plugin.ReadResponse{ReadResult: plugin.ReadResult{
 					ID:      req.ID,
-					Inputs:  resource.PropertyMap{},
-					Outputs: resource.PropertyMap{"name": resource.NewProperty("existing")},
+					Inputs:  ptrMap(resource.PropertyMap{}),
+					Outputs: ptrMap(resource.PropertyMap{"name": resource.NewProperty("existing")}),
 				}}, nil
 			},
 			DeleteF: func(ctx context.Context, req plugin.DeleteRequest) (plugin.DeleteResponse, error) {

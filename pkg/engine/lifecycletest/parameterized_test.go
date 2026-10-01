@@ -180,8 +180,8 @@ func TestReplacementParameterizedProvider(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID:      req.ID,
-							Inputs:  req.Inputs,
-							Outputs: req.State,
+							Inputs:  &req.Inputs,
+							Outputs: &req.State,
 						},
 						Status: resource.StatusOK,
 					}, nil
@@ -551,12 +551,12 @@ func TestReplacementParameterizedProviderImport(t *testing.T) {
 					return plugin.ReadResponse{
 						ReadResult: plugin.ReadResult{
 							ID: req.ID,
-							Inputs: resource.PropertyMap{
+							Inputs: ptrMap(resource.PropertyMap{
 								"input": resource.NewProperty("input"),
-							},
-							Outputs: resource.PropertyMap{
+							}),
+							Outputs: ptrMap(resource.PropertyMap{
 								"output": resource.NewProperty("output"),
-							},
+							}),
 						},
 						Status: resource.StatusOK,
 					}, nil
