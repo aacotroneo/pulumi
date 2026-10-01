@@ -15,7 +15,9 @@
 package httpstate
 
 import (
+	"archive/tar"
 	"bytes"
+	"compress/gzip"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -451,6 +453,13 @@ func (pack *cloudPolicyPack) Publish(
 		if err != nil {
 			return fmt.Errorf("could not publish policies because of error running npm pack: %w", err)
 		}
+	} else if runtime == plugin.PureJSPolicyRuntime {
+		// A purejs pack is its PulumiPolicy.yaml, the bundle and its manifest, so tar those explicitly rather than walking
+		// the directory (archive.TGZ honors every parent .gitignore, which empties packs built into ignored dirs).
+		packTarball, err = pureJSPackTarball(op.PlugCtx.Pwd, op.PolicyPack.Main)
+		if err != nil {
+			return fmt.Errorf("could not publish policies because of error creating the .tgz: %w", err)
+		}
 	} else {
 		// npm pack puts all the files in a "package" subdirectory inside the .tgz it produces, so we'll do
 		// the same for other runtimes. That way, after unpacking, we can look for the PulumiPolicy.yaml inside the
@@ -536,6 +545,11 @@ func installRequiredPolicy(ctx *plugin.Context, finalDir string, tgz io.ReadClos
 		return fmt.Errorf("failed to load policy project at %s: %w", finalDir, err)
 	}
 
+	// purejs packs are a single self-contained bundle: there are no dependencies to install.
+	if proj.Runtime.Name() == plugin.PureJSPolicyRuntime {
+		return nil
+	}
+
 	// Workaround for python, some policy packs don't specify a venv but we want to use one
 	if proj.Runtime.Name() == "python" {
 		// If the policy's options provide a virtualenv use it, else default to "venv"
@@ -564,4 +578,36 @@ func installRequiredPolicy(ctx *plugin.Context, finalDir string, tgz io.ReadClos
 	}
 
 	return nil
+}
+
+func pureJSPackTarball(dir, main string) ([]byte, error) {
+	if main == "" {
+		main = "policies.js"
+	}
+	buf := &bytes.Buffer{}
+	gw := gzip.NewWriter(buf)
+	tw := tar.NewWriter(gw)
+	for _, name := range []string{"PulumiPolicy.yaml", main, "manifest.json", "package.json", "README.md"} {
+		data, err := os.ReadFile(filepath.Join(dir, name))
+		if err != nil {
+			if os.IsNotExist(err) && name != "PulumiPolicy.yaml" && name != main {
+				continue
+			}
+			return nil, err
+		}
+		hdr := &tar.Header{Name: packageDir + filepath.ToSlash(name), Mode: 0o644, Size: int64(len(data))}
+		if err := tw.WriteHeader(hdr); err != nil {
+			return nil, err
+		}
+		if _, err := tw.Write(data); err != nil {
+			return nil, err
+		}
+	}
+	if err := tw.Close(); err != nil {
+		return nil, err
+	}
+	if err := gw.Close(); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }

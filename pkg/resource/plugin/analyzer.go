@@ -81,6 +81,34 @@ type AnalyzerStackResource struct {
 	Parent               resource.URN                            // an optional parent URN for this resource.
 	Dependencies         []resource.URN                          // dependencies of this resource object.
 	PropertyDependencies map[resource.PropertyKey][]resource.URN // the set of dependencies that affect each property.
+
+	// Inputs, ID and UnknownInputs are not sent to gRPC analyzers; in-process analyzers use them to evaluate policies
+	// against the program's inputs while still linking resources through their outputs.
+	Inputs property.Map
+	ID     resource.ID
+	// UnknownInputs says where each unknown input came from, keyed by its dotted path in Inputs ("subnetIds.1"). Only
+	// set when the program's SDK reports output sources.
+	UnknownInputs map[string]OutputSource
+}
+
+// OutputSource is where an unknown input value came from, as reported by the program's SDK.
+type OutputSource struct {
+	URN      resource.URN // the resource whose output the value is; empty if derived from several resources
+	Property string       // the output property the value is; empty if the value is derived from outputs
+	// Dependencies are the resources the value was derived from.
+	Dependencies []resource.URN
+	// Template is how the value was built from its parts, when the SDK knows (joining strings, serializing JSON).
+	Template *OutputTemplate
+}
+
+// OutputTemplate is how an SDK built an unknown string from its parts.
+type OutputTemplate struct {
+	// Kind is "concat" (Value is an array of parts, joined) or "json" (Value serialized as JSON).
+	Kind string
+	// Value holds the known parts as they are and the unknown ones as computed values.
+	Value property.Value
+	// Unknowns says where each unknown part came from, keyed by its dotted path in Value.
+	Unknowns map[string]OutputSource
 }
 
 // AnalyzerResourceOptions mirrors resource options sent to the analyzer.

@@ -73,6 +73,7 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.8
 	github.com/creack/pty v1.1.24
 	github.com/deckarep/golang-set/v2 v2.9.0
+	github.com/dop251/goja v0.0.0-20260926152631-39ec2650adc9
 	github.com/edsrzf/mmap-go v1.1.0
 	github.com/fatih/color v1.18.0
 	github.com/go-git/go-git/v6 v6.0.0-alpha.4
@@ -123,6 +124,11 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	lukechampine.com/frand v1.5.1
 	mvdan.cc/sh/v3 v3.13.1
+)
+
+require (
+	github.com/dlclark/regexp2/v2 v2.5.2 // indirect
+	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 )
 
 require (

@@ -141,6 +141,10 @@ func NewPolicyAnalyzer(
 			return nil, fmt.Errorf("failed to load Pulumi policy project located at %q: %w", policyPackPath, err)
 		}
 
+		if proj.Runtime.Name() == PureJSPolicyRuntime {
+			return newJSAnalyzer(name, policyPackPath, proj)
+		}
+
 		// This first section is a back compatibility bit for the old way of running analyzer plugins where we
 		// would look for a plugin called "pulumi-analyzer-policy-<runtime>" and invoke that plugin with two
 		// arguments, the engine address and the policy pack path. We don't do this for actual "languages" (i.e.

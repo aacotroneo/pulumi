@@ -3600,6 +3600,13 @@ func (sg *stepGenerator) AnalyzeResources(ctx context.Context) error {
 				Parent:               v.Parent,
 				Dependencies:         v.Dependencies,
 				PropertyDependencies: v.PropertyDependencies,
+				Inputs:               resource.FromResourcePropertyMap(v.Inputs),
+				ID:                   v.ID,
+			}
+			if es, ok := sg.deployment.source.(*evalSource); ok {
+				if srcs, ok := es.outputSources.Load(urn); ok {
+					res.UnknownInputs = srcs.(map[string]plugin.OutputSource)
+				}
 			}
 			// N.B. This feels very unideal but I can't find a better way to check this. When we get here
 			// there is a chance that we'll have a resource in `news` but _won't_ have it's matching provider.

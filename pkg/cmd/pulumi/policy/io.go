@@ -60,6 +60,9 @@ func ReadPolicyProject(pwd string) (*workspace.PolicyPackProject, string, string
 func InstallPluginDependencies(
 	ctx context.Context, stdout, stderr io.Writer, root string, projRuntime workspace.ProjectRuntimeInfo,
 ) error {
+	if projRuntime.Name() == plugin.PureJSPolicyRuntime {
+		return nil
+	}
 	span := opentracing.SpanFromContext(ctx)
 	// Bit of a hack here. Creating a plugin context requires a "program project", but we've only got a
 	// policy project. Ideally we should be able to make a plugin context without any related project. But

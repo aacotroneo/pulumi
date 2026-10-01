@@ -157,6 +157,10 @@ type evalSource struct {
 	// the span covering the currently-running program evaluation, if any. The resource monitor uses it as the
 	// fallback parent for incoming calls that carry no trace context of their own.
 	runSpan atomic.Pointer[oteltrace.Span]
+
+	// outputSources maps each registered resource's URN to where its unknown inputs came from (see
+	// collectOutputSources), for in-process analyzers.
+	outputSources sync.Map
 }
 
 func (src *evalSource) Close() error {
@@ -522,6 +526,8 @@ type resmon struct {
 	// cleared by the RegisterResourceOutputs publish step. Only populated when observer is non-nil.
 	componentAliases     map[resource.URN][]resource.URN
 	componentAliasesLock sync.Mutex
+
+	outputSources *sync.Map // where each resource's unknown inputs came from; owned by the eval source
 }
 
 var _ SourceResourceMonitor = (*resmon)(nil)
@@ -583,6 +589,7 @@ func newResourceMonitor(
 		parameterizedExtensions: map[string]bool{},
 		grpcDialOptions:         src.plugctx.DialOptions,
 		observer:                src.observer,
+		outputSources:           &src.outputSources,
 		componentAliases:        map[resource.URN][]resource.URN{},
 	}
 
@@ -2385,6 +2392,7 @@ func (rm *resmon) RegisterResource(ctx context.Context,
 		deleteBeforeReplace = &req.DeleteBeforeReplace
 	}
 
+	outputSources := collectOutputSources(req.GetObject())
 	props, err := plugin.UnmarshalProperties(
 		req.GetObject(), plugin.MarshalOptions{
 			Label:                 label,
@@ -3085,6 +3093,9 @@ func (rm *resmon) RegisterResource(ctx context.Context,
 			rm.resGoalsLock.Lock()
 			rm.resGoals[result.State.URN] = *goal
 			rm.resGoalsLock.Unlock()
+		}
+		if result != nil && result.State != nil && result.State.URN != "" && outputSources != nil {
+			rm.outputSources.Store(result.State.URN, outputSources)
 		}
 	}
 

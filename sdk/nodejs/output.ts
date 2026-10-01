@@ -599,7 +599,10 @@ function outputRec(val: any, seen?: Set<object>, preallocatedError?: Error): any
             val.isSecret,
             allResources,
         );
-        return newOutput.apply((v) => outputRec(v, seen, preallocatedError), /*runWithUnknowns*/ true);
+        const lifted = newOutput.apply((v) => outputRec(v, seen, preallocatedError), /*runWithUnknowns*/ true);
+        setOutputSource(lifted, getOutputSource(val));
+        setOutputTemplate(lifted, getOutputTemplate(val));
+        return lifted;
     }
 
     // Used to track whether we've seen this object before, so we can throw an error about circular
@@ -712,13 +715,16 @@ export function secret<T>(val: Input<T | undefined>): Output<Unwrap<T | undefine
     const o = output(val);
 
     // we called `output` right above this, so it's safe to call `.allResources` on the result.
-    return new Output(
+    const s = new Output(
         o.resources(),
         o.promise(/*withUnknowns*/ true),
         o.isKnown,
         Promise.resolve(true),
         o.allResources!(),
     );
+    setOutputSource(s, getOutputSource(o));
+    setOutputTemplate(s, getOutputTemplate(o));
+    return s;
 }
 
 /**
@@ -1142,6 +1148,56 @@ export type Output<T> = OutputInstance<T> & Lifted<T>;
 export const Output: OutputConstructor = <any>OutputImpl;
 
 /**
+ * The resource output an {@link Output} is: set on the outputs of custom resources, and kept by {@link output} and
+ * {@link secret}, which don't change the value. Serialization reports it for unknown inputs so that policies can tell
+ * which output an unknown value is.
+ *
+ * @internal
+ */
+export interface OutputSource {
+    resource: Resource;
+    property: string;
+}
+
+const outputSourceKey = "__pulumiOutputSource";
+
+/** @internal */
+export function setOutputSource(o: any, source: OutputSource | undefined): void {
+    if (source !== undefined && o !== null && typeof o === "object") {
+        Object.defineProperty(o, outputSourceKey, { value: source, enumerable: false, configurable: true });
+    }
+}
+
+/** @internal */
+export function getOutputSource(o: any): OutputSource | undefined {
+    return o?.[outputSourceKey];
+}
+
+/**
+ * How a string {@link Output} was built, for the operations whose shape the SDK knows: its parts joined
+ * ({@link interpolate}, {@link concat}) or a value serialized as JSON ({@link jsonStringify}). Serialization reports it
+ * for unknown inputs, with the unknown parts' sources, so that policies can see the known parts. Values built with
+ * {@link OutputInstance.apply} have no template.
+ *
+ * @internal
+ */
+export type OutputTemplate = { concat: Input<any>[] } | { json: Input<any> };
+
+const outputTemplateKey = "__pulumiOutputTemplate";
+
+/** @internal */
+export function setOutputTemplate(o: any, template: OutputTemplate | undefined): void {
+    if (template !== undefined && o !== null && typeof o === "object") {
+        Object.defineProperty(o, outputTemplateKey, { value: template, enumerable: false, configurable: true });
+    }
+}
+
+/** @internal */
+export function getOutputTemplate(o: any): OutputTemplate | undefined {
+    return o?.[outputTemplateKey];
+}
+
+/**
  * The {@link Lifted} type allows us to express the operation of taking a type,
  * with potentially deeply nested objects and arrays and to then get a type with
  * the same properties, except whose property types are now {@link Output}s of the
@@ -1233,7 +1289,9 @@ export type LiftedArray<T> = {
  *
  */
 export function concat(...params: Input<any>[]): Output<string> {
-    return output(params).apply((array) => array.join(""));
+    const o = output(params).apply((array) => array.join(""));
+    setOutputTemplate(o, { concat: params });
+    return o;
 }
 
 /**
@@ -1249,7 +1307,12 @@ export function concat(...params: Input<any>[]): Output<string> {
  * {@link Input}s: promises, outputs, or just plain JavaScript values.
  */
 export function interpolate(literals: TemplateStringsArray, ...placeholders: Input<any>[]): Output<string> {
-    return output(placeholders).apply((unwrapped) => {
+    const parts: Input<any>[] = [];
+    for (let i = 0; i < placeholders.length; i++) {
+        parts.push(literals[i], placeholders[i]);
+    }
+    parts.push(literals[literals.length - 1]);
+    const o = output(placeholders).apply((unwrapped) => {
         let result = "";
 
         // interleave the literals with the placeholders
@@ -1262,6 +1325,8 @@ export function interpolate(literals: TemplateStringsArray, ...placeholders: Inp
         result += literals[literals.length - 1];
         return result;
     });
+    setOutputTemplate(o, { concat: parts });
+    return o;
 }
 
 /**
@@ -1273,9 +1338,13 @@ export function jsonStringify(
     replacer?: (this: any, key: string, value: any) => any | (number | string)[],
     space?: string | number,
 ): Output<string> {
-    return output(obj).apply((o) => {
+    const result = output(obj).apply((o) => {
         return JSON.stringify(o, replacer, space);
     });
+    if (replacer === undefined) {
+        setOutputTemplate(result, { json: obj });
+    }
+    return result;
 }
 
 /**

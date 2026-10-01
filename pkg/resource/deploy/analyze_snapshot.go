@@ -266,6 +266,8 @@ func AnalyzeSnapshot(
 			Parent:               res.Parent,
 			Dependencies:         res.Dependencies,
 			PropertyDependencies: res.PropertyDependencies,
+			Inputs:               resource.FromResourcePropertyMap(res.Inputs),
+			ID:                   res.ID,
 		})
 	}
 
