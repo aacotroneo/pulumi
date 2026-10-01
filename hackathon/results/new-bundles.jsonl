@@ -1,0 +1,7 @@
+{"pack":"cis-aws","policies_js_bytes":342520,"policies_js_gzip_bytes":70055,"tarball_bytes":71680}
+{"pack":"cmmc-aws","policies_js_bytes":178401,"policies_js_gzip_bytes":39470,"tarball_bytes":40960}
+{"pack":"hitrust-aws","policies_js_bytes":333852,"policies_js_gzip_bytes":66898,"tarball_bytes":71680}
+{"pack":"iso-27001-aws","policies_js_bytes":624589,"policies_js_gzip_bytes":119160,"tarball_bytes":122880}
+{"pack":"nist-aws","policies_js_bytes":411017,"policies_js_gzip_bytes":84418,"tarball_bytes":92160}
+{"pack":"pci-dss-aws","policies_js_bytes":478991,"policies_js_gzip_bytes":97542,"tarball_bytes":102400}
+{"pack":"pulumi-best-practices-aws","policies_js_bytes":164604,"policies_js_gzip_bytes":36699,"tarball_bytes":40960}

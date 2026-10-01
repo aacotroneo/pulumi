@@ -1,0 +1,89 @@
+{"time":"2026-09-28T10:47:18.214371-03:00","level":"INFO","msg":"OTLP receiver started on port 54506","v":5}
+{"time":"2026-09-28T10:47:18.214651-03:00","level":"INFO","msg":"Started local OTLP receiver at localhost:54506 (logs only)","v":5}
+{"time":"2026-09-28T10:47:18.214682-03:00","level":"INFO","msg":"CLI Metadata","metadata":{"Command":"pulumi preview","Environment":"PULUMI_POLICY_TIMING PULUMI_SKIP_UPDATE_CHECK PULUMI_DEBUG_COMMANDS","Flags":"--diff --event-log --logflow --logtostderr --non-interactive --stack --verbose"}}
+{"time":"2026-09-28T10:47:18.214739-03:00","level":"INFO","msg":"error parsing current version","err":"strconv.ParseUint: parsing \"\": invalid syntax"}
+{"time":"2026-09-28T10:47:18.214783-03:00","level":"INFO","msg":"skipping update check"}
+{"time":"2026-09-28T10:47:18.215521-03:00","level":"INFO","msg":"Reading Pulumi credentials from \"/Users/alejandrocotroneo/.pulumi/credentials.json\"","v":7}
+{"time":"2026-09-28T10:47:18.215762-03:00","level":"INFO","msg":"PULUMI_SUPPRESS_NEO_LINK","value":false}
+{"time":"2026-09-28T10:47:18.215774-03:00","level":"INFO","msg":"neo flag configuration","neo-flag":false,"PULUMI_NEO":false,"show-neo-features":false}
+{"time":"2026-09-28T10:47:18.215813-03:00","level":"INFO","msg":"Reading Pulumi credentials from \"/Users/alejandrocotroneo/.pulumi/credentials.json\"","v":7}
+{"time":"2026-09-28T10:47:18.216101-03:00","level":"INFO","msg":"Reading Pulumi credentials from \"/Users/alejandrocotroneo/.pulumi/credentials.json\"","v":7}
+{"time":"2026-09-28T10:47:18.216154-03:00","level":"INFO","msg":"GetPluginPath(language, yaml, <nil>, ): found on $PATH /opt/homebrew/bin/pulumi-language-yaml","v":6}
+{"time":"2026-09-28T10:47:18.2162-03:00","level":"INFO","msg":"Current cloud URL","url":"http://localhost:8080"}
+{"time":"2026-09-28T10:47:18.216209-03:00","level":"INFO","msg":"Reading Pulumi credentials from \"/Users/alejandrocotroneo/.pulumi/credentials.json\"","v":7}
+{"time":"2026-09-28T10:47:18.216239-03:00","level":"INFO","msg":"defaultSink::Warning(warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml)","v":5}
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+{"time":"2026-09-28T10:47:18.216259-03:00","level":"INFO","msg":"newPlugin(): Launching plugin 'yaml' from '/opt/homebrew/bin/pulumi-language-yaml' with args: 127.0.0.1:54507","v":9}
+{"time":"2026-09-28T10:47:18.216392-03:00","level":"INFO","msg":"Found stored credentials for \"http://localhost:8080\" in default credentials","v":7}
+{"time":"2026-09-28T10:47:18.216401-03:00","level":"INFO","msg":"Validating stored credentials for \"http://localhost:8080\"","v":7}
+{"time":"2026-09-28T10:47:18.216409-03:00","level":"INFO","msg":"Using valid stored credentials for \"http://localhost:8080\"","v":7}
+{"time":"2026-09-28T10:47:18.216858-03:00","level":"INFO","msg":"Stored credentials for \"http://localhost:8080\" in default credentials","v":7}
+{"time":"2026-09-28T10:47:18.217262-03:00","level":"INFO","msg":"Using backend account for \"http://localhost:8080\" from default credentials","v":7}
+{"time":"2026-09-28T10:47:18.217277-03:00","level":"INFO","msg":"Using default Pulumi config path","v":7}
+{"time":"2026-09-28T10:47:18.217286-03:00","level":"INFO","msg":"Reading Pulumi config from \"/Users/alejandrocotroneo/.pulumi/config.json\"","v":7}
+{"time":"2026-09-28T10:47:18.218481-03:00","level":"INFO","msg":"found cached username for access token","v":1}
+{"time":"2026-09-28T10:47:18.238396-03:00","level":"INFO","msg":"langhost[yaml].GetPluginInfo() executing","v":7}
+{"time":"2026-09-28T10:47:18.238679-03:00","level":"INFO","msg":"langhost[yaml].About() executing","v":7}
+{"time":"2026-09-28T10:47:18.239048-03:00","level":"INFO","msg":"langhost[yaml].About() success","v":7}
+{"time":"2026-09-28T10:47:18.239073-03:00","level":"INFO","msg":"langhost[yaml].Cancel() executing","v":7}
+{"time":"2026-09-28T10:47:18.239219-03:00","level":"INFO","msg":"langhost[yaml].Cancel() not implemented by language runtime, skipping","v":7}
+{"time":"2026-09-28T10:47:18.2393-03:00","level":"INFO","msg":"killing plugin /opt/homebrew/bin/pulumi-language-yaml\n","v":9}
+{"time":"2026-09-28T10:47:18.65596-03:00","level":"INFO","msg":"Waiting for language runtime metadata","duration":1334}
+{"time":"2026-09-28T10:47:18.657711-03:00","level":"INFO","msg":"Got wake lock","mechanism":"caffeinate","pid":56214}
+{"time":"2026-09-28T10:47:18.658392-03:00","level":"INFO","msg":"Using combined begin-update endpoint for bench-new","v":7}
+{"time":"2026-09-28T10:47:18.71953-03:00","level":"INFO","msg":"Neo in org 'pulumi_local' is enabled for user 'pulumipus'","v":7}
+{"time":"2026-09-28T10:47:18.719602-03:00","level":"INFO","msg":"Using cached deployment from begin-update for bench-new","v":7}
+{"time":"2026-09-28T10:47:18.719734-03:00","level":"INFO","msg":"Using cached stack tags from begin-update for bench-new","v":7}
+{"time":"2026-09-28T10:47:18.72008-03:00","level":"INFO","msg":"*** Starting Update(preview=true) ***","v":7}
+{"time":"2026-09-28T10:47:18.720606-03:00","level":"INFO","msg":"Reading Pulumi credentials from \"/Users/alejandrocotroneo/.pulumi/credentials.json\"","v":7}
+{"time":"2026-09-28T10:47:18.720882-03:00","level":"INFO","msg":"ensurePoliciesAreInstalled(): beginning, 7 policies","v":7}
+{"time":"2026-09-28T10:47:18.720894-03:00","level":"INFO","msg":"ensurePoliciesAreInstalled(): completed","v":7}
+{"time":"2026-09-28T10:47:18.7209-03:00","level":"INFO","msg":"gatherPackagesFromProgram(): gathering plugins from language host","v":7}
+{"time":"2026-09-28T10:47:18.720905-03:00","level":"INFO","msg":"installPolicyPack(pulumi-best-practices-aws@v1.4.1): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.720901-03:00","level":"INFO","msg":"installPolicyPack(hitrust-aws@v2.6.4): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.720926-03:00","level":"INFO","msg":"installPolicyPack(cmmc-aws@v1.0.2): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.720937-03:00","level":"INFO","msg":"installPolicyPack(cis-aws@v1.0.2): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.720959-03:00","level":"INFO","msg":"installPolicyPack(iso-27001-aws@v1.0.1): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.720965-03:00","level":"INFO","msg":"GetPluginPath(language, yaml, <nil>, ): found on $PATH /opt/homebrew/bin/pulumi-language-yaml","v":6}
+{"time":"2026-09-28T10:47:18.721011-03:00","level":"INFO","msg":"installPolicyPack(pci-dss-aws@v2.0.4): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.721038-03:00","level":"INFO","msg":"eventSink::Warning(<{%reset%}>using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml<{%reset%}>)","v":5}
+{"time":"2026-09-28T10:47:18.721054-03:00","level":"INFO","msg":"newPlugin(): Launching plugin 'yaml' from '/opt/homebrew/bin/pulumi-language-yaml' with args: 127.0.0.1:54517","v":9}
+{"time":"2026-09-28T10:47:18.720931-03:00","level":"INFO","msg":"installPolicyPack(nist-aws@v1.0.2): beginning install","v":7}
+{"time":"2026-09-28T10:47:18.741828-03:00","level":"INFO","msg":"langhost[yaml].GetPluginInfo() executing","v":7}
+{"time":"2026-09-28T10:47:18.745094-03:00","level":"INFO","msg":"langhost[yaml].GetRequiredPackages(root=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/bench-stack, program=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/bench-stack, entryPoint=.) executing","v":7}
+{"time":"2026-09-28T10:47:18.749886-03:00","level":"INFO","msg":"langhost[yaml].GetRequiredPackages(root=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/bench-stack, program=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/bench-stack, entryPoint=.) success: #versions=1","v":7}
+{"time":"2026-09-28T10:47:18.752135-03:00","level":"INFO","msg":"gatherPackagesFromProgram(): package aws () is required by language host","v":7}
+{"time":"2026-09-28T10:47:18.752145-03:00","level":"INFO","msg":"gatherPackagesFromSnapshot(): gathering plugins from snapshot","v":7}
+{"time":"2026-09-28T10:47:18.752153-03:00","level":"INFO","msg":"ensurePluginsAreInstalled(): beginning","v":7}
+{"time":"2026-09-28T10:47:18.752624-03:00","level":"INFO","msg":"GetPluginPath(resource, aws, <nil>, ): using legacy plugin behavior","v":6}
+{"time":"2026-09-28T10:47:18.752647-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.61.0)","v":6}
+{"time":"2026-09-28T10:47:18.752661-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.66.3)","v":6}
+{"time":"2026-09-28T10:47:18.752675-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.77.1)","v":6}
+{"time":"2026-09-28T10:47:18.752681-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.81.0)","v":6}
+{"time":"2026-09-28T10:47:18.752687-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.83.1)","v":6}
+{"time":"2026-09-28T10:47:18.752693-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.83.2)","v":6}
+{"time":"2026-09-28T10:47:18.7527-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#6.83.4)","v":6}
+{"time":"2026-09-28T10:47:18.752706-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.11.0)","v":6}
+{"time":"2026-09-28T10:47:18.752716-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.15.0)","v":6}
+{"time":"2026-09-28T10:47:18.752722-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.32.0)","v":6}
+{"time":"2026-09-28T10:47:18.75273-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.39.0)","v":6}
+{"time":"2026-09-28T10:47:18.752736-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.46.0)","v":6}
+{"time":"2026-09-28T10:47:18.752741-03:00","level":"INFO","msg":"LegacySelectCompatiblePlugin(resource, aws, <nil>): found candidate (#7.47.0)","v":6}
+{"time":"2026-09-28T10:47:18.752788-03:00","level":"INFO","msg":"GetPluginPath(resource, aws, <nil>, ): found in cache at /Users/alejandrocotroneo/.pulumi/plugins/resource-aws-v7.47.0/pulumi-resource-aws","v":6}
+{"time":"2026-09-28T10:47:18.752798-03:00","level":"INFO","msg":"ensurePluginsAreInstalled(): plugin aws <nil> already installed","v":7}
+{"time":"2026-09-28T10:47:18.752803-03:00","level":"INFO","msg":"EnsurePluginsAreInstalled(): completed","v":7}
+{"time":"2026-09-28T10:47:18.752807-03:00","level":"INFO","msg":"computeDefaultProviderPlugins(): considering aws","v":7}
+{"time":"2026-09-28T10:47:18.75284-03:00","level":"INFO","msg":"computeDefaultProviderPlugins(): plugin aws selected for package aws (first seen)","v":7}
+{"time":"2026-09-28T10:47:18.752847-03:00","level":"INFO","msg":"computeDefaultProviderPlugins(): summary of default plugins:","v":7}
+{"time":"2026-09-28T10:47:18.75285-03:00","level":"INFO","msg":"  aws             = <nil>","v":7}
+{"time":"2026-09-28T10:47:18.752866-03:00","level":"INFO","msg":"langhost[yaml].Cancel() executing","v":7}
+{"time":"2026-09-28T10:47:18.753057-03:00","level":"INFO","msg":"langhost[yaml].Cancel() not implemented by language runtime, skipping","v":7}
+{"time":"2026-09-28T10:47:18.753117-03:00","level":"INFO","msg":"killing plugin /opt/homebrew/bin/pulumi-language-yaml\n","v":9}
+{"time":"2026-09-28T10:47:18.754318-03:00","level":"INFO","msg":"*** Update(preview=true) complete ***","v":7}
+{"time":"2026-09-28T10:47:18.784341-03:00","level":"INFO","msg":"Released wake lock","mechanism":"caffeinate","pid":56214}
+{"time":"2026-09-28T10:47:18.784402-03:00","level":"INFO","msg":"defaultSink::Error(error: failed to install policy pack cmmc-aws@v1.0.2: failed to load policy project at /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2: open /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2/PulumiPolicy.yaml: no such file or directory\n\nDependency installation output:\n)","v":5}
+error: failed to install policy pack cmmc-aws@v1.0.2: failed to load policy project at /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2: open /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2/PulumiPolicy.yaml: no such file or directory
+
+Dependency installation output:
+
+{"time":"2026-09-28T10:47:18.784735-03:00","level":"INFO","msg":"OTLP receiver stopped gracefully","v":5}

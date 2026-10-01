@@ -1,0 +1,174 @@
+{
+ "transitions": {
+  "stack:advisory-unknown -> advisory-unknown": 12,
+  "stack:advisory-unknown -> violation": 2,
+  "stack:pass -> advisory-unknown": 4,
+  "stack:pass -> pass": 222,
+  "stack:violation -> advisory-unknown": 7,
+  "stack:violation -> violation": 148
+ },
+ "changed": [
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-policy-grantee-check",
+   "from": "stack:pass",
+   "to": "advisory-unknown",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-public-read-prohibited",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "orphanSg"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-macie-access",
+   "from": "stack:pass",
+   "to": "advisory-unknown",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-macie-access",
+   "from": "stack:pass",
+   "to": "advisory-unknown",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-policy-grantee-check",
+   "from": "stack:pass",
+   "to": "advisory-unknown",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "orphanSg"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "stack:violation",
+   "to": "advisory-unknown",
+   "lost": [
+    "goodPolicy"
+   ],
+   "gained": []
+  }
+ ]
+}

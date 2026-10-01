@@ -1,0 +1,7 @@
+{"mode":"new","pack":"cis-aws","ok":true,"publish_s":0.55}
+{"mode":"new","pack":"cmmc-aws","ok":true,"publish_s":0.47}
+{"mode":"new","pack":"hitrust-aws","ok":true,"publish_s":0.51}
+{"mode":"new","pack":"iso-27001-aws","ok":true,"publish_s":0.59}
+{"mode":"new","pack":"nist-aws","ok":true,"publish_s":0.55}
+{"mode":"new","pack":"pci-dss-aws","ok":true,"publish_s":0.52}
+{"mode":"new","pack":"pulumi-best-practices-aws","ok":true,"publish_s":0.49}

@@ -1,0 +1,183 @@
+== old / cloud  cli=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi
+cold  #1: wall=113.80s exit=0 violations=276 cache=2158112981
+warm  #1: wall= 11.62s exit=0 violations=276 cache=2158112981
+cold  #2: wall= 94.97s exit=0 violations=276 cache=2158112981
+warm  #2: wall= 10.31s exit=0 violations=276 cache=2158112981
+cold  #0: wall= 99.17s exit=0 violations=276 cache=2158112981
+| mode | path | phase | runs | median wall (s) | min | max |
+|---|---|---|---|---|---|---|
+| old | cloud | cold | 2 | 113.81 | 94.97 | 113.81 |
+| old | cloud | warm | 2 | 11.62 | 10.31 | 11.62 |
+== new / cloud  cli=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi
+cold  #1: wall=  0.87s exit=1 violations=0 cache=0
+warm  #1: wall=  0.63s exit=1 violations=0 cache=0
+cold  #2: wall=  0.68s exit=1 violations=0 cache=0
+warm  #2: wall=  0.67s exit=1 violations=0 cache=0
+cold  #3: wall=  0.66s exit=1 violations=0 cache=0
+warm  #3: wall=  0.63s exit=1 violations=0 cache=0
+cold  #0: wall=  0.63s exit=1 violations=0 cache=0
+| mode | path | phase | runs | median wall (s) | min | max |
+|---|---|---|---|---|---|---|
+| new | cloud | cold | 3 | 0.68 | 0.66 | 0.87 |
+| new | cloud | warm | 3 | 0.63 | 0.63 | 0.67 |
+== old / local  cli=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi
+run   #1: wall= 10.00s exit=0 violations=276 cache=None
+run   #2: wall=  8.57s exit=0 violations=276 cache=None
+run   #3: wall=  7.80s exit=0 violations=276 cache=None
+run   #0: wall=  7.93s exit=0 violations=276 cache=None
+| mode | path | phase | runs | median wall (s) | min | max |
+|---|---|---|---|---|---|---|
+| old | local | run | 3 | 8.57 | 7.80 | 10.00 |
+== new / local  cli=/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi
+run   #1: wall=  1.59s exit=0 violations=276 cache=None
+run   #2: wall=  1.55s exit=0 violations=276 cache=None
+run   #3: wall=  1.55s exit=0 violations=276 cache=None
+run   #0: wall=  1.51s exit=0 violations=276 cache=None
+| mode | path | phase | runs | median wall (s) | min | max |
+|---|---|---|---|---|---|---|
+| new | local | run | 3 | 1.55 | 1.55 | 1.59 |
+{
+  "path": "cloud",
+  "old": 276,
+  "new": 0,
+  "matching": 0,
+  "only_old": 276,
+  "only_new": 0,
+  "only_old_by_policy": [
+    "anti-malware-edr",
+    "centralized-os-app-logging",
+    "cloudtrail-s3-bucket-public-access-denied",
+    "cloudwatch-log-group-kms-encryption-enabled",
+    "cloudwatch-log-group-retention-period-365",
+    "cloudwatch-log-retention",
+    "database-strict-egress",
+    "database-strict-network-access",
+    "ebs-attached-volume-encryption-enabled",
+    "ebs-optimized-instance",
+    "ec2-ebs-optimized-required",
+    "ec2-iam-profile-required",
+    "ec2-imdsv2-required",
+    "ec2-instance-detailed-monitoring-enabled",
+    "ec2-instance-disallow-public-ip",
+    "ec2-instance-iam-profile-attached",
+    "ec2-instance-in-vpc",
+    "ec2-instance-no-public-ip",
+    "ec2-instance-not-publicly-accessible",
+    "ec2-instance-ssm-managed",
+    "ec2-monitoring-enabled",
+    "ec2-stopped-instance-30-days",
+    "ec2-vpc-placement-required",
+    "environment-separation-tagging",
+    "iam-no-inline-policy-check",
+    "iam-policy-no-statements-with-admin-access",
+    "iam-policy-no-statements-with-full-access",
+    "iam-role-policy-least-privilege",
+    "iam-role-policy-mfa-enforcement",
+    "iam-role-policy-restriction",
+    "kms-key-deletion-lifecycle",
+    "kms-key-enable-key-rotation",
+    "kms-key-policy-access-control",
+    "kms-key-rotation-enabled",
+    "no-hardcoded-secrets",
+    "pubsub-least-privilege-iam",
+    "rds-audit-logging",
+    "rds-db-instance-backup-enabled",
+    "rds-deletion-protection",
+    "rds-encryption-enabled",
+    "rds-iam-authentication",
+    "rds-instance-deletion-protection-enabled",
+    "rds-instance-disallow-public-access",
+    "rds-instance-disallow-unencrypted-storage",
+    "rds-instance-enable-backup-retention",
+    "rds-instance-enhanced-monitoring",
+    "rds-instance-high-availability",
+    "rds-instance-logging-enabled",
+    "rds-instance-ssl-encryption",
+    "rds-logging-enabled",
+    "rds-multi-az-support",
+    "rds-private-subnet-validation",
+    "rds-secure-master-credentials",
+    "resource-tagging",
+    "restricted-ssh",
+    "s3-bucket-access-logging",
+    "s3-bucket-encryption",
+    "s3-bucket-level-public-access-prohibited",
+    "s3-bucket-lifecycle",
+    "s3-bucket-logging-enabled",
+    "s3-bucket-notifications-enabled",
+    "s3-bucket-public-access-block",
+    "s3-bucket-public-access-block-required",
+    "s3-bucket-public-read-prohibited",
+    "s3-bucket-replication",
+    "s3-bucket-ssl-enforcement-required",
+    "s3-bucket-versioning",
+    "s3-bucket-versioning-enabled",
+    "security-group-default-deny",
+    "security-group-egress-restriction",
+    "security-group-ssh-rdp",
+    "security-group-ssh-rdp-egress-restricted",
+    "security-group-ssh-rdp-ingress-restricted",
+    "sqs-dead-letter-queue",
+    "vpc-security-group-associated-to-eni",
+    "vpc-security-group-restrict-ingress-ssh-all"
+  ],
+  "only_new_by_policy": []
+}
+{
+  "path": "local",
+  "old": 276,
+  "new": 276,
+  "matching": 209,
+  "only_old": 67,
+  "only_new": 67,
+  "only_old_by_policy": [
+    "cloudtrail-s3-bucket-public-access-denied",
+    "cloudwatch-log-group-kms-encryption-enabled",
+    "cloudwatch-log-group-retention-period-365",
+    "cloudwatch-log-retention",
+    "ebs-attached-volume-encryption-enabled",
+    "iam-no-inline-policy-check",
+    "iam-role-policy-restriction",
+    "rds-instance-ssl-encryption",
+    "rds-private-subnet-validation",
+    "s3-bucket-access-logging",
+    "s3-bucket-encryption",
+    "s3-bucket-level-public-access-prohibited",
+    "s3-bucket-lifecycle",
+    "s3-bucket-logging-enabled",
+    "s3-bucket-notifications-enabled",
+    "s3-bucket-public-access-block",
+    "s3-bucket-public-access-block-required",
+    "s3-bucket-public-read-prohibited",
+    "s3-bucket-replication",
+    "s3-bucket-ssl-enforcement-required",
+    "s3-bucket-versioning",
+    "s3-bucket-versioning-enabled",
+    "vpc-security-group-associated-to-eni"
+  ],
+  "only_new_by_policy": [
+    "cloudtrail-s3-bucket-public-access-denied",
+    "cloudwatch-log-group-kms-encryption-enabled",
+    "cloudwatch-log-group-retention-period-365",
+    "cloudwatch-log-retention",
+    "ebs-attached-volume-encryption-enabled",
+    "iam-no-inline-policy-check",
+    "iam-role-policy-restriction",
+    "rds-instance-ssl-encryption",
+    "rds-private-subnet-validation",
+    "s3-bucket-access-logging",
+    "s3-bucket-encryption",
+    "s3-bucket-level-public-access-prohibited",
+    "s3-bucket-lifecycle",
+    "s3-bucket-logging-enabled",
+    "s3-bucket-notifications-enabled",
+    "s3-bucket-public-access-block",
+    "s3-bucket-public-access-block-required",
+    "s3-bucket-public-read-prohibited",
+    "s3-bucket-replication",
+    "s3-bucket-ssl-enforcement-required",
+    "s3-bucket-versioning",
+    "s3-bucket-versioning-enabled",
+    "vpc-security-group-associated-to-eni"
+  ]
+}

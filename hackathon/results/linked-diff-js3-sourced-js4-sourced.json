@@ -1,0 +1,8 @@
+{
+ "transitions": {
+  "stack:advisory-unknown -> advisory-unknown": 23,
+  "stack:pass -> pass": 222,
+  "stack:violation -> violation": 150
+ },
+ "changed": []
+}

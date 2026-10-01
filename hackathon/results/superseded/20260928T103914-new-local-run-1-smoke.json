@@ -1,0 +1,43 @@
+{
+  "ts": "20260928T103914",
+  "mode": "new",
+  "path": "local",
+  "phase": "run",
+  "run": 1,
+  "tag": "smoke",
+  "verbose": false,
+  "wall_s": 3.195,
+  "exit_code": 0,
+  "violations": 276,
+  "policy_load_events": 7,
+  "violations_by_pack": {
+    "cis-aws": 33,
+    "cmmc-aws": 32,
+    "hitrust-aws": 46,
+    "iso-27001-aws": 47,
+    "nist-aws": 35,
+    "pci-dss-aws": 46,
+    "pulumi-best-practices-aws": 37
+  },
+  "policy_cache_bytes": null,
+  "policy_cache_files": null,
+  "purejs_timings": [
+    "purejs pack pulumi-best-practices-aws: 54 policies, 162KB, read=1.1625ms compile=10.947458ms eval=6.953792ms describe=1.5415ms total=20.60525ms",
+    "purejs pack cmmc-aws: 54 policies, 176KB, read=771.333\u00b5s compile=11.409375ms eval=6.970542ms describe=1.285667ms total=20.436917ms",
+    "purejs pack hitrust-aws: 130 policies, 327KB, read=783.541\u00b5s compile=16.36975ms eval=3.844917ms describe=3.958625ms total=24.956833ms",
+    "purejs pack cis-aws: 115 policies, 336KB, read=1.356166ms compile=15.727042ms eval=4.665292ms describe=5.17ms total=26.9185ms",
+    "purejs pack nist-aws: 139 policies, 403KB, read=593.834\u00b5s compile=17.848583ms eval=3.166125ms describe=6.357167ms total=27.965709ms",
+    "purejs pack pci-dss-aws: 160 policies, 469KB, read=1.827875ms compile=20.002417ms eval=6.46125ms describe=3.6685ms total=31.960042ms",
+    "purejs pack iso-27001-aws: 238 policies, 611KB, read=1.835458ms compile=24.635625ms eval=5.481875ms describe=5.519792ms total=37.47275ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/hitrust-aws: analyze calls=12 total=41.249545ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/nist-aws: analyze calls=12 total=2.58725ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pulumi-best-practices-aws: analyze calls=12 total=2.030126ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/iso-27001-aws: analyze calls=12 total=41.4725ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pci-dss-aws: analyze calls=12 total=41.209124ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cmmc-aws: analyze calls=12 total=2.095539ms",
+    "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cis-aws: analyze calls=12 total=1.016376ms"
+  ],
+  "node_launches": null,
+  "cli_sha": "243d4fa7ee",
+  "cmd": "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi preview --stack pulumi_local/bench-local --non-interactive --diff=false --event-log /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/results/20260928T103914-new-local-run-1-smoke.events.jsonl --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cis-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cmmc-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/hitrust-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/iso-27001-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/nist-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pci-dss-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pulumi-best-practices-aws"
+}

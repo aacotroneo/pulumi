@@ -1,0 +1,4641 @@
+{
+ "summary": {
+  "label": "yaml4",
+  "exit": 0,
+  "wall_s": 11.05,
+  "env": {},
+  "policies": 346,
+  "all": {
+   "advisory-unknown": 8,
+   "pass": 220,
+   "violation": 118
+  },
+  "stack": {
+   "advisory-unknown": 8,
+   "pass": 220,
+   "violation": 118
+  },
+  "resource": {},
+  "violations": 337,
+  "mandatory": 0
+ },
+ "policies": [
+  {
+   "pack": "cis-aws",
+   "policy": "alb-waf-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "cloudwatch-log-group-kms-encryption-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "flowLogGroup"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "cloudwatch-log-group-retention-period-365",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "dynamodb-autoscaling-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "dynamodb-table-in-backup-plan",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-attached-volume-encryption-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-optimized-instance",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-snapshot-not-publicly-restorable",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-volume-encryption-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-volume-in-backup-plan",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "policy-bench-linked-linked"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-volume-unused",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-imdsv2-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-detailed-monitoring-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-iam-profile-attached",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-in-vpc",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-no-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-not-publicly-accessible",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-ssm-managed",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-stopped-instance-30-days",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "efs-encryption-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "elb-deletion-protection-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "alb"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "emr-cluster-master-nodes-no-public-ip",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-no-inline-policy-check",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-user-console-access-mfa-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-user-mfa-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "user"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-user-no-policies-check",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-user-unused-credentials-90",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "kms-cmk-not-scheduled-for-deletion",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "kms-key-rotation-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "redshift-cluster-configuration-check",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "restricted-ssh",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-level-public-access-prohibited",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-logging-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-public-read-prohibited",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-public-write-prohibited",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-replication",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-restrict-public-read-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-versioning-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "secrets-manager-kms-encryption-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "subnet-auto-assign-public-ip-disabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "vpc-flow-logs-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "orphanSg"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "vpc-security-group-restrict-ingress-ssh-all",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "wafv2-logging-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "anti-malware-edr",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "api-gateway-waf-association",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'api-gateway-waf-association' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "appsync-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "cloudfront-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "ebs-volume-disallow-unencrypted-volume",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "ec2-security-group-disallow-inbound-http-traffic",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "efs-file-system-disallow-unencrypted-file-system",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "environment-separation-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "iam-role-assume-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "iam-role-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "iam-role-session-duration",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "iam-user-mfa-console-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "kms-key-deletion-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "kms-key-enable-key-rotation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "load-balancer-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "rds-audit-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "resource-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-public-access-block",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "security-group-strict",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "subnet-multi-az",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "vpc-flow-logs",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "subnetNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "waf-association-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "anti-malware-edr",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "api-gateway-waf-association",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'api-gateway-waf-association' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .resourceArn can't be known during preview"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "appsync-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "centralized-os-app-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "cloudfront-distribution-configure-access-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "cloudfront-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "database-strict-network-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ebs-volume-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ebs-volume-disallow-unencrypted-volume",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ec2-instance-disallow-unencrypted-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ec2-instance-disallow-unencrypted-root-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "ec2-security-group-disallow-inbound-http-traffic",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "efs-file-system-disallow-unencrypted-file-system",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "environment-separation-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "iam-role-assume-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "iam-role-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "iam-role-session-duration",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "iam-user-mfa-console-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "kms-key-deletion-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "kms-key-enable-key-rotation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "kms-key-policy-access-control",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "load-balancer-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "no-hardcoded-secrets",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "rds-audit-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "rds-instance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "rds-private-subnet-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "resource-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "restrict-default-iam-user-creation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-disallow-public-read",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-macie-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-public-access-block",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-replication",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-versioning",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "security-group-ssh-rdp",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "security-group-strict",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "subnet-multi-az",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "vpc-flow-logs",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "subnetNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "waf-association-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "anti-malware-edr",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "api-gateway-waf-association",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'api-gateway-waf-association' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .resourceArn can't be known during previe"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "appsync-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "centralized-os-app-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "cloudfront-distribution-configure-access-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "cloudfront-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "cloudwatch-log-group-kms-encryption-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "flowLogGroup"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "cloudwatch-log-retention",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "database-strict-network-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "dynamodb-autoscaling-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ebs-snapshot-not-publicly-restorable",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ebs-volume-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ebs-volume-disallow-unencrypted-volume",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ebs-volume-in-backup-plan",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "policy-bench-linked-linked"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-iam-profile-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-imdsv2-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-instance-disallow-unencrypted-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-instance-disallow-unencrypted-root-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-monitoring-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-security-group-disallow-inbound-http-traffic",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-vpc-placement-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "efs-file-system-disallow-unencrypted-file-system",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "elb-deletion-protection",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "alb"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "elb-desync-mitigation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "emr-no-public-ip",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "eventbridge-eventbus-policy-attached",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "eventbridge-schema-registry-policy-attached",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-role-assume-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-role-inline-policy-restriction",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-role-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-role-session-duration",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-user-group-membership-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-user-mfa-console-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "iam-user-no-policies-check",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "kms-key-enable-key-rotation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "kms-key-policy-access-control",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "lambda-public-access-restricted",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "lb-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "alb"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "lb-cross-zone-load-balancing",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "lb-multi-az",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "load-balancer-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "networkfirewall-logging-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "no-hardcoded-secrets",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "rds-instance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "rds-private-subnet-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "redshift-logging-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "redshift-ssl-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "resource-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "restrict-default-iam-user-creation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-acl-prohibited",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-macie-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-object-lock-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-public-access-block",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-replication",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-versioning",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "secrets-manager-rotation-required",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'secrets-manager-rotation-required' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .secretId can't be known during pre"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "subnet-multi-az",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "orphanSg"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-subnet-auto-assign-public-ip-disabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "subnetNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "wafv2-logging-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "api-gateway-waf-enabled",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'api-gateway-waf-enabled' from policy pack 'nist-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "cloudtrail-s3-bucket-public-access-denied",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "cloudwatch-log-group-kms-encryption-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "flowLogGroup"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "cloudwatch-log-retention",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "config-rule-auto-remediation-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "dynamodb-auto-scaling-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ebs-unused-volumes-prohibited",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ebs-volume-disallow-unencrypted-volume",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-ebs-optimized-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-iam-profile-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-imdsv2-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-instance-disallow-unencrypted-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-instance-disallow-unencrypted-root-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-monitoring-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-vpc-placement-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "efs-file-system-disallow-unencrypted-file-system",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "elb-deletion-protection",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "alb"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "elb-waf-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "emr-no-public-ip",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-role-assume-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-role-inline-policy-restriction",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-role-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-user-group-membership-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "iam-user-mfa-console-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "kms-key-deletion-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "kms-key-enable-key-rotation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "lambda-public-access-restricted",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "load-balancer-waf-association",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "rds-audit-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "rds-instance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "redshift-logging-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "redshift-ssl-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-disallow-public-read",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-notifications-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-object-lock-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-public-access-block",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-replication",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-versioning",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "secrets-manager-rotation-required",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'secrets-manager-rotation-required' from policy pack 'nist-aws@v1.0.2' during preview: string value at .secretId can't be known during preview"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "security-group-ssh-rdp",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "security-group-strict",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "vpc-flow-logs",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "vpc-subnet-auto-assign-public-ip-disabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "wafv2-logging-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "api-gateway-waf-enabled",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'api-gateway-waf-enabled' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .resourceArn can't be known during preview"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "cloudfront-distribution-configure-access-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "cloudtrail-s3-bucket-public-access-denied",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "cloudwatch-log-group-kms-encryption-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "flowLogGroup"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "cloudwatch-log-retention",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "config-rule-auto-remediation-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "database-strict-egress",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "database-strict-network-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ebs-unused-volumes-prohibited",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ebs-volume-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "unusedVolume"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ebs-volume-disallow-unencrypted-volume",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-iam-profile-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-instance-disallow-unencrypted-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-instance-disallow-unencrypted-root-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-monitoring-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-security-group-disallow-inbound-http-traffic",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-vpc-placement-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "efs-file-system-disallow-unencrypted-file-system",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "emr-no-public-ip",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "environment-separation-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "iam-role-assume-role-mfa-enforcement",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "iam-role-session-duration",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "iam-user-group-membership-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "iam-user-mfa-console-access",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "internal-ip-disclosure-prevention",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "kms-key-deletion-protection",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "kms-key-policy-access-control",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "kms-key-rotation-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "lambda-public-access-restricted",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "no-hardcoded-secrets",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "rds-audit-logging",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "rds-instance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "rds-private-subnet-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "redshift-logging-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "redshift-ssl-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "resource-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "restrict-default-iam-user-creation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-disallow-public-read",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-public-access-block-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "secrets-manager-rotation-required",
+   "kind": "stack",
+   "class": "advisory-unknown",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 1,
+   "output": 0,
+   "targets": [],
+   "why": [
+    "can't run policy 'secrets-manager-rotation-required' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .arn can't be known during preview"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "security-group-egress-restriction",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "security-group-ssh-rdp-egress-restricted",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "security-group-ssh-rdp-ingress-restricted",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "vpc-flow-logs",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "vpc-subnet-auto-assign-public-ip-disabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "subnetNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "waf-association-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "wafv2-logging-enabled",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "cloudwatch-log-retention",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "dynamodb-auto-scaling-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "ebs-volume-encryption-required",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "ec2-instance-disallow-public-ip",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "instance"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "ec2-instance-disallow-unencrypted-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "ec2-instance-disallow-unencrypted-root-block-device",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "environment-separation-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "iam-role-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "kms-key-creation",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 1,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "kms-key-deletion-lifecycle",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "key"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "kms-key-rotation-enabled",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "pubsub-least-privilege-iam",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "rds-clusterinstance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "rds-instance-ssl-encryption",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "rds-private-subnet-validation",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "resource-name-length",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "resource-tagging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 19,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "acl",
+    "alb",
+    "appSg",
+    "bare",
+    "flowLogGroup",
+    "flowLogRole",
+    "good",
+    "instance",
+    "key",
+    "logs",
+    "orphanSg",
+    "subnetA",
+    "subnetB",
+    "subnetNoLogs",
+    "unusedVolume",
+    "user",
+    "volume",
+    "vpc",
+    "vpcNoLogs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-access-logging",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-encryption",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-least-privilege",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-public-access-block",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "barePab",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-replication",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 3,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "good",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-versioning",
+   "kind": "stack",
+   "class": "violation",
+   "violations": 2,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [
+    "bare",
+    "logs"
+   ],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "security-group-default-deny",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "security-group-ssh-rdp",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "security-group-strict",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "vpc-flow-logs",
+   "kind": "stack",
+   "class": "pass",
+   "violations": 0,
+   "mandatory": 0,
+   "unknown": 0,
+   "output": 0,
+   "targets": [],
+   "why": []
+  }
+ ]
+}

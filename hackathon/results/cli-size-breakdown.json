@@ -1,0 +1,120 @@
+{
+  "symbol_bytes_base": 167657872,
+  "symbol_bytes_goja": 173963735,
+  "delta_by_group": {
+    "Go runtime tables for the new code (pclntab)": 1765001,
+    "goja (engine)": 1736242,
+    "golang.org/x/text (newly linked packages)": 1459504,
+    "Go type/func metadata for the new code": 1111296,
+    "regexp2/v2 (goja's fallback regex engine)": 248492,
+    "pulumi plugin pkg (purejs analyzer + prelude)": 31560,
+    "go-sourcemap": 6464,
+    "other": -52696
+  },
+  "top_packages": [
+    {
+      "pkg": "runtime",
+      "delta": 1765001
+    },
+    {
+      "pkg": "github.com/dop251/goja",
+      "delta": 1547930
+    },
+    {
+      "pkg": "golang.org/x/text/collate",
+      "delta": 1384832
+    },
+    {
+      "pkg": "typerel",
+      "delta": 427104
+    },
+    {
+      "pkg": "_type:*",
+      "delta": 427104
+    },
+    {
+      "pkg": "go:func",
+      "delta": 211640
+    },
+    {
+      "pkg": "github.com/dlclark/regexp2/v2/syntax",
+      "delta": 168888
+    },
+    {
+      "pkg": "github.com/dop251/goja/parser",
+      "delta": 89160
+    },
+    {
+      "pkg": "github.com/dlclark/regexp2/v2",
+      "delta": 77700
+    },
+    {
+      "pkg": "",
+      "delta": 41600
+    },
+    {
+      "pkg": "github.com/pulumi/pulumi/pkg/v3/resource/plugin",
+      "delta": 31560
+    },
+    {
+      "pkg": "golang.org/x/text/unicode/norm",
+      "delta": 24752
+    },
+    {
+      "pkg": "golang.org/x/text/internal/colltab",
+      "delta": 21792
+    },
+    {
+      "pkg": "github.com/dop251/goja/ftoa",
+      "delta": 14576
+    },
+    {
+      "pkg": "github.com/dop251/goja.sparseArrayObject,github.com/dop251/goja",
+      "delta": 12968
+    },
+    {
+      "pkg": "github.com/dop251/goja/ast",
+      "delta": 12480
+    },
+    {
+      "pkg": "golang.org/x/text/internal/language",
+      "delta": 8672
+    },
+    {
+      "pkg": "golang.org/x/text/width",
+      "delta": 8608
+    },
+    {
+      "pkg": "github.com/dop251/goja/ftoa/internal/fast",
+      "delta": 8480
+    },
+    {
+      "pkg": "go:main",
+      "delta": 6400
+    },
+    {
+      "pkg": "crypto/internal/fips140/pbkdf2",
+      "delta": 6144
+    },
+    {
+      "pkg": "github.com/go-sourcemap/sourcemap",
+      "delta": 5904
+    },
+    {
+      "pkg": "github.com/bazelbuild/buildtools/build",
+      "delta": 5376
+    },
+    {
+      "pkg": "golang.org/x/text/cases",
+      "delta": 4112
+    },
+    {
+      "pkg": "_go:funcdescrel",
+      "delta": 3848
+    }
+  ],
+  "unstripped_file_bytes": {
+    "base": 167399362,
+    "goja": 175564194
+  }
+}

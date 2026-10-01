@@ -1,0 +1,15 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+[policy-timing] purejs pack pulumi-best-practices-aws: 54 policies, 160KB, read=72.292µs compile=10.024375ms eval=1.240583ms describe=1.493ms total=12.83025ms
+[policy-timing] purejs pack cmmc-aws: 54 policies, 174KB, read=78.083µs compile=5.887834ms eval=5.465333ms describe=1.554333ms total=12.985583ms
+[policy-timing] purejs pack hitrust-aws: 130 policies, 326KB, read=119.041µs compile=12.03075ms eval=6.996667ms describe=3.019792ms total=22.16625ms
+[policy-timing] purejs pack cis-aws: 115 policies, 334KB, read=131.042µs compile=12.340875ms eval=6.850166ms describe=3.115084ms total=22.437167ms
+[policy-timing] purejs pack nist-aws: 139 policies, 401KB, read=105.916µs compile=16.80625ms eval=4.549417ms describe=3.674083ms total=25.135666ms
+[policy-timing] purejs pack pci-dss-aws: 160 policies, 467KB, read=117µs compile=19.064583ms eval=3.768667ms describe=5.174583ms total=28.124833ms
+[policy-timing] purejs pack iso-27001-aws: 238 policies, 609KB, read=129.209µs compile=21.724291ms eval=7.731209ms describe=5.809875ms total=35.394584ms
+[policy-timing] purejs pack iso-27001-aws: analyze calls=12 total=42.149625ms
+[policy-timing] purejs pack cis-aws: analyze calls=12 total=1.618709ms
+[policy-timing] purejs pack pci-dss-aws: analyze calls=12 total=40.6455ms
+[policy-timing] purejs pack cmmc-aws: analyze calls=12 total=2.090956ms
+[policy-timing] purejs pack pulumi-best-practices-aws: analyze calls=12 total=2.318624ms
+[policy-timing] purejs pack nist-aws: analyze calls=12 total=2.250334ms
+[policy-timing] purejs pack hitrust-aws: analyze calls=12 total=43.261792ms

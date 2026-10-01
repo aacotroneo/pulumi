@@ -1,0 +1,9 @@
+config:
+  aws:region: us-west-2
+  aws:accessKey: AKIAFAKEFAKEFAKEFAKE
+  aws:secretKey:
+    secure: AAABAESiVOHeCKo74FWr1hyxrPCW9Ygqr611Hlzbh90jhIXHOv0X+SbnBpVp9ANBqqflSLuSsJo3sdqXlPY0iMG9QGU0GkPk
+  aws:skipCredentialsValidation: "true"
+  aws:skipRequestingAccountId: "true"
+  aws:skipMetadataApiCheck: "true"
+  aws:skipRegionValidation: "true"

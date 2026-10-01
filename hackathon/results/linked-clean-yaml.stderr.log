@@ -1,0 +1,22 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+[policy-timing] purejs pack cmmc-aws: 54 policies, 180KB, read=256.375µs compile=12.372625ms eval=4.986917ms describe=2.504542ms total=20.120459ms
+[policy-timing] purejs pack pulumi-best-practices-aws: 55 policies, 168KB, read=621.334µs compile=12.575208ms eval=3.091625ms describe=3.041583ms total=19.32975ms
+[policy-timing] purejs pack cis-aws: 115 policies, 329KB, read=2.213625ms compile=14.161583ms eval=7.7025ms describe=4.290292ms total=28.368ms
+[policy-timing] purejs pack hitrust-aws: 130 policies, 327KB, read=1.642208ms compile=15.423167ms eval=8.638125ms describe=5.935333ms total=31.638833ms
+[policy-timing] purejs pack nist-aws: 139 policies, 402KB, read=1.325792ms compile=23.707708ms eval=5.426583ms describe=6.832542ms total=37.292625ms
+[policy-timing] purejs pack pci-dss-aws: 160 policies, 456KB, read=313.291µs compile=24.73025ms eval=6.783125ms describe=6.994542ms total=38.821208ms
+[policy-timing] purejs pack iso-27001-aws: 238 policies, 615KB, read=383.166µs compile=29.52475ms eval=11.539709ms describe=8.369375ms total=49.817ms
+[policy-timing] purejs pack pulumi-best-practices-aws: input view of 36 resources built in 421.75µs (sourced=false refs=29 unknown=2), 53 input policies ran in 12.5645ms
+[policy-timing] purejs pack cmmc-aws: input view of 36 resources built in 345.417µs (sourced=false refs=29 unknown=2), 53 input policies ran in 15.107291ms
+[policy-timing] purejs pack hitrust-aws: input view of 36 resources built in 365.375µs (sourced=false refs=29 unknown=2), 128 input policies ran in 18.685334ms
+[policy-timing] purejs pack cis-aws: input view of 36 resources built in 351.167µs (sourced=false refs=29 unknown=2), 109 input policies ran in 18.524333ms
+[policy-timing] purejs pack pci-dss-aws: input view of 36 resources built in 358.667µs (sourced=false refs=29 unknown=2), 153 input policies ran in 20.578375ms
+[policy-timing] purejs pack nist-aws: input view of 36 resources built in 350.166µs (sourced=false refs=29 unknown=2), 132 input policies ran in 21.149334ms
+[policy-timing] purejs pack iso-27001-aws: input view of 36 resources built in 414µs (sourced=false refs=29 unknown=2), 231 input policies ran in 24.570792ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cmmc-aws: analyze calls=36 total=22.037µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/iso-27001-aws: analyze calls=36 total=87.708µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pci-dss-aws: analyze calls=36 total=56.125µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pulumi-best-practices-aws: analyze calls=36 total=18.709µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/nist-aws: analyze calls=36 total=47.294µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/hitrust-aws: analyze calls=36 total=44.377µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cis-aws: analyze calls=36 total=43.373µs

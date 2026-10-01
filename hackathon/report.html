@@ -1,0 +1,755 @@
+<title>Pure-Function Policy Packs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root {
+  --ground: #f6f7f5;
+  --surface: #ffffff;
+  --ink: #121614;
+  --ink-2: #4f5a55;
+  --ink-3: #7a847f;
+  --rule: #dfe3e0;
+  --rule-strong: #c5ccc8;
+  --code-bg: #eef1ee;
+  --new: #2a78d6;
+  --new-soft: #d7e6f8;
+  --old: #eb6834;
+  --old-soft: #fbe0d4;
+  --good: #1c7c4a;
+  --good-bg: #e2f2e8;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #111413;
+    --surface: #191d1b;
+    --ink: #eef2f0;
+    --ink-2: #aab5b0;
+    --ink-3: #7f8a85;
+    --rule: #2a302d;
+    --rule-strong: #3a423e;
+    --code-bg: #1f2422;
+    --new: #3987e5;
+    --new-soft: #1c2f47;
+    --old: #d95926;
+    --old-soft: #3e2419;
+    --good: #5cc98d;
+    --good-bg: #173325;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #111413;
+  --surface: #191d1b;
+  --ink: #eef2f0;
+  --ink-2: #aab5b0;
+  --ink-3: #7f8a85;
+  --rule: #2a302d;
+  --rule-strong: #3a423e;
+  --code-bg: #1f2422;
+  --new: #3987e5;
+  --new-soft: #1c2f47;
+  --old: #d95926;
+  --old-soft: #3e2419;
+  --good: #5cc98d;
+  --good-bg: #173325;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 20px;
+  padding-block: 40px 72px;
+}
+main { max-width: 940px; margin: 0 auto; display: grid; gap: 56px; }
+section { display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; font-weight: 600; }
+h2 { font-size: 1.6rem; font-weight: 600; line-height: 1.15; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.lede { font-size: 1.15rem; color: var(--ink-2); max-width: 62ch; }
+.muted { color: var(--ink-2); }
+.small { font-size: 0.88rem; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
+:not(pre) > code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px; }
+pre {
+  margin: 0; background: var(--code-bg); border-radius: 8px; padding: 16px 18px;
+  overflow-x: auto; font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; color: var(--ink);
+}
+a { color: var(--new); }
+header { display: grid; gap: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-3); }
+
+/* headline figures */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.fig { background: var(--surface); padding: 18px 18px 16px; display: grid; gap: 4px; align-content: start; }
+.fig .k { font-size: 0.8rem; color: var(--ink-2); }
+.fig .v { font-family: var(--font-display); font-weight: 600; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fig .v .u { font-size: 1rem; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.fig .from { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.fig .from s { text-decoration-color: var(--old); }
+@media (max-width: 720px) { .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* charts */
+.chart-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 18px 14px; display: grid; gap: 12px; position: relative; }
+.chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; }
+.legend { display: flex; gap: 16px; font-size: 0.85rem; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.chart { width: 100%; overflow-x: auto; }
+.chart svg { display: block; width: 100%; min-width: 520px; height: auto; font-family: var(--font-body); }
+.chart text { fill: var(--ink-2); font-size: 12px; }
+.chart .lbl-strong { fill: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.chart .axis { stroke: var(--rule-strong); }
+.chart .grid { stroke: var(--rule); }
+.chart .floor { stroke: var(--ink-3); stroke-dasharray: 3 3; }
+.chart .hit { fill: transparent; cursor: default; }
+.tip {
+  position: absolute; pointer-events: none; background: var(--ink); color: var(--ground);
+  font-size: 0.8rem; line-height: 1.4; padding: 7px 10px; border-radius: 6px; max-width: 280px;
+  font-variant-numeric: tabular-nums; z-index: 2;
+}
+.caption { font-size: 0.85rem; color: var(--ink-3); }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-weight: 500; color: var(--ink-2); font-size: 0.8rem; background: var(--ground); }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 0.84rem; }
+tfoot td { font-weight: 600; background: var(--ground); }
+.pill { display: inline-block; font-size: 0.75rem; font-weight: 500; padding: 1px 8px; border-radius: 999px; background: var(--good-bg); color: var(--good); }
+
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 10px; align-content: start; }
+ul.clean, ol.clean { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+ul.clean li, ol.clean li { max-width: 70ch; }
+.flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 0.8rem; }
+.flow .step { padding: 5px 10px; border-radius: 6px; border: 1px solid var(--rule-strong); background: var(--surface); }
+.flow .step.old { border-color: var(--old); background: var(--old-soft); }
+.flow .step.new { border-color: var(--new); background: var(--new-soft); }
+.flow .arrow { color: var(--ink-3); }
+
+/* part 2: outcome bars */
+.sbars { display: grid; gap: 10px; }
+.sbar { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 3.2rem; gap: 12px; align-items: center; font-size: 0.85rem; }
+.sbar .track { display: flex; height: 22px; border-radius: 5px; overflow: hidden; background: var(--rule); }
+.sbar .seg { height: 100%; }
+.sbar .tot { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-3); text-align: right; font-variant-numeric: tabular-nums; }
+.seg.unk { background: var(--old); }
+.seg.pass { background: var(--good); }
+.seg.viol { background: var(--new); }
+.part { border-top: 1px solid var(--rule-strong); padding-top: 28px; display: grid; gap: 8px; }
+.ops { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 16px; font-family: var(--font-mono); font-size: 0.8rem; }
+.ops .ok::before { content: "✓ "; color: var(--good); }
+.ops .no::before { content: "✗ "; color: var(--old); }
+@media (max-width: 520px) { .sbar { grid-template-columns: 1fr; } .sbar .tot { text-align: left; } }
+.cmp td { white-space: normal; vertical-align: top; }
+.cmp td:first-child { width: 40%; }
+.cmp .cy::before { content: "✓ "; color: var(--good); font-weight: 600; }
+.cmp .cx::before { content: "✗ "; color: var(--old); font-weight: 600; }
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Hackathon · Policy engine revamp · parts 1 &amp; 2</div>
+    <h1>Policy packs as pure functions, run inside the CLI</h1>
+    <p class="lede">We compiled the 7 AWS compliance packs into dependency-free JavaScript bundles and taught the Pulumi CLI to evaluate them in-process with an embedded JS engine (goja). Every policy and every violation still matches. What disappears is the <code>npm install</code>, the node processes, and roughly 98 seconds of cold start.</p>
+    <div class="meta">
+      <span>7 packs · 890 policies</span>
+      <span>pulumi @ 243d4fa + branch hackathon/purejs-policies</span>
+      <span>policy-packs-internal · branches hackathon-purejs-policies, hackathon-input-policies</span>
+      <span>Local Pulumi Cloud · macOS, Apple Silicon</span>
+    </div>
+  </header>
+
+  <section aria-label="Headline results">
+    <div class="figures">
+      <div class="fig">
+        <div class="k">Cold start, required packs from Cloud</div>
+        <div class="v">1.47<span class="u">s</span></div>
+        <div class="from">was <s>99.5 s</s> · 68× faster</div>
+      </div>
+      <div class="fig">
+        <div class="k">Policy cache on disk</div>
+        <div class="v">2.5<span class="u">MB</span></div>
+        <div class="from">was <s>2.16 GB · 257,898 files</s></div>
+      </div>
+      <div class="fig">
+        <div class="k">Extra processes per preview</div>
+        <div class="v">0</div>
+        <div class="from">was <s>8 (7 analyzers + node host)</s></div>
+      </div>
+      <div class="fig">
+        <div class="k">Violations, old vs new</div>
+        <div class="v">276<span class="u">/ 276</span></div>
+        <div class="from">identical on both paths</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Preview wall time</h2>
+    <p class="muted">The same 11-resource preview is run with all 7 packs attached. Cold means the policy cache and npm cache are empty; warm is the rerun. Each bar is the median of 3 runs. The dashed line is the same preview with no policies at all.</p>
+    <div class="chart-card">
+      <div class="chart-head">
+        <h3>Seconds to finish <code>pulumi preview</code></h3>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--old)"></i>Old: nodejs packs</span>
+          <span><i class="sw" style="background:var(--new)"></i>New: purejs packs</span>
+        </div>
+      </div>
+      <div class="chart" id="wall-chart"></div>
+      <div class="caption">Once the packs are installed, the new runtime's median lands within noise of the no-policy floor (1.52 s), so loading 890 policies adds no measurable time.</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Scenario</th><th class="n">Old median</th><th class="n">Old range</th><th class="n">New median</th><th class="n">New range</th><th class="n">Speedup</th></tr></thead>
+        <tbody>
+          <tr><td>Cloud-required, cold</td><td class="n">99.51 s</td><td class="n">94.97–113.81</td><td class="n">1.47 s</td><td class="n">1.43–3.10</td><td class="n">68×</td></tr>
+          <tr><td>Cloud-required, warm</td><td class="n">11.62 s</td><td class="n">10.31–11.85</td><td class="n">1.46 s</td><td class="n">1.44–1.78</td><td class="n">8×</td></tr>
+          <tr><td>Local <code>--policy-pack</code> (deps preinstalled)</td><td class="n">8.57 s</td><td class="n">7.80–10.00</td><td class="n">1.44 s</td><td class="n">1.43–1.51</td><td class="n">6×</td></tr>
+          <tr><td class="muted">No policy packs (floor)</td><td class="n muted">1.52 s</td><td class="n muted">1.50–1.79</td><td class="n muted">—</td><td class="n muted">—</td><td class="n muted">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where the cold start went</h2>
+    <p class="muted">Both timelines come from the <code>-v=9</code> log of one cold run each, drawn on the same time axis. On the old path the engine waits on seven parallel <code>npm install</code>s, then boots a node process per pack. On the new path the packs are downloaded, extracted and evaluated in about 70 ms.</p>
+    <div class="chart-card">
+      <div class="chart-head"><h3>Cold preview, seconds since process start</h3></div>
+      <div class="chart" id="timeline-chart"></div>
+      <div class="caption">Old: npm installs took 50–87 s per pack, and 87.5 s of wall time with all 7 in parallel. New: download and extract took 30 ms for all 7 packs, and loading each pack in goja took 11–34 ms (compile is about 60% of that and scales with bundle size).</div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h3>Old path</h3>
+        <div class="flow"><span class="step old">download 3.4 MB tgz</span><span class="arrow">→</span><span class="step old">npm install ≈300 MB</span><span class="arrow">→</span><span class="step old">spawn node</span><span class="arrow">→</span><span class="step old">load 19 MB bundle</span><span class="arrow">→</span><span class="step old">gRPC Analyze</span></div>
+        <p class="small muted">7 analyzer processes plus the nodejs language host. Every Analyze call crosses gRPC.</p>
+      </div>
+      <div class="panel">
+        <h3>New path</h3>
+        <div class="flow"><span class="step new">download 40–120 KB tgz</span><span class="arrow">→</span><span class="step new">goja compile + eval</span><span class="arrow">→</span><span class="step new">call validate()</span></div>
+        <p class="small muted">In-process, one goja runtime per pack. Packs load on background goroutines; Analyze is a direct function call.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What gets shipped</h2>
+    <p class="muted">Old bundles are 18–20 MB because rollup's <code>external</code> list only matches exact package names, so subpath imports like <code>@pulumi/aws/rds</code> pull gRPC and Node built-ins into the bundle. New bundles keep only the <code>__pulumiType</code> tokens each pack actually reads, which is 2.4–9 KB of stubs per pack. About 55% of what's left is remediation text and framework metadata.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pack</th><th class="n">Policies</th><th class="n">Old index.js</th><th class="n">New policies.js</th><th class="n">New gzip</th><th class="n">Ratio</th><th class="n">Old publish</th><th class="n">New publish</th></tr></thead>
+        <tbody id="size-rows"></tbody>
+        <tfoot id="size-foot"></tfoot>
+      </table>
+    </div>
+    <p class="small muted">Old packs also ship a <code>package.json</code> that depends on <code>@pulumi/aws</code>, <code>@pulumi/pulumi</code>, <code>@pulumi/policy</code> and, for some, <code>@pulumi/kubernetes</code>. That dependency list is what becomes 2.16 GB once all 7 are installed. New packs have no dependencies: the tarball holds only <code>PulumiPolicy.yaml</code> and <code>policies.js</code>.</p>
+  </section>
+
+  <section>
+    <h2>Parity</h2>
+    <div class="two">
+      <div class="panel">
+        <h3>End to end <span class="pill">276 / 276 match</span></h3>
+        <ul class="clean small">
+          <li>Every violation matched on both the Cloud and local paths: same policy, resource, enforcement level and message text.</li>
+          <li>That includes 57 “can't run policy … during preview” advisories for unknown values, which match the node SDK's wording byte for byte.</li>
+          <li>The comparison ignores only incidental noise: random auto-name suffixes, the <code>old-</code> prefix, the stack name, and the <code>-purejs</code> version tag.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Bundle level <span class="pill">0 diffs</span></h3>
+        <ul class="clean small">
+          <li>Surface: name, kind, enforcement level, severity, config schema and resource types match for all 890 policies.</li>
+          <li>All 3,181 existing spec tests pass with <code>@pulumi/policy</code> swapped for the pure shim.</li>
+          <li>Behavior probes over 111 resource types, plus preview-unknown cases, gave 0 mismatches.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The contract: a policy is a function</h2>
+    <p class="muted">A pack is one plain script that sets a global descriptor. The host (the Go CLI today, anything that embeds a JS engine tomorrow) filters by resource type, resolves enforcement levels, applies config defaults and formats messages. The policy only looks at JSON and reports.</p>
+    <pre>// PulumiPolicy.yaml → runtime: purejs, main: policies.js
+globalThis.__pulumiPolicyPack = {
+  abiVersion: 1, name: "cis-aws", version: "1.0.2",
+  policies: [{
+    name, description, enforcementLevel, severity, configSchema, framework, ...,
+    kind: "resource" | "stack",
+    resourceTypes: ["aws:ec2/instance:Instance"],   // host filters before calling
+    validate(input, ctx) {                            // input: { type, name, urn, props, config }
+      ctx.reportViolation("…");                       // or ctx.notApplicable("…")
+    },
+  }],
+};</pre>
+    <p class="muted">Existing TypeScript policies compile to this unchanged, with a 1-file shim in place of <code>@pulumi/policy</code> and type-token stubs in place of <code>@pulumi/aws</code>. New policies are written with <code>definePolicy</code>, which targets ABI v2 (Part 2 below). Types come from <code>import type</code>, so they're erased at build time:</p>
+    <pre>import type * as aws from "@pulumi/aws";
+
+export const ec2Imdsv2Required = definePolicy&lt;aws.ec2.InstanceArgs, Config&gt;({
+  name: "ec2-imdsv2-required",
+  description: "EC2 instances must use IMDSv2",
+  severity: "high",
+  resourceType: "aws:ec2/instance:Instance",
+  validate({ resource: { name, inputs }, config }, ctx) {
+    if (inputs.metadataOptions?.httpTokens === "required") ctx.reportPass();
+    else ctx.reportViolation(`EC2 instance '${name}' must require IMDSv2 for metadata access.`);
+  },
+});</pre>
+  </section>
+
+  <section>
+    <h2>What changed in the CLI</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Where</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td><code>resource/plugin/analyzer_purejs*.go</code></td><td>New in-process <code>Analyzer</code>: goja runtime per pack, background load, JS prelude (console, Buffer, atob, URL), unknowns as throwing getters</td></tr>
+          <tr><td><code>resource/plugin/analyzer_plugin.go</code></td><td><code>runtime: purejs</code> branches to the new analyzer; this covers <code>--policy-pack</code>, Cloud-required packs, publish and analyze</td></tr>
+          <tr><td><code>backend/httpstate/policypack.go</code></td><td>Install stops after extraction (no language host, no npm); publish tars exactly the YAML and the bundle</td></tr>
+          <tr><td><code>cmd/pulumi/policy/io.go</code></td><td><code>InstallPluginDependencies</code> is a no-op for purejs</td></tr>
+          <tr><td><code>pkg/go.mod</code></td><td>Adds <code>github.com/dop251/goja</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">The service needed no changes: it stores the tarball as an opaque blob and <code>runtime</code> is a free-form string.</p>
+  </section>
+
+  <section>
+    <h2>What it costs the CLI</h2>
+    <p class="muted">Embedding goja makes every <code>pulumi</code> download about 2 MB bigger. To measure this, we built the CLI from the base commit and from this branch with the release flags in <code>.goreleaser.yml</code> (<code>-trimpath -ldflags "-w -s"</code>, <code>osusergo,grpcnotrace</code>, CGO off). Only three modules are new: goja, <code>regexp2/v2</code> and <code>go-sourcemap</code>; no other dependency moved.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Target</th><th class="n">Base</th><th class="n">With goja</th><th class="n">Added</th><th class="n">Base gzip</th><th class="n">With goja gzip</th><th class="n">Added gzip</th></tr></thead>
+        <tbody>
+          <tr><td>darwin/arm64</td><td class="n">117.1 MB</td><td class="n">123.2 MB</td><td class="n">+6.03 MB (+5.1%)</td><td class="n">33.9 MB</td><td class="n">35.9 MB</td><td class="n">+1.97 MB (+5.8%)</td></tr>
+          <tr><td>linux/amd64</td><td class="n">123.6 MB</td><td class="n">129.8 MB</td><td class="n">+6.16 MB (+5.0%)</td><td class="n">36.0 MB</td><td class="n">38.1 MB</td><td class="n">+2.10 MB (+5.8%)</td></tr>
+          <tr><td>windows/amd64</td><td class="n">126.1 MB</td><td class="n">132.4 MB</td><td class="n">+6.27 MB (+5.0%)</td><td class="n">36.7 MB</td><td class="n">38.8 MB</td><td class="n">+2.12 MB (+5.8%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head">
+        <h3>Where the added 6 MB goes (darwin/arm64)</h3>
+      </div>
+      <div class="chart" id="size-chart"></div>
+      <div class="caption">From <code>go tool nm -size</code> on unstripped builds (≈6.3 MB of symbols, against 6.0 MB stripped), so treat the split as approximate. Go's function and type tables grow with any added code and stay even in stripped binaries.</div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h3>In perspective</h3>
+        <ul class="clean small">
+          <li>The old runtime needs node installed; node v22 on this Mac is a 109 MB binary.</li>
+          <li>For these 7 packs, the old runtime then installs 2.16 GB of <code>node_modules</code> into the policy cache.</li>
+          <li>The purejs analyzer itself, prelude included, is about 32 KB. Nearly all of the cost is the engine.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Easy win</h3>
+        <ul class="clean small">
+          <li>A quarter of the cost (~1.5 MB) is <code>golang.org/x/text/collate</code> and its Unicode tables. goja links it unconditionally to implement <code>String.prototype.localeCompare</code>, which no policy in these packs calls.</li>
+          <li>A small goja patch or fork that swaps in a plain comparison would bring the added size to about 4.5 MB raw.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Found along the way</h2>
+    <ul class="clean">
+      <li><strong>Silent empty publishes.</strong> For non-nodejs runtimes, <code>pulumi policy publish</code> builds the tarball with <code>archive.TGZ</code>, which applies every <code>.gitignore</code> up to <code>/</code>. Publishing from a gitignored build directory uploads a 57-byte empty tarball and reports success; the failure only shows up at install time. Fixed for purejs, but Python and other runtimes are still affected.</li>
+      <li><strong>Lookbehind regexes cost about 40 ms.</strong> hitrust, iso-27001 and pci-dss spend ~41 ms analyzing 12 resources, against 1–2 ms for the other packs. They are the only packs whose <code>no-hardcoded-secrets</code> policy uses lookbehind, which forces goja onto the backtracking regexp2 engine.</li>
+      <li><strong>Deleted version tags stay reserved.</strong> After deleting a pack version, the service still refuses to republish that tag, so the new packs were published as <code>&lt;version&gt;-purejs</code>.</li>
+      <li><strong>Go build-tag trap.</strong> A file named <code>*_js.go</code> only builds for <code>GOOS=js</code>, which is why the new files are called <code>analyzer_purejs*</code>.</li>
+    </ul>
+  </section>
+
+  <section class="part" id="preview-policies">
+    <div class="eyebrow">Part 2</div>
+    <h2>Policies at preview, with identifiable unknowns</h2>
+    <p class="lede">Policies should stop bad infrastructure before it exists, which means at preview. Today they can't when resources depend on each other: on a first preview every value that comes from another resource's output is unknown, and the policy gives up. We make unknown outputs <em>identifiable</em>. An output that doesn't exist yet is one opaque value, the same wherever it appears, so a policy can connect resources before they exist.</p>
+  </section>
+
+  <section aria-label="Results at preview">
+    <div class="figures">
+      <div class="fig">
+        <div class="k">Policies that can't run on a first preview</div>
+        <div class="v">0</div>
+        <div class="from">was <s>39</s> · 40 new resources, 7 packs</div>
+      </div>
+      <div class="fig">
+        <div class="k">Policies that catch a violation on a first preview</div>
+        <div class="v">56</div>
+        <div class="from">was <s>38</s></div>
+      </div>
+      <div class="fig">
+        <div class="k">Existing policies that run at preview</div>
+        <div class="v">366<span class="u">/ 372</span></div>
+        <div class="from">resource 308 / 308 · stack 58 / 64</div>
+      </div>
+      <div class="fig">
+        <div class="k">Resources created when a mandatory policy fails</div>
+        <div class="v">0</div>
+        <div class="from"><code>up</code> stops at the preview</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The idea</h2>
+    <ol class="clean small">
+      <li><strong>When:</strong> policies run at preview, before anything is created. A mandatory violation fails the preview.</li>
+      <li><strong>Identifiable unknowns:</strong> an unknown output is one object, identical in the resource's own <code>outputs</code> and in every input the program set from it.</li>
+      <li><strong>Inputs and outputs, explicit:</strong> a policy sees both, never merged. It validates <code>inputs</code>, what the code wrote, and uses <code>outputs</code> to connect resources.</li>
+    </ol>
+    <div class="two">
+      <div class="panel">
+        <h3>The program</h3>
+        <pre>const good = new aws.s3.Bucket("good");
+new aws.s3.BucketPublicAccessBlock("pab", {
+    bucket: good.id,  // unknown until the bucket exists
+    blockPublicAcls: true,
+});</pre>
+      </div>
+      <div class="panel">
+        <h3>What the policy sees on the first preview</h3>
+        <pre>good.outputs.id   → &lt;output good.id&gt;
+pab.inputs.bucket → &lt;output good.id&gt;
+
+pab.inputs.bucket === good.outputs.id   // true
+pab.inputs.bucket.split(":")            // advisory:
+                                        // reads an output</pre>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>The policy</h3>
+      <pre>definePolicy({
+    name: "s3-bucket-public-access-blocked",
+    resourceType: "aws:s3/bucket:Bucket",  // once per bucket; no type = once per stack
+    validate({ resource, resources }, ctx) {
+        const pab = resources.find((r) =&gt; r.inputs.bucket === resource.outputs.id);
+        if (pab) ctx.reportPass();
+        else ctx.reportViolation("no public access block");
+    },                                     // report nothing = not applicable
+});</pre>
+    </div>
+    <p class="muted">Known values are always real, so the same comparison holds once the bucket exists. Identifiable unknowns are strict: they support identity (<code>===</code>, <code>Set</code>, <code>Map</code>) and conversion to text for messages. Reading into one, whether by splitting, parsing, comparing numerically or concatenating it, is reported as an advisory instead of a guess.</p>
+    <div class="two">
+      <div class="panel">
+        <h3>Built from outputs</h3>
+        <pre>new aws.s3.BucketPolicy("goodPolicy", {
+    bucket: good.id,
+    policy: pulumi.jsonStringify({ Statement: [{
+        Effect: "Deny", Principal: "*", Action: "s3:*",
+        Resource: [good.arn,
+                   pulumi.interpolate`${good.arn}/*`],
+    }] }),
+});</pre>
+      </div>
+      <div class="panel">
+        <h3>What the policy sees</h3>
+        <pre>const st = JSON.parse(p.inputs.policy).Statement[0];
+st.Effect                          // "Deny"
+st.Resource[0] === good.outputs.arn         // true
+st.Resource[1] === `${good.outputs.arn}/*`  // true
+p.inputs.policy.includes("Deny")   // advisory:
+                                   // reads an output</pre>
+      </div>
+    </div>
+    <p class="muted"><code>interpolate</code>, <code>concat</code> and <code>jsonStringify</code> tell the policy how they built the string, so its known parts are real and its unknown parts are identifiable. A value made with <code>apply</code> runs arbitrary code, so it can't be known during preview.</p>
+  </section>
+
+  <section>
+    <h2>What policies can do</h2>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>Today</th><th>At preview, with identifiable unknowns</th></tr></thead>
+        <tbody>
+          <tr><td>Check how a resource is written (encryption, versioning, flags)</td><td class="cy">Yes</td><td class="cy">Yes</td></tr>
+          <tr><td>See a resource's inputs and outputs, explicitly and separately</td><td class="cx">No: resource policies get inputs, stack policies get outputs</td><td class="cy">Yes</td></tr>
+          <tr><td>One kind of policy: with a resource type it runs per resource, without one once per stack; both see every resource</td><td class="cx">No: separate resource and stack policies, and a resource policy sees only its resource</td><td class="cy">Yes</td></tr>
+          <tr><td>Explicit outcomes: <code>reportViolation</code> or <code>reportPass</code>; reporting nothing means not applicable</td><td class="cx">No: silence counts as a pass, and “not applicable” is a call</td><td class="cy">Yes</td></tr>
+          <tr><td>Connect resources on a first preview (“every bucket has a public access block”)</td><td class="cx">No: the link is unknown, the policy can't run</td><td class="cy">Yes, by equality, when the SDK reports output sources (Node.js today)</td></tr>
+          <tr><td>Block <code>up</code> on a linked check before anything is created</td><td class="cx">No: it can only audit after the deploy</td><td class="cy">Yes: a mandatory violation fails the preview</td></tr>
+          <tr><td>Same answer on a new stack and an existing one</td><td class="cx">No: advisory first, verdict after the deploy</td><td class="cy">Yes</td></tr>
+          <tr><td>Check a document or string built from outputs (<code>jsonStringify</code>, <code>interpolate</code>)</td><td class="cx">No: the whole value is unknown, the policy can't run</td><td class="cy">Yes: known parts are real, unknown parts identifiable (Node.js today)</td></tr>
+          <tr><td>Read into an output: parse an ARN, a creation date</td><td class="cy">After the deploy</td><td class="cx">No: reported as an advisory, left for post-deploy policies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>First preview of a new stack</h2>
+    <div class="chart-card">
+      <div class="chart-head">
+        <h3>Policies that apply to the program, on <code>pulumi preview</code></h3>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--old)"></i>Couldn't run</span>
+          <span><i class="sw" style="background:var(--good)"></i>Passed</span>
+          <span><i class="sw" style="background:var(--new)"></i>Found a violation</span>
+        </div>
+      </div>
+      <div class="sbars">
+        <div class="sbar"><span>Today</span><div class="track" role="img" aria-label="39 could not run, 80 passed, 38 found violations"><span class="seg unk" style="width:24.8%"></span><span class="seg pass" style="width:51.0%"></span><span class="seg viol" style="width:24.2%"></span></div><span class="tot">157</span></div>
+        <div class="sbar"><span>At preview</span><div class="track" role="img" aria-label="0 could not run, 89 passed, 56 found violations"><span class="seg pass" style="width:61.4%"></span><span class="seg viol" style="width:38.6%"></span></div><span class="tot">145</span></div>
+      </div>
+      <div class="caption">A Node.js program with 40 new AWS resources linked by <code>id</code> and <code>arn</code>, some links deliberately wrong; the same 7 packs (372 distinct policies) and CLI, with the SDK reporting output sources. A policy is counted once, even when several packs include it; the rest don't apply to these resource types. Of the 39 that couldn't run, 18 now find a violation, 17 pass and 4 are among the 6 policies left for post-deploy policies because they need real output values. Another 6 only ever said “not applicable”, which today counts as a pass. The bucket-policy checks read a document built from a bucket's ARN: with a public grant swapped in, 3 of those 4 policies fail the preview. The same program in YAML, whose SDK doesn't report sources yet, has 25 policies that can't run and can't be blocked on links.</div>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <h3>What it took</h3>
+        <ul class="clean small">
+          <li><strong>Node.js SDK:</strong> tags each resource output with its resource and property, and says which output each unknown input is, or how <code>interpolate</code>, <code>concat</code> or <code>jsonStringify</code> built it.</li>
+          <li><strong>Engine:</strong> keeps that information past registration and gives policies the inputs, outputs and ID. No proto, event or state change.</li>
+          <li><strong>Host:</strong> builds <code>inputs</code>/<code>outputs</code> with identifiable unknowns, with no provider schema and nothing specific to a type or field.</li>
+          <li><strong>Policies:</strong> compiled unchanged. A shim maps legacy <code>props</code> explicitly and reports the pass when an existing policy returns cleanly. The only source change: 11 S3 policies now also look a companion up by the bucket's <code>id</code>, one line each.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Not covered at preview</h3>
+        <ul class="clean small">
+          <li>SDKs other than Node.js until they report output sources: their unknown inputs can't be identified.</li>
+          <li>The 6 policies that need real output values, such as an access key's creation date or an API's execution ARN.</li>
+          <li>Values made with <code>apply</code>: the callback is arbitrary code, so the result can't run at preview.</li>
+          <li><code>=== "literal"</code> on an unknown is silently false; everything else is caught.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Gaps and next steps</h2>
+    <div class="two">
+      <div class="panel">
+        <h3>Not covered yet</h3>
+        <ul class="clean small">
+          <li><code>aws-organizations-tag-policies</code> makes async AWS SDK calls. Supporting it needs a host-provided data source.</li>
+          <li><code>hitrust-awsnative</code> and <code>cis-kubernetes-aws</code> need their own stub sets.</li>
+          <li>Remediation policies (none in these packs).</li>
+          <li>The server-side Insights and TFE evaluators need a <code>pulumi/pkg</code> bump to run purejs packs.</li>
+          <li>No sandbox limits yet beyond call-stack depth; a per-call timeout would be cheap to add with <code>Interrupt</code>.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Worth doing next</h3>
+        <ul class="clean small">
+          <li>Rewrite or precompile the lookbehind regexes (−40 ms per affected pack).</li>
+          <li>Patch goja to drop <code>x/text/collate</code> (−1.5 MB of the 6 MB CLI cost).</li>
+          <li>Emit a static <code>manifest.json</code> next to the bundle, so the service can list policies without running JS.</li>
+          <li>Build <code>purejs</code> into the release pipeline for policy-packs-internal and republish.</li>
+          <li>Make publish fail loudly on an empty tarball for every runtime.</li>
+          <li>Report output sources and templates from the Python, Go and YAML SDKs. As a fallback for SDKs that don't, the engine could hand the program placeholder <code>id</code>/<code>arn</code> values at preview.</li>
+          <li>Codemod shared policies onto <code>definePolicy</code>, so they report passes themselves instead of through the shim.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Method</h2>
+    <ul class="clean small muted">
+      <li>The bench stack is a Pulumi YAML program with 11 AWS resources (S3 plus public-access-block, an open security group, an IAM role with a wildcard inline policy, EC2 with secrets in user data, public RDS, SQS, KMS, a log group). Previews run offline with fake credentials and the provider's skip-validation flags, so only policy handling varies.</li>
+      <li>Both modes use the same dev-built CLI. The old packs are published as <code>old-&lt;name&gt;</code> (nodejs) and the new ones under their original names (purejs), in two policy groups on a local Pulumi Cloud, one stack per group.</li>
+      <li>Part 2: <code>hackathon/bench-linked-js</code> is a Node.js program with 40 resources, run with the SDK reporting output sources; “Today” is the same program with the v1 packs. <code>BENCH_BAD_POLICY=1</code> swaps its bucket policy for a public grant. <code>bench-linked</code> is the same program in YAML (35 resources). Both run through <code>scripts/linked.py</code>. The code is on policy-packs-internal branch <code>hackathon-input-policies</code>, with the pulumi changes as patches.</li>
+      <li>Raw data: <code>hackathon/results/</code> in the pulumi repo (one JSON record, event log and stderr per run). Harness: <code>hackathon/scripts/bench.py</code>, <code>parity.py</code>, <code>report.py</code>; CLI size: <code>cli-size.sh</code>, <code>cli-size-breakdown.py</code>.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function tipFor(card) {
+    var t = document.createElement("div");
+    t.className = "tip"; t.hidden = true; card.appendChild(t);
+    return {
+      show: function (evt, html) {
+        t.innerHTML = html; t.hidden = false;
+        var r = card.getBoundingClientRect();
+        var x = evt.clientX - r.left + 12, y = evt.clientY - r.top + 12;
+        x = Math.min(x, r.width - t.offsetWidth - 8);
+        t.style.left = Math.max(8, x) + "px"; t.style.top = y + "px";
+      },
+      hide: function () { t.hidden = true; }
+    };
+  }
+  function fmt(s) { return s >= 10 ? s.toFixed(1) + " s" : s.toFixed(2) + " s"; }
+
+  // Chart 1: grouped horizontal bars, linear scale.
+  var groups = [
+    { name: "Cloud, cold", old: 99.51, oldR: "94.97–113.81", nw: 1.47, newR: "1.43–3.10" },
+    { name: "Cloud, warm", old: 11.62, oldR: "10.31–11.85", nw: 1.46, newR: "1.44–1.78" },
+    { name: "Local", old: 8.57, oldR: "7.80–10.00", nw: 1.44, newR: "1.43–1.51" }
+  ];
+  (function () {
+    var host = document.getElementById("wall-chart");
+    var card = host.parentNode, tip = tipFor(card);
+    var W = 860, left = 110, right = 70, top = 10, barH = 16, gap = 4, groupGap = 22, axisH = 30;
+    var H = top + groups.length * (2 * barH + gap) + (groups.length - 1) * groupGap + axisH;
+    var max = 120, plotW = W - left - right;
+    var x = function (v) { return left + (v / max) * plotW; };
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Preview wall time, old versus new, per scenario" });
+    var plotBottom = H - axisH;
+    for (var t = 0; t <= max; t += 20) {
+      svg.appendChild(el("line", { x1: x(t), x2: x(t), y1: top - 4, y2: plotBottom, "class": t === 0 ? "axis" : "grid" }));
+      svg.appendChild(el("text", { x: x(t), y: plotBottom + 18, "text-anchor": "middle" }, t + " s"));
+    }
+    var y = top;
+    groups.forEach(function (g) {
+      svg.appendChild(el("text", { x: left - 12, y: y + barH + gap / 2 + 4, "text-anchor": "end", "class": "lbl-strong" }, g.name));
+      [["old", g.old, g.oldR, "var(--old)", "Old (nodejs)"], ["new", g.nw, g.newR, "var(--new)", "New (purejs)"]].forEach(function (s, i) {
+        var by = y + i * (barH + gap), w = Math.max(3, x(s[1]) - x(0));
+        svg.appendChild(el("path", {
+          d: "M" + x(0) + "," + by + " h" + (w - 4) + " a4,4 0 0 1 4,4 v" + (barH - 8) + " a4,4 0 0 1 -4,4 h-" + (w - 4) + " z",
+          fill: s[3]
+        }));
+        svg.appendChild(el("text", { x: x(0) + w + 8, y: by + barH - 3, "class": "lbl-strong" }, fmt(s[1])));
+        var hit = el("rect", { x: x(0), y: by - 2, width: Math.max(w + 60, 80), height: barH + 4, "class": "hit" });
+        hit.addEventListener("mousemove", function (e) { tip.show(e, "<b>" + g.name + " · " + s[4] + "</b><br>median " + fmt(s[1]) + "<br>range " + s[2] + " s (n=3)"); });
+        hit.addEventListener("mouseleave", tip.hide);
+        svg.appendChild(hit);
+      });
+      y += 2 * barH + gap + groupGap;
+    });
+    // no-policy floor
+    svg.appendChild(el("line", { x1: x(1.52), x2: x(1.52), y1: top - 4, y2: plotBottom, "class": "floor" }));
+    host.appendChild(svg);
+  })();
+
+  // Chart 2: phase timelines on a shared axis.
+  var rows = [
+    { name: "Old", color: "var(--old)", soft: "var(--old-soft)", total: 99.17, phases: [
+      ["Engine + stack startup", 0, 0.84],
+      ["npm install ×7 (parallel)", 0.84, 88.34],
+      ["Boot node analyzers, GetAnalyzerInfo", 88.34, 96.49],
+      ["Analyze + finish preview", 96.49, 99.17]
+    ] },
+    { name: "New", color: "var(--new)", soft: "var(--new-soft)", total: 1.52, phases: [
+      ["Engine + stack startup", 0, 0.52],
+      ["Download + extract ×7", 0.52, 0.55],
+      ["goja compile + eval ×7", 0.55, 0.59],
+      ["Analyze + finish preview", 0.59, 1.52]
+    ] }
+  ];
+  (function () {
+    var host = document.getElementById("timeline-chart");
+    var card = host.parentNode, tip = tipFor(card);
+    var W = 860, left = 60, right = 70, top = 26, barH = 26, rowGap = 40, axisH = 30;
+    var H = top + rows.length * barH + (rows.length - 1) * rowGap + axisH;
+    var max = 100, plotW = W - left - right;
+    var x = function (v) { return left + (v / max) * plotW; };
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Cold start phase timeline, old versus new" });
+    var plotBottom = H - axisH;
+    for (var t = 0; t <= max; t += 20) {
+      svg.appendChild(el("line", { x1: x(t), x2: x(t), y1: top - 20, y2: plotBottom, "class": t === 0 ? "axis" : "grid" }));
+      svg.appendChild(el("text", { x: x(t), y: plotBottom + 18, "text-anchor": "middle" }, t + " s"));
+    }
+    rows.forEach(function (r, ri) {
+      var by = top + ri * (barH + rowGap);
+      svg.appendChild(el("text", { x: left - 10, y: by + barH / 2 + 4, "text-anchor": "end", "class": "lbl-strong" }, r.name));
+      r.phases.forEach(function (p, pi) {
+        var x0 = x(p[1]), w = Math.max(x(p[2]) - x0, 1.5);
+        var main = /npm install|Boot node|goja/.test(p[0]);
+        svg.appendChild(el("rect", { x: x0, y: by, width: Math.max(w - (pi < r.phases.length - 1 ? 2 : 0), 1.5), height: barH, fill: main ? r.color : r.soft, rx: 3 }));
+        var hit = el("rect", { x: x0 - 2, y: by - 2, width: Math.max(w + 4, 10), height: barH + 4, "class": "hit" });
+        hit.addEventListener("mousemove", function (e) { tip.show(e, "<b>" + r.name + " · " + p[0] + "</b><br>" + p[1].toFixed(2) + " s → " + p[2].toFixed(2) + " s<br>" + (p[2] - p[1]).toFixed(2) + " s"); });
+        hit.addEventListener("mouseleave", tip.hide);
+        svg.appendChild(hit);
+      });
+      svg.appendChild(el("text", { x: x(r.total) + 8, y: by + barH / 2 + 4, "class": "lbl-strong" }, fmt(r.total)));
+      if (r.name === "Old") {
+        svg.appendChild(el("text", { x: x(0.84) + 8, y: by - 7 }, "npm install ×7: 87.5 s"));
+        svg.appendChild(el("text", { x: x(96.49), y: by - 7, "text-anchor": "end" }, "boot + load: 8.2 s"));
+      } else {
+        svg.appendChild(el("text", { x: x(0) + 2, y: by - 7 }, "all 7 packs downloaded and loaded by 0.59 s"));
+      }
+    });
+    host.appendChild(svg);
+  })();
+
+  // Chart 3: one stacked bar of the CLI size delta, segments labeled below.
+  (function () {
+    var parts = [
+      ["goja engine", 1.74, "var(--new)"],
+      ["x/text collate tables (localeCompare)", 1.46, "var(--old)"],
+      ["Go pclntab for new code", 1.77, "var(--ink-3)"],
+      ["Go type/func metadata", 1.11, "var(--rule-strong)"],
+      ["regexp2/v2", 0.25, "var(--good)"],
+      ["purejs analyzer + prelude", 0.03, "var(--ink)"]
+    ];
+    var host = document.getElementById("size-chart");
+    var card = host.parentNode, tip = tipFor(card);
+    var total = parts.reduce(function (a, p) { return a + p[1]; }, 0);
+    var W = 860, left = 0, right = 0, top = 8, barH = 28, rowH = 22;
+    var plotW = W - left - right;
+    var H = top + barH + 18 + Math.ceil(parts.length / 2) * rowH + 4;
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Breakdown of the CLI size increase" });
+    var x = left;
+    parts.forEach(function (p) {
+      var w = (p[1] / total) * plotW;
+      svg.appendChild(el("rect", { x: x, y: top, width: Math.max(w - 2, 1.5), height: barH, fill: p[2], rx: 3 }));
+      var hit = el("rect", { x: x, y: top - 2, width: Math.max(w, 8), height: barH + 4, "class": "hit" });
+      hit.addEventListener("mousemove", function (e) { tip.show(e, "<b>" + p[0] + "</b><br>" + p[1].toFixed(2) + " MB · " + Math.round(100 * p[1] / total) + "%"); });
+      hit.addEventListener("mouseleave", tip.hide);
+      svg.appendChild(hit);
+      x += w;
+    });
+    parts.forEach(function (p, i) {
+      var col = i % 2, row = Math.floor(i / 2);
+      var lx = left + col * (plotW / 2), ly = top + barH + 18 + row * rowH;
+      svg.appendChild(el("rect", { x: lx, y: ly - 10, width: 12, height: 12, rx: 3, fill: p[2] }));
+      svg.appendChild(el("text", { x: lx + 18, y: ly, "class": "lbl-strong" }, p[1].toFixed(2) + " MB"));
+      svg.appendChild(el("text", { x: lx + 80, y: ly }, p[0]));
+    });
+    host.appendChild(svg);
+  })();
+
+  // Size table.
+  var packs = [
+    ["cis-aws", 115, 18870652, 342520, 70055, 3.88, 0.55],
+    ["cmmc-aws", 54, 18667089, 178401, 39470, 2.36, 0.47],
+    ["hitrust-aws", 130, 20214693, 333852, 66898, 2.51, 0.51],
+    ["iso-27001-aws", 238, 20385970, 624589, 119160, 2.47, 0.59],
+    ["nist-aws", 139, 19506721, 411017, 84418, 2.41, 0.55],
+    ["pci-dss-aws", 160, 20472247, 478991, 97542, 2.94, 0.52],
+    ["pulumi-best-practices-aws", 54, 18065459, 164604, 36699, 2.47, 0.49]
+  ];
+  function mb(b) { return (b / 1e6).toFixed(1) + " MB"; }
+  function kb(b) { return Math.round(b / 1024) + " KB"; }
+  var body = document.getElementById("size-rows"), tot = [0, 0, 0, 0];
+  packs.forEach(function (p) {
+    tot[0] += p[1]; tot[1] += p[2]; tot[2] += p[3]; tot[3] += p[4];
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td><code>" + p[0] + "</code></td><td class='n'>" + p[1] + "</td><td class='n'>" + mb(p[2]) +
+      "</td><td class='n'>" + kb(p[3]) + "</td><td class='n'>" + kb(p[4]) + "</td><td class='n'>" + Math.round(p[2] / p[3]) +
+      "×</td><td class='n'>" + p[5].toFixed(2) + " s</td><td class='n'>" + p[6].toFixed(2) + " s</td>";
+    body.appendChild(tr);
+  });
+  document.getElementById("size-foot").innerHTML = "<tr><td>Total</td><td class='n'>" + tot[0] + "</td><td class='n'>" + mb(tot[1]) +
+    "</td><td class='n'>" + mb(tot[2]) + "</td><td class='n'>" + kb(tot[3]) + "</td><td class='n'>" + Math.round(tot[1] / tot[2]) +
+    "×</td><td class='n'>—</td><td class='n'>—</td></tr>";
+})();
+</script>

@@ -1,0 +1,28 @@
+{
+  "ts": "20260928T104718",
+  "mode": "old",
+  "path": "local",
+  "phase": "run",
+  "run": 3,
+  "tag": "",
+  "verbose": false,
+  "wall_s": 7.798,
+  "exit_code": 0,
+  "violations": 276,
+  "policy_load_events": 7,
+  "violations_by_pack": {
+    "cis-aws": 33,
+    "cmmc-aws": 32,
+    "hitrust-aws": 46,
+    "iso-27001-aws": 47,
+    "nist-aws": 35,
+    "pci-dss-aws": 46,
+    "pulumi-best-practices-aws": 37
+  },
+  "policy_cache_bytes": null,
+  "policy_cache_files": null,
+  "purejs_timings": [],
+  "node_launches": null,
+  "cli_sha": "243d4fa7ee",
+  "cmd": "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi preview --stack pulumi_local/bench-local --non-interactive --diff=false --event-log /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/results/20260928T104718-old-local-run-3.events.jsonl --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-cis-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-cmmc-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-hitrust-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-iso-27001-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-nist-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-pci-dss-aws --policy-pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-pulumi-best-practices-aws"
+}

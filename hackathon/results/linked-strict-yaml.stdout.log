@@ -1,0 +1,1334 @@
+Previewing update (linked)
+
+View Live: http://localhost:3000/pulumi_local/policy-bench-linked/linked/previews/81d7d328-5801-4193-893b-77c816a3ed66
+
+    pulumi:pulumi:Stack policy-bench-linked-linked  warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+Loading policy packs...: starting
+Loading policy packs...: done
+
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+@ Previewing update.....
+ +  aws:s3:Bucket logs create 
+ +  aws:kms:Key key create 
+ +  aws:s3:Bucket good create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:s3:Bucket bare create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:iam:Group group create 
+ +  aws:iam:User user create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:efs:FileSystem efs create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ebs:Volume volume create 
+ +  aws:s3:BucketPublicAccessBlock barePab create 
+ +  aws:s3:BucketLogging goodLogging create 
+ +  aws:s3:BucketLifecycleConfiguration goodLifecycle create 
+ +  aws:s3:BucketVersioning goodVersioning create 
+ +  aws:s3:BucketPublicAccessBlock goodPab create 
+ +  aws:s3:BucketServerSideEncryptionConfiguration goodSse create 
+ +  aws:ec2:FlowLog flowLog create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:UserGroupMembership membership create 
+ +  aws:secretsmanager:SecretRotation rotation create 
+ +  aws:ec2:NetworkInterface eni create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:VolumeAttachment attachment create 
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:ec2:Instance instance create 
+ +  aws:kms:Key key create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ebs:Volume volume create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:efs:FileSystem efs create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:ec2:Instance instance create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:secretsmanager:Secret secret create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:iam:User user create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  aws:lb:LoadBalancer alb create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ebs:Volume volume create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:efs:FileSystem efs create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:wafv2:WebAcl acl create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+@ Previewing update....
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:User user create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:s3:Bucket logs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:Instance instance create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket good create 
+ +  aws:s3:Bucket bare create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:lb:LoadBalancer alb create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:ec2:Instance instance create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:kms:Key key create 
+ +  aws:kms:Key key create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:efs:FileSystem efs create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create 1 warning
+Policies:
+    ⚠️ cis-aws@v1.0.2 (local: /Users/.../dist-input/cis-aws)
+        - [advisory] [severity: high]  alb-waf-enabled  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'alb-waf-enabled' from policy pack 'cis-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'flowLogGroup-16c4a2c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ebs-attached-volume-encryption-enabled  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'ebs-attached-volume-encryption-enabled' from policy pack 'cis-aws@v1.0.2' during preview: string value at .volumeId can't be known during preview
+        - [advisory] [severity: high]  ec2-instance-iam-profile-attached  (aws:ec2:Instance: instance)
+          Ensure EC2 instances have IAM instance profiles attached for proper access control and security.
+          EC2 instance 'instance' does not have an IAM instance profile attached. For proper access control and security, attach an IAM instance profile by setting the 'iamInstanceProfile' property to a valid instance profile name or ARN.
+        - [advisory] [severity: high]  ec2-instance-in-vpc  (aws:ec2:Instance: instance)
+          can't run policy 'ec2-instance-in-vpc' from policy pack 'cis-aws@v1.0.2' during preview: string value at .subnetId can't be known during preview
+        - [advisory] [severity: high]  ec2-instance-no-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  iam-user-mfa-enabled  (aws:iam:User: user)
+          Ensure all IAM users have Multi-Factor Authentication (MFA) devices configured for enhanced security.
+          IAM user 'user-bab45c8' does not have a Multi-Factor Authentication (MFA) device configured. This violates CIS Controls v8 IG1 5.2. Create a VirtualMfaDevice resource for this user to enhance account security with two-factor authentication. Note: After creating the MFA device, the user must activate it through the AWS Console or CLI.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'cis-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-level-public-access-prohibited  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-level-public-access-prohibited' from policy pack 'cis-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: bare)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "bare-d796cc2" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: good)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "good-ad407b1" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: logs)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "logs-d28e10d" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: medium]  ebs-optimized-instance  (aws:ec2:Instance: instance)
+          EC2 instances must be EBS optimized
+          EC2 instance 'instance' should be EBS optimized for better performance and reliability. Set 'ebsOptimized' to true if the instance type supports it.
+        - [advisory] [severity: medium]  ebs-volume-in-backup-plan  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          Ensure EBS volumes are included in AWS Backup plans for automated backup and recovery capabilities.
+          EBS volume 'volume' is not covered by any backup plan selection. Create AWS Backup plan selections that include this volume to ensure automated backup and recovery capabilities.
+        - [advisory] [severity: medium]  ebs-volume-in-backup-plan  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          Ensure EBS volumes are included in AWS Backup plans for automated backup and recovery capabilities.
+          EBS volume 'unusedVolume' is not covered by any backup plan selection. Create AWS Backup plan selections that include this volume to ensure automated backup and recovery capabilities.
+        - [advisory] [severity: medium]  ec2-instance-ssm-managed  (aws:ec2:Instance: instance)
+          Ensure EC2 instances are managed by AWS Systems Manager for network infrastructure management.
+          EC2 instance 'instance' does not have an IAM instance profile attached. Network infrastructure should be managed by AWS Systems Manager, which requires an IAM instance profile with appropriate SSM permissions (typically AmazonSSMManagedInstanceCore).
+        - [advisory] [severity: medium]  elb-deletion-protection-enabled  (aws:lb:LoadBalancer: alb)
+          Load balancers must have deletion protection enabled
+          Application load balancer 'alb-91ff5d2' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements.
+        - [advisory] [severity: medium]  s3-bucket-logging-enabled  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-logging-enabled' from policy pack 'cis-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: bare)
+          Ensure S3 buckets have replication enabled for automated backup to different regions.
+          S3 bucket 'bare-d796cc2' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: good)
+          Ensure S3 buckets have replication enabled for automated backup to different regions.
+          S3 bucket 'good-ad407b1' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: logs)
+          Ensure S3 buckets have replication enabled for automated backup to different regions.
+          S3 bucket 'logs-d28e10d' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+        - [advisory] [severity: medium]  s3-bucket-versioning-enabled  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-versioning-enabled' from policy pack 'cis-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  vpc-security-group-associated-to-eni  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-security-group-associated-to-eni' from policy pack 'cis-aws@v1.0.2' during preview: string value at .vpcSecurityGroupIds.0 can't be known during preview
+        - [advisory] [severity: medium]  wafv2-logging-enabled  (aws:wafv2:WebAcl: acl)
+          Ensure WAFv2 web ACLs have logging enabled for security monitoring and analysis.
+          WAFv2 web ACL 'acl' does not have logging enabled. WAFv2 logging provides security monitoring and analysis capabilities for web traffic. Create an aws.wafv2.WebAclLoggingConfiguration resource with this web ACL's ARN to enable comprehensive logging to Kinesis Firehose, S3, or CloudWatch Logs.
+        - [advisory] [severity: low]  ebs-volume-unused  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'ebs-volume-unused' from policy pack 'cis-aws@v1.0.2' during preview: string value at .volumeId can't be known during preview
+        - [advisory] [severity: low]  ec2-instance-detailed-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  ec2-stopped-instance-30-days  (aws:ec2:Instance: instance)
+          Ensure EC2 instances are stopped after 30 days to maintain asset inventory hygiene.
+          EC2 instance 'instance' must have a creation date tag (CreationDate, Created, or LaunchDate) to verify it's stopped within 30 days. Consider adding lifecycle management tags.
+        - [advisory] [severity: low]  secrets-manager-kms-encryption-enabled  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-kms-encryption-enabled' from policy pack 'cis-aws@v1.0.2' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ cmmc-aws@v1.0.2 (local: /Users/.../dist-input/cmmc-aws)
+        - [advisory] [severity: critical]  appsync-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'appsync-waf-association' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  load-balancer-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'load-balancer-waf-association' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: critical]  waf-association-validation  (aws:wafv2:WebAclAssociation: aclAssociation)
+          can't run policy 'waf-association-validation' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ebs:Volume: volume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Vpc: vpc)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:iam:Role: flowLogRole)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:iam:User: user)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:s3:Bucket: bare)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:s3:Bucket: good)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:s3:Bucket: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key lacks a description documenting its purpose and lifecycle requirements. Provide a clear description of the key's intended use and lifecycle requirements.
+        - [advisory] [severity: medium]  resource-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ebs:Volume: volume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Vpc: vpc)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:iam:Role: flowLogRole)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:iam:User: user)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:s3:Bucket: bare)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:s3:Bucket: good)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:s3:Bucket: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  subnet-multi-az  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'subnet-multi-az' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: medium]  vpc-subnet-flow-logs  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-subnet-flow-logs' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: low]  secrets-manager-secret-configure-customer-managed-key  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-secret-configure-customer-managed-key' from policy pack 'cmmc-aws@v1.0.2' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ hitrust-aws@v2.6.4 (local: /Users/.../dist-input/hitrust-aws)
+        - [advisory] [severity: critical]  appsync-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'appsync-waf-association' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  load-balancer-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'load-balancer-waf-association' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: critical]  waf-association-validation  (aws:wafv2:WebAclAssociation: aclAssociation)
+          can't run policy 'waf-association-validation' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  centralized-os-app-logging  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have logging agents configured to forward OS/application logs to central system
+          EC2 instance must have logging agent installation/configuration in userData. Forward OS/application logs to central system using one of the allowed logging agents: amazon-cloudwatch-agent, awslogs, td-agent, fluentd, filebeat, fluent-bit, logstash, rsyslog, syslog-ng, vector
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key lacks a description documenting its purpose and lifecycle requirements. Provide a clear description of the key's intended use and lifecycle requirements.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: bare)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'bare' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: good)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'good' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: logs)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'logs' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-versioning' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  subnet-multi-az  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'subnet-multi-az' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: medium]  vpc-subnet-flow-logs  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-subnet-flow-logs' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: unusedVolume)
+          Check that encrypted EBS volumes use a customer-managed KMS key.
+          An EBS volume should be encrypted using a customer-managed KMS key.
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: volume)
+          can't run policy 'ebs-volume-configure-customer-managed-key' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  efs-file-system-configure-customer-managed-key  (aws:efs:FileSystem: efs)
+          can't run policy 'efs-file-system-configure-customer-managed-key' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: volume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpc)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: flowLogRole)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:User: user)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bare)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: good)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: volume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpc)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: flowLogRole)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:User: user)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bare)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: good)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  secrets-manager-secret-configure-customer-managed-key  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-secret-configure-customer-managed-key' from policy pack 'hitrust-aws@v2.6.4' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ iso-27001-aws@v1.0.1 (local: /Users/.../dist-input/iso-27001-aws)
+        - [advisory] [severity: critical]  appsync-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'appsync-waf-association' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  load-balancer-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'load-balancer-waf-association' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'flowLogGroup-16c4a2c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          can't run policy 'ec2-vpc-placement-required' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .subnetId can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: bare)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "bare-d796cc2" does not have a bucket policy configured.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: good)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "good-ad407b1" does not have a bucket policy configured.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: logs)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "logs-d28e10d" does not have a bucket policy configured.
+        - [advisory] [severity: high]  subnet-multi-az  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'subnet-multi-az' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: medium]  centralized-os-app-logging  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have logging agents configured to forward OS/application logs to central system
+          EC2 instance must have logging agent installation/configuration in userData. Forward OS/application logs to central system using one of the allowed logging agents: amazon-cloudwatch-agent, awslogs, td-agent, fluentd, filebeat, fluent-bit, logstash, rsyslog, syslog-ng, vector
+        - [advisory] [severity: medium]  ebs-volume-in-backup-plan  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          Ensure EBS volumes are included in AWS Backup plans for automated backup and recovery capabilities.
+          EBS volume 'volume' is not covered by any backup plan selection. Create AWS Backup plan selections that include this volume to ensure automated backup and recovery capabilities.
+        - [advisory] [severity: medium]  ebs-volume-in-backup-plan  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          Ensure EBS volumes are included in AWS Backup plans for automated backup and recovery capabilities.
+          EBS volume 'unusedVolume' is not covered by any backup plan selection. Create AWS Backup plan selections that include this volume to ensure automated backup and recovery capabilities.
+        - [advisory] [severity: medium]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: medium]  elb-deletion-protection  (aws:lb:LoadBalancer: alb)
+          Load balancers must have deletion protection enabled
+          Application load balancer 'alb-91ff5d2' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements.
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: medium]  lb-access-logging  (aws:lb:LoadBalancer: alb)
+          ELBv2 load balancers must have access logging enabled.
+          Load Balancer 'alb-91ff5d2' must have access logging enabled; set accessLogs.enabled to true with an S3 bucket.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: bare)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'bare' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: good)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'good' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: logs)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'logs' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-versioning' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  vpc-security-group-associated-to-eni  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-security-group-associated-to-eni' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .vpcSecurityGroupIds.0 can't be known during preview
+        - [advisory] [severity: medium]  vpc-subnet-flow-logs  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-subnet-flow-logs' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: medium]  wafv2-logging-enabled  (aws:wafv2:WebAcl: acl)
+          Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.
+          WAFv2 Web ACL 'acl-c77ab9f' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging.
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: unusedVolume)
+          Check that encrypted EBS volumes use a customer-managed KMS key.
+          An EBS volume should be encrypted using a customer-managed KMS key.
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: volume)
+          can't run policy 'ebs-volume-configure-customer-managed-key' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  efs-file-system-configure-customer-managed-key  (aws:efs:FileSystem: efs)
+          can't run policy 'efs-file-system-configure-customer-managed-key' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: volume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpc)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: flowLogRole)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:User: user)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bare)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: good)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  secrets-manager-secret-configure-customer-managed-key  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-secret-configure-customer-managed-key' from policy pack 'iso-27001-aws@v1.0.1' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ nist-aws@v1.0.2 (local: /Users/.../dist-input/nist-aws)
+        - [advisory] [severity: critical]  elb-waf-enabled  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'elb-waf-enabled' from policy pack 'nist-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  load-balancer-waf-association  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'load-balancer-waf-association' from policy pack 'nist-aws@v1.0.2' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'nist-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'flowLogGroup-16c4a2c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          can't run policy 'ec2-vpc-placement-required' from policy pack 'nist-aws@v1.0.2' during preview: string value at .subnetId can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'nist-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: bare)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "bare-d796cc2" does not have a bucket policy configured.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: good)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "good-ad407b1" does not have a bucket policy configured.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: logs)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "logs-d28e10d" does not have a bucket policy configured.
+        - [advisory] [severity: medium]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: medium]  elb-deletion-protection  (aws:lb:LoadBalancer: alb)
+          Load balancers must have deletion protection enabled
+          Application load balancer 'alb-91ff5d2' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements.
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key lacks a description documenting its purpose and lifecycle requirements. Provide a clear description of the key's intended use and lifecycle requirements.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'nist-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'nist-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-notifications-enabled  (aws:s3:Bucket: bare)
+          S3 buckets must have event notifications enabled to alert personnel of important bucket activities
+          S3 bucket "bare-d796cc2" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements.
+        - [advisory] [severity: medium]  s3-bucket-notifications-enabled  (aws:s3:Bucket: good)
+          S3 buckets must have event notifications enabled to alert personnel of important bucket activities
+          S3 bucket "good-ad407b1" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements.
+        - [advisory] [severity: medium]  s3-bucket-notifications-enabled  (aws:s3:Bucket: logs)
+          S3 buckets must have event notifications enabled to alert personnel of important bucket activities
+          S3 bucket "logs-d28e10d" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: bare)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'bare' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: good)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'good' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-replication  (aws:s3:Bucket: logs)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket 'logs' does not have replication configured.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-versioning' from policy pack 'nist-aws@v1.0.2' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  wafv2-logging-enabled  (aws:wafv2:WebAcl: acl)
+          Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.
+          WAFv2 Web ACL 'acl-c77ab9f' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging.
+        - [advisory] [severity: low]  ebs-unused-volumes-prohibited  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'ebs-unused-volumes-prohibited' from policy pack 'nist-aws@v1.0.2' during preview: string value at .volumeId can't be known during preview
+        - [advisory] [severity: low]  ec2-ebs-optimized-required  (aws:ec2:Instance: instance)
+          EC2 instances must be EBS optimized
+          EC2 instance 'instance' should be EBS optimized for better performance and reliability. Set 'ebsOptimized' to true if the instance type supports it.
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  secrets-manager-secret-configure-customer-managed-key  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-secret-configure-customer-managed-key' from policy pack 'nist-aws@v1.0.2' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ pci-dss-aws@v2.0.4 (local: /Users/.../dist-input/pci-dss-aws)
+        - [advisory] [severity: critical]  waf-association-validation  (aws:wafv2:WebAclAssociation: aclAssociation)
+          can't run policy 'waf-association-validation' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .resourceArn can't be known during preview
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'flowLogGroup-16c4a2c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          can't run policy 'ec2-vpc-placement-required' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .subnetId can't be known during preview
+        - [advisory] [severity: high]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-public-access-block-required  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block-required' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: bare)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "bare-d796cc2" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: good)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "good-ad407b1" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (aws:s3:Bucket: logs)
+          S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit
+          S3 bucket "logs-d28e10d" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks.
+        - [advisory] [severity: high]  wafv2-logging-enabled  (aws:wafv2:WebAcl: acl)
+          Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.
+          WAFv2 Web ACL 'acl-c77ab9f' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging.
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-deletion-protection  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key (urn:pulumi:linked::policy-bench-linked::aws:kms/key:Key::key) does not have a deletion window configured.  explicitly set a deletion window between 7 and 30 days to ensure secure key lifecycle management.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  vpc-subnet-flow-logs  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'vpc-subnet-flow-logs' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .vpcId can't be known during preview
+        - [advisory] [severity: low]  ebs-unused-volumes-prohibited  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 'ebs-unused-volumes-prohibited' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .volumeId can't be known during preview
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: unusedVolume)
+          Check that encrypted EBS volumes use a customer-managed KMS key.
+          An EBS volume should be encrypted using a customer-managed KMS key.
+        - [advisory] [severity: low]  ebs-volume-configure-customer-managed-key  (aws:ebs:Volume: volume)
+          can't run policy 'ebs-volume-configure-customer-managed-key' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  efs-file-system-configure-customer-managed-key  (aws:efs:FileSystem: efs)
+          can't run policy 'efs-file-system-configure-customer-managed-key' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .kmsKeyId can't be known during preview
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: volume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpc)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: flowLogRole)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:User: user)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bare)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: good)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: volume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpc)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: flowLogRole)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:User: user)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bare)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: good)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  secrets-manager-secret-configure-customer-managed-key  (aws:secretsmanager:Secret: secret)
+          can't run policy 'secrets-manager-secret-configure-customer-managed-key' from policy pack 'pci-dss-aws@v2.0.4' during preview: string value at .kmsKeyId can't be known during preview
+    ⚠️ pulumi-best-practices-aws@v1.4.1 (local: /Users/.../dist-input/pulumi-best-practices-aws)
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'pulumi-best-practices-aws@v1.4.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-encryption' from policy pack 'pulumi-best-practices-aws@v1.4.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  kms-key-creation  (aws:kms:Key: key)
+          Validates KMS key creation with appropriate specifications and origins
+          KMS key should have a description to document its purpose and usage. Provide a clear description of the key's intended use.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key lacks a description documenting its purpose and lifecycle requirements. Provide a clear description of the key's intended use and lifecycle requirements.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-access-logging' from policy pack 'pulumi-best-practices-aws@v1.4.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-linked-linked)
+          can't run policy 's3-bucket-versioning' from policy pack 'pulumi-best-practices-aws@v1.4.1' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ebs:Volume: volume)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpc)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: flowLogRole)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:User: user)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bare)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: good)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: flowLogGroup)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: unusedVolume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ebs:Volume: volume)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: appSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: orphanSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetA)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetB)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Subnet: subnetNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpc)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Vpc: vpcNoLogs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: flowLogRole)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:User: user)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:lb:LoadBalancer: alb)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bare)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: good)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:wafv2:WebAcl: acl)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory]  s3-bucket-replication  (aws:s3:Bucket: bare)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket "bare-d796cc2" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+        - [advisory]  s3-bucket-replication  (aws:s3:Bucket: good)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket "good-ad407b1" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+        - [advisory]  s3-bucket-replication  (aws:s3:Bucket: logs)
+          Ensures S3 buckets have replication configured for enhanced availability
+          S3 bucket "logs-d28e10d" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket.
+
+Diagnostics:
+  pulumi:pulumi:Stack (policy-bench-linked-linked):
+    warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+
+    [Pulumi Neo] Would you like help with these diagnostics?
+    http://localhost:3000/pulumi_local/policy-bench-linked/linked/previews/81d7d328-5801-4193-893b-77c816a3ed66?explainFailure
+    Or run `pulumi neo --debug-preview` for an interactive agent in your terminal.
+
+Resources:
+    + 35 to create
+

@@ -1,0 +1,5 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+error: failed to install policy pack hitrust-aws@v2.6.4: failed to load policy project at /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-hitrust-aws-v2.6.4: open /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-hitrust-aws-v2.6.4/PulumiPolicy.yaml: no such file or directory
+
+Dependency installation output:
+

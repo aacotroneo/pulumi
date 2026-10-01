@@ -1,0 +1,53 @@
+name: policy-demo
+runtime: yaml
+description: Deployable demo for purejs policy packs. Cheap resources that create in seconds and trip plenty of policies.
+resources:
+  vpc:
+    type: aws:ec2:Vpc
+    properties:
+      cidrBlock: 10.42.0.0/16
+  openSsh:
+    type: aws:ec2:SecurityGroup
+    properties:
+      vpcId: ${vpc.id}
+      description: SSH open to the world
+      ingress:
+        - protocol: tcp
+          fromPort: 22
+          toPort: 22
+          cidrBlocks: ["0.0.0.0/0"]
+  bucket:
+    type: aws:s3:Bucket
+    properties:
+      forceDestroy: true
+  role:
+    type: aws:iam:Role
+    properties:
+      assumeRolePolicy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: { Service: lambda.amazonaws.com }
+              Action: sts:AssumeRole
+  adminPolicy:
+    type: aws:iam:RolePolicy
+    properties:
+      role: ${role.id}
+      policy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "*"
+              Resource: "*"
+  queue:
+    type: aws:sqs:Queue
+  topic:
+    type: aws:sns:Topic
+  logs:
+    type: aws:cloudwatch:LogGroup
+    properties:
+      retentionInDays: 1
+outputs:
+  bucketName: ${bucket.bucket}

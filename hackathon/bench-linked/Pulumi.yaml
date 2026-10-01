@@ -1,0 +1,216 @@
+name: policy-bench-linked
+runtime: yaml
+description: >
+  AWS program whose resources reference each other's outputs (ids/arns), to exercise stack policies that
+  link resources. Everything is new, so every cross-resource reference is unknown during preview.
+  Preview only; runs offline with fake creds.
+resources:
+  # --- S3: a compliant bucket (companions reference ${good.id}) and a bare one ---
+  good:
+    type: aws:s3:Bucket
+  goodPab:
+    type: aws:s3:BucketPublicAccessBlock
+    properties:
+      bucket: ${good.id}
+      blockPublicAcls: true
+      blockPublicPolicy: true
+      ignorePublicAcls: true
+      restrictPublicBuckets: true
+  goodVersioning:
+    type: aws:s3:BucketVersioning
+    properties:
+      bucket: ${good.id}
+      versioningConfiguration:
+        status: Enabled
+  goodSse:
+    type: aws:s3:BucketServerSideEncryptionConfiguration
+    properties:
+      bucket: ${good.id}
+      rules:
+        - applyServerSideEncryptionByDefault:
+            sseAlgorithm: aws:kms
+            kmsMasterKeyId: ${key.arn}
+          bucketKeyEnabled: true
+  goodLogging:
+    type: aws:s3:BucketLogging
+    properties:
+      bucket: ${good.id}
+      targetBucket: ${logs.id}
+      targetPrefix: good/
+  goodLifecycle:
+    type: aws:s3:BucketLifecycleConfiguration
+    properties:
+      bucket: ${good.id}
+      rules:
+        - id: expire
+          status: Enabled
+          filter: {}
+          expiration:
+            days: 90
+  logs:
+    type: aws:s3:Bucket
+  bare:
+    type: aws:s3:Bucket
+  # A PAB that is linked but misconfigured: should be a real violation in preview.
+  barePab:
+    type: aws:s3:BucketPublicAccessBlock
+    properties:
+      bucket: ${bare.id}
+      blockPublicAcls: false
+      blockPublicPolicy: true
+      ignorePublicAcls: true
+      restrictPublicBuckets: true
+
+  # --- KMS + EFS ---
+  key:
+    type: aws:kms:Key
+    properties:
+      enableKeyRotation: true
+  efs:
+    type: aws:efs:FileSystem
+    properties:
+      encrypted: true
+      kmsKeyId: ${key.arn}
+
+  # --- VPC with a flow log, and one without ---
+  vpc:
+    type: aws:ec2:Vpc
+    properties:
+      cidrBlock: 10.0.0.0/16
+  subnetA:
+    type: aws:ec2:Subnet
+    properties:
+      vpcId: ${vpc.id}
+      cidrBlock: 10.0.1.0/24
+      availabilityZone: us-west-2a
+  subnetB:
+    type: aws:ec2:Subnet
+    properties:
+      vpcId: ${vpc.id}
+      cidrBlock: 10.0.2.0/24
+      availabilityZone: us-west-2b
+  flowLogGroup:
+    type: aws:cloudwatch:LogGroup
+    properties:
+      retentionInDays: 365
+  flowLogRole:
+    type: aws:iam:Role
+    properties:
+      assumeRolePolicy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: { Service: vpc-flow-logs.amazonaws.com }
+              Action: sts:AssumeRole
+  flowLog:
+    type: aws:ec2:FlowLog
+    properties:
+      vpcId: ${vpc.id}
+      trafficType: ALL
+      logDestination: ${flowLogGroup.arn}
+      iamRoleArn: ${flowLogRole.arn}
+  vpcNoLogs:
+    type: aws:ec2:Vpc
+    properties:
+      cidrBlock: 10.1.0.0/16
+  subnetNoLogs:
+    type: aws:ec2:Subnet
+    properties:
+      vpcId: ${vpcNoLogs.id}
+      cidrBlock: 10.1.1.0/24
+
+  # --- Security groups: one attached to an ENI, one orphaned ---
+  appSg:
+    type: aws:ec2:SecurityGroup
+    properties:
+      vpcId: ${vpc.id}
+      description: attached
+  eni:
+    type: aws:ec2:NetworkInterface
+    properties:
+      subnetId: ${subnetA.id}
+      securityGroups: ["${appSg.id}"]
+  orphanSg:
+    type: aws:ec2:SecurityGroup
+    properties:
+      vpcId: ${vpc.id}
+      description: orphan
+
+  # --- EBS: one attached volume, one unused ---
+  instance:
+    type: aws:ec2:Instance
+    properties:
+      ami: ami-0123456789abcdef0
+      instanceType: t3.micro
+      subnetId: ${subnetA.id}
+      vpcSecurityGroupIds: ["${appSg.id}"]
+      metadataOptions:
+        httpTokens: required
+  volume:
+    type: aws:ebs:Volume
+    properties:
+      availabilityZone: us-west-2a
+      size: 10
+      encrypted: true
+      kmsKeyId: ${key.arn}
+  attachment:
+    type: aws:ec2:VolumeAttachment
+    properties:
+      deviceName: /dev/sdh
+      volumeId: ${volume.id}
+      instanceId: ${instance.id}
+  unusedVolume:
+    type: aws:ebs:Volume
+    properties:
+      availabilityZone: us-west-2a
+      size: 10
+      encrypted: true
+
+  # --- ALB protected by a WAFv2 web ACL ---
+  alb:
+    type: aws:lb:LoadBalancer
+    properties:
+      loadBalancerType: application
+      subnets: ["${subnetA.id}", "${subnetB.id}"]
+      securityGroups: ["${appSg.id}"]
+      dropInvalidHeaderFields: true
+  acl:
+    type: aws:wafv2:WebAcl
+    properties:
+      scope: REGIONAL
+      defaultAction:
+        allow: {}
+      visibilityConfig:
+        cloudwatchMetricsEnabled: true
+        metricName: acl
+        sampledRequestsEnabled: true
+  aclAssociation:
+    type: aws:wafv2:WebAclAssociation
+    properties:
+      resourceArn: ${alb.arn}
+      webAclArn: ${acl.arn}
+
+  # --- IAM user in a group ---
+  user:
+    type: aws:iam:User
+  group:
+    type: aws:iam:Group
+  membership:
+    type: aws:iam:UserGroupMembership
+    properties:
+      user: ${user.name}
+      groups: ["${group.name}"]
+
+  # --- Secret with rotation ---
+  secret:
+    type: aws:secretsmanager:Secret
+    properties:
+      kmsKeyId: ${key.arn}
+  rotation:
+    type: aws:secretsmanager:SecretRotation
+    properties:
+      secretId: ${secret.id}
+      rotationLambdaArn: arn:aws:lambda:us-west-2:123456789012:function:rotate
+      rotationRules:
+        automaticallyAfterDays: 30

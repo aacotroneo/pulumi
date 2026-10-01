@@ -1,0 +1,195 @@
+{
+  "generatedAt": "2026-09-28T13:46:45.889Z",
+  "worktree": "/Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure",
+  "branch": "hackathon/pure-policies",
+  "commit": "1aebe33520cdcea34466fb4d9394027a9df2b219",
+  "abiVersion": 1,
+  "esbuild": "0.25.12",
+  "target": "es2020",
+  "notes": "legacyIndexJsBytes is the rollup output of npm run build in the pack dir; it still needs node_modules (@pulumi/policy, @pulumi/pulumi, @pulumi/aws externals) at runtime. namespaceGranularPass1Bytes is the bundle before root-barrel pruning. nodeVm timings were taken on a loaded machine (load avg ~10-18) and are a rough proxy only.",
+  "packs": {
+    "cis-aws": {
+      "dir": "packs/cis/aws",
+      "version": "1.0.2",
+      "policiesJsBytes": 342520,
+      "policiesJsGzipBytes": 70177,
+      "policyCount": 115,
+      "resourcePolicies": 88,
+      "stackPolicies": 27,
+      "uniqueResourceTypes": 52,
+      "untypedResourcePolicies": 0,
+      "untypedStackPolicies": 27,
+      "stubBytesInOutput": 5573,
+      "namespaceGranularPass1Bytes": 534421,
+      "preludeGlobals": [
+        "URL",
+        "console"
+      ],
+      "legacyIndexJsBytes": 18870652,
+      "nodeVm": {
+        "compileMsMedian": 2.58,
+        "runMsMedian": 0.76,
+        "legacyColdRequireMs": 513
+      }
+    },
+    "cmmc-aws": {
+      "dir": "packs/cmmc/aws",
+      "version": "1.0.2",
+      "policiesJsBytes": 178401,
+      "policiesJsGzipBytes": 39553,
+      "policyCount": 54,
+      "resourcePolicies": 42,
+      "stackPolicies": 12,
+      "uniqueResourceTypes": 32,
+      "untypedResourcePolicies": 3,
+      "untypedStackPolicies": 12,
+      "stubBytesInOutput": 3279,
+      "namespaceGranularPass1Bytes": 354421,
+      "preludeGlobals": [
+        "Buffer",
+        "console"
+      ],
+      "legacyIndexJsBytes": 18667089,
+      "nodeVm": {
+        "compileMsMedian": 1.42,
+        "runMsMedian": 0.59,
+        "legacyColdRequireMs": 718
+      }
+    },
+    "hitrust-aws": {
+      "dir": "packs/hitrust/aws",
+      "version": "2.6.4",
+      "policiesJsBytes": 333852,
+      "policiesJsGzipBytes": 67001,
+      "policyCount": 130,
+      "resourcePolicies": 113,
+      "stackPolicies": 17,
+      "uniqueResourceTypes": 54,
+      "untypedResourcePolicies": 5,
+      "untypedStackPolicies": 17,
+      "stubBytesInOutput": 4689,
+      "namespaceGranularPass1Bytes": 510929,
+      "preludeGlobals": [
+        "Buffer",
+        "console"
+      ],
+      "legacyIndexJsBytes": 20214693,
+      "nodeVm": {
+        "compileMsMedian": 2.98,
+        "runMsMedian": 0.95,
+        "legacyColdRequireMs": 656
+      }
+    },
+    "iso-27001-aws": {
+      "dir": "packs/iso-27001/aws",
+      "version": "1.0.1",
+      "policiesJsBytes": 624589,
+      "policiesJsGzipBytes": 119109,
+      "policyCount": 238,
+      "resourcePolicies": 201,
+      "stackPolicies": 37,
+      "uniqueResourceTypes": 95,
+      "untypedResourcePolicies": 4,
+      "untypedStackPolicies": 37,
+      "stubBytesInOutput": 9203,
+      "namespaceGranularPass1Bytes": 827431,
+      "preludeGlobals": [
+        "Buffer",
+        "console"
+      ],
+      "legacyIndexJsBytes": 20385970,
+      "nodeVm": {
+        "compileMsMedian": 8.32,
+        "runMsMedian": 2.21,
+        "legacyColdRequireMs": 739
+      }
+    },
+    "nist-aws": {
+      "dir": "packs/nist/aws",
+      "version": "1.0.2",
+      "policiesJsBytes": 411017,
+      "policiesJsGzipBytes": 84461,
+      "policyCount": 139,
+      "resourcePolicies": 109,
+      "stackPolicies": 30,
+      "uniqueResourceTypes": 56,
+      "untypedResourcePolicies": 1,
+      "untypedStackPolicies": 30,
+      "stubBytesInOutput": 4922,
+      "namespaceGranularPass1Bytes": 599873,
+      "preludeGlobals": [],
+      "legacyIndexJsBytes": 19506721,
+      "nodeVm": {
+        "compileMsMedian": 3.96,
+        "runMsMedian": 1.13,
+        "legacyColdRequireMs": 522
+      }
+    },
+    "pci-dss-aws": {
+      "dir": "packs/pci-dss/aws",
+      "version": "2.0.4",
+      "policiesJsBytes": 478991,
+      "policiesJsGzipBytes": 97685,
+      "policyCount": 160,
+      "resourcePolicies": 134,
+      "stackPolicies": 26,
+      "uniqueResourceTypes": 68,
+      "untypedResourcePolicies": 6,
+      "untypedStackPolicies": 26,
+      "stubBytesInOutput": 5770,
+      "namespaceGranularPass1Bytes": 664897,
+      "preludeGlobals": [
+        "Buffer",
+        "console"
+      ],
+      "legacyIndexJsBytes": 20472247,
+      "nodeVm": {
+        "compileMsMedian": 3.9,
+        "runMsMedian": 1.13,
+        "legacyColdRequireMs": 570
+      }
+    },
+    "pulumi-best-practices-aws": {
+      "dir": "packs/pulumi-best-practices/aws",
+      "version": "1.4.1",
+      "policiesJsBytes": 164604,
+      "policiesJsGzipBytes": 36731,
+      "policyCount": 54,
+      "resourcePolicies": 44,
+      "stackPolicies": 10,
+      "uniqueResourceTypes": 30,
+      "untypedResourcePolicies": 3,
+      "untypedStackPolicies": 10,
+      "stubBytesInOutput": 2447,
+      "namespaceGranularPass1Bytes": 338463,
+      "preludeGlobals": [],
+      "legacyIndexJsBytes": 18065459,
+      "nodeVm": {
+        "compileMsMedian": 1.36,
+        "runMsMedian": 0.58,
+        "legacyColdRequireMs": 525
+      }
+    },
+    "pure-examples": {
+      "dir": "shared/pure/examples",
+      "version": "0.1.0",
+      "policiesJsBytes": 10920,
+      "policiesJsGzipBytes": 3662,
+      "policyCount": 5,
+      "resourcePolicies": 4,
+      "stackPolicies": 1,
+      "uniqueResourceTypes": 17,
+      "untypedResourcePolicies": 0,
+      "untypedStackPolicies": 1,
+      "stubBytesInOutput": 0,
+      "namespaceGranularPass1Bytes": 10920,
+      "preludeGlobals": [],
+      "legacyIndexJsBytes": null,
+      "nodeVm": {
+        "compileMsMedian": 0.15,
+        "runMsMedian": 0.12,
+        "legacyColdRequireMs": null
+      }
+    }
+  }
+}

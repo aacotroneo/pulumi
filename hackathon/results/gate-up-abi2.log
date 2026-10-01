@@ -1,0 +1,75 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+Previewing update (linked)
+
+View Live: http://localhost:3000/pulumi_local/policy-bench-linked/linked/previews/3b6c7733-16af-462d-8894-6d74bf3de85a
+
+    pulumi:pulumi:Stack policy-bench-linked-linked  warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+Loading policy packs...: starting
+Loading policy packs...: done
+
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+@ Previewing update.....
+ +  aws:s3:Bucket good create 
+ +  aws:kms:Key key create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket bare create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:iam:User user create 
+ +  aws:iam:Group group create 
+ +  aws:efs:FileSystem efs create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:ebs:Volume volume create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:FlowLog flowLog create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:s3:BucketVersioning goodVersioning create 
+ +  aws:s3:BucketLifecycleConfiguration goodLifecycle create 
+ +  aws:s3:BucketServerSideEncryptionConfiguration goodSse create 
+ +  aws:s3:BucketPublicAccessBlock goodPab create 
+ +  aws:s3:BucketLogging goodLogging create 
+ +  aws:s3:BucketPublicAccessBlock barePab create 
+ +  aws:iam:UserGroupMembership membership create 
+ +  aws:secretsmanager:SecretRotation rotation create 
+ +  aws:ec2:Instance instance create 
+ +  aws:ec2:NetworkInterface eni create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:ec2:VolumeAttachment attachment create 
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:Bucket bare create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:BucketPublicAccessBlock barePab create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create error: preview failed
+ +  pulumi:pulumi:Stack policy-bench-linked-linked create 1 error; 1 warning
+Policies:
+    ❌ pure-examples@v0.1.0 (local: /Users/.../dist-input/pure-examples)
+        - [mandatory] [severity: high]  s3-bucket-public-access-blocked  (aws:s3:Bucket: logs)
+          S3 buckets must have a public access block that blocks everything.
+          S3 bucket 'logs' has no public access block.
+        - [mandatory] [severity: high]  s3-bucket-public-access-blocked  (aws:s3:BucketPublicAccessBlock: barePab)
+          S3 buckets must have a public access block that blocks everything.
+          S3 bucket 'bare': public access block 'barePab' leaves blockPublicAcls off.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (aws:s3:Bucket: bare)
+          S3 buckets must have versioning enabled
+          S3 bucket "bare" does not have versioning enabled.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (aws:s3:Bucket: logs)
+          S3 buckets must have versioning enabled
+          S3 bucket "logs" does not have versioning enabled.
+
+Diagnostics:
+  pulumi:pulumi:Stack (policy-bench-linked-linked):
+    warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+    error: preview failed
+
+    [Pulumi Neo] Would you like help with these diagnostics?
+    http://localhost:3000/pulumi_local/policy-bench-linked/linked/previews/3b6c7733-16af-462d-8894-6d74bf3de85a?explainFailure
+    Or run `pulumi neo --debug-preview` for an interactive agent in your terminal.
+

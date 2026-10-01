@@ -1,0 +1,33 @@
+{
+ "transitions": {
+  "stack:advisory-unknown -> advisory-unknown": 8,
+  "stack:pass -> pass": 220,
+  "stack:violation -> violation": 118
+ },
+ "changed": [
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-volume-in-backup-plan",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "policy-bench-linked-linked"
+   ],
+   "gained": [
+    "policy-bench-linked-linked-js"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ebs-volume-in-backup-plan",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "policy-bench-linked-linked"
+   ],
+   "gained": [
+    "policy-bench-linked-linked-js"
+   ]
+  }
+ ]
+}

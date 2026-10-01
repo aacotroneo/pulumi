@@ -1,0 +1,28 @@
+Previewing update (bench-new)
+
+View Live: http://localhost:3000/pulumi_local/policy-bench/bench-new/previews/e6a3f1de-9a68-42fa-98b3-691e3a8426fd
+
+    pulumi:pulumi:Stack policy-bench-bench-new  warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+Downloading policy pack pulumi-best-practices-aws@v1.4.1: starting
+Downloading policy pack pulumi-best-practices-aws@v1.4.1: done
+Downloading policy pack cis-aws@v1.0.2: starting
+Downloading policy pack cis-aws@v1.0.2: done
+Downloading policy pack iso-27001-aws@v1.0.1: starting
+Downloading policy pack iso-27001-aws@v1.0.1: done
+Downloading policy pack cmmc-aws@v1.0.2: starting
+Downloading policy pack cmmc-aws@v1.0.2: done
+Downloading policy pack hitrust-aws@v2.6.4: starting
+Downloading policy pack hitrust-aws@v2.6.4: done
+Downloading policy pack nist-aws@v1.0.2: starting
+Downloading policy pack nist-aws@v1.0.2: done
+Downloading policy pack pci-dss-aws@v2.0.4: starting
+Downloading policy pack pci-dss-aws@v2.0.4: done
+    pulumi:pulumi:Stack policy-bench-bench-new  1 warning
+Diagnostics:
+  pulumi:pulumi:Stack (policy-bench-bench-new):
+    warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+
+    [Pulumi Neo] Would you like help with these diagnostics?
+    http://localhost:3000/pulumi_local/policy-bench/bench-new/previews/e6a3f1de-9a68-42fa-98b3-691e3a8426fd?explainFailure
+    Or run `pulumi neo --debug-preview` for an interactive agent in your terminal.
+

@@ -1,0 +1,81 @@
+warning: using pulumi-language-nodejs from $PATH at /opt/homebrew/bin/pulumi-language-nodejs expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-nodejs
+Previewing update (linked-js)
+
+View Live: http://localhost:3000/pulumi_local/policy-bench-linked/linked-js/previews/f920b6ac-b5b0-41e9-8495-6a8c3622b011
+
+    pulumi:pulumi:Stack policy-bench-linked-linked-js  warning: using pulumi-language-nodejs from $PATH at /opt/homebrew/bin/pulumi-language-nodejs expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-nodejs
+Loading policy packs...: starting
+Loading policy packs...: done
+
+ +  pulumi:pulumi:Stack policy-bench-linked-linked-js create warning: using pulumi-language-nodejs from $PATH at /opt/homebrew/bin/pulumi-language-nodejs expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-nodejs
+@ Previewing update.....
+ +  aws:iam:User user create 
+ +  aws:ec2:Vpc vpcNoLogs create 
+ +  aws:iam:Group group create 
+ +  aws:iam:Role flowLogRole create 
+ +  aws:s3:Bucket good create 
+ +  aws:ec2:Vpc vpc create 
+ +  aws:s3:Bucket bare create 
+ +  aws:wafv2:WebAcl acl create 
+ +  aws:s3:Bucket logs create 
+ +  aws:kms:Key key create 
+ +  aws:ebs:Volume unusedVolume create 
+ +  aws:cloudwatch:LogGroup flowLogGroup create 
+ +  aws:ec2:Subnet subnetNoLogs create 
+ +  aws:iam:UserGroupMembership membership create 
+ +  aws:ec2:SecurityGroup dbSg create 
+ +  aws:ec2:SecurityGroup appSg create 
+ +  aws:ec2:SecurityGroup orphanSg create 
+ +  aws:ec2:Subnet subnetA create 
+ +  aws:ec2:Subnet subnetB create 
+ +  aws:s3:BucketPublicAccessBlock barePab create 
+ +  aws:s3:BucketPolicy goodPolicy create 
+ +  aws:s3:BucketVersioning goodVersioning create 
+ +  aws:s3:BucketLifecycleConfiguration goodLifecycle create 
+ +  aws:s3:BucketPublicAccessBlock goodPab create 
+ +  aws:ebs:Volume volume create 
+ +  aws:s3:BucketServerSideEncryptionConfiguration goodSse create 
+ +  aws:secretsmanager:Secret secret create 
+ +  aws:efs:FileSystem efs create 
+ +  aws:s3:BucketLogging goodLogging create 
+ +  aws:ec2:FlowLog flowLog create 
+ +  aws:ec2:NetworkInterface eni create 
+ +  aws:ec2:Instance instance create 
+ +  aws:lb:LoadBalancer alb create 
+ +  aws:rds:SubnetGroup db-subnets create 
+ +  aws:ec2:NetworkInterface eniMulti create 
+ +  aws:secretsmanager:SecretRotation rotation create 
+ +  aws:ec2:VolumeAttachment attachment create 
+ +  aws:rds:Instance db create 
+@ Previewing update....
+ +  aws:wafv2:WebAclAssociation aclAssociation create 
+ +  aws:s3:Bucket bare create 
+ +  aws:s3:Bucket logs create 
+ +  aws:s3:BucketPublicAccessBlock barePab create 
+ +  aws:s3:Bucket logs create 
+ +  pulumi:pulumi:Stack policy-bench-linked-linked-js create error: preview failed
+ +  pulumi:pulumi:Stack policy-bench-linked-linked-js create 1 error; 1 warning
+Policies:
+    ❌ pure-examples@v0.1.0 (local: /Users/.../dist-input/pure-examples)
+        - [mandatory] [severity: high]  s3-bucket-public-access-blocked  (aws:s3:Bucket: logs)
+          S3 buckets must have a public access block that blocks everything.
+          S3 bucket 'logs' has no public access block.
+        - [mandatory] [severity: high]  s3-bucket-public-access-blocked  (aws:s3:BucketPublicAccessBlock: barePab)
+          S3 buckets must have a public access block that blocks everything.
+          S3 bucket 'bare': public access block 'barePab' leaves blockPublicAcls off.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (aws:s3:Bucket: bare)
+          S3 buckets must have versioning enabled
+          S3 bucket "bare" does not have versioning enabled.
+        - [advisory] [severity: medium]  s3-bucket-versioning  (aws:s3:Bucket: logs)
+          S3 buckets must have versioning enabled
+          S3 bucket "logs" does not have versioning enabled.
+
+Diagnostics:
+  pulumi:pulumi:Stack (policy-bench-linked-linked-js):
+    warning: using pulumi-language-nodejs from $PATH at /opt/homebrew/bin/pulumi-language-nodejs expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-nodejs
+    error: preview failed
+
+    [Pulumi Neo] Would you like help with these diagnostics?
+    http://localhost:3000/pulumi_local/policy-bench-linked/linked-js/previews/f920b6ac-b5b0-41e9-8495-6a8c3622b011?explainFailure
+    Or run `pulumi neo --debug-preview` for an interactive agent in your terminal.
+

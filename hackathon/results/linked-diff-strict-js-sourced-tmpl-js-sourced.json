@@ -1,0 +1,142 @@
+{
+ "transitions": {
+  "resource:advisory-unknown -> pass": 10,
+  "resource:not-applicable -> not-applicable": 478,
+  "resource:pass -> pass": 159,
+  "resource:violation -> violation": 85,
+  "stack:advisory-unknown -> pass": 1,
+  "stack:not-applicable -> not-applicable": 18,
+  "stack:pass -> pass": 61,
+  "stack:violation -> violation": 65
+ },
+ "changed": [
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-policy-grantee-check",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-public-read-prohibited",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "logs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-macie-access",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-macie-access",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-policy-grantee-check",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "logs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "logs"
+   ]
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-least-privilege",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  }
+ ]
+}

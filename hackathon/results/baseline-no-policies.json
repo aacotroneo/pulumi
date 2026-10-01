@@ -1,0 +1,12 @@
+{
+  "mode": "none",
+  "path": "local",
+  "phase": "run",
+  "walls_s": [
+    1.497,
+    1.519,
+    1.794
+  ],
+  "median_s": 1.519,
+  "note": "bench-local preview with no policy packs: engine + yaml host + aws provider floor"
+}

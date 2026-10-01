@@ -1,0 +1,7 @@
+{"pack":"cis-aws","dir":"packs/cis/aws","build_s":14.64,"index_js_bytes":18870652,"index_js_gzip_bytes":3389279}
+{"pack":"cmmc-aws","dir":"packs/cmmc/aws","build_s":12.91,"index_js_bytes":18667089,"index_js_gzip_bytes":3348822}
+{"pack":"hitrust-aws","dir":"packs/hitrust/aws","build_s":16.56,"index_js_bytes":20214693,"index_js_gzip_bytes":3540545}
+{"pack":"iso-27001-aws","dir":"packs/iso-27001/aws","build_s":14.16,"index_js_bytes":20385970,"index_js_gzip_bytes":3607140}
+{"pack":"nist-aws","dir":"packs/nist/aws","build_s":16.27,"index_js_bytes":19506721,"index_js_gzip_bytes":3477163}
+{"pack":"pci-dss-aws","dir":"packs/pci-dss/aws","build_s":15.15,"index_js_bytes":20472247,"index_js_gzip_bytes":3595775}
+{"pack":"pulumi-best-practices-aws","dir":"packs/pulumi-best-practices/aws","build_s":13,"index_js_bytes":18065459,"index_js_gzip_bytes":3281331,"note":"built from HEAD worktree; working tree has an uncommitted WIP edit that fails tsc"}

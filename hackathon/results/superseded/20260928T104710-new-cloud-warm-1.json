@@ -1,0 +1,20 @@
+{
+  "ts": "20260928T104710",
+  "mode": "new",
+  "path": "cloud",
+  "phase": "warm",
+  "run": 1,
+  "tag": "",
+  "verbose": false,
+  "wall_s": 0.632,
+  "exit_code": 1,
+  "violations": 0,
+  "policy_load_events": 0,
+  "violations_by_pack": {},
+  "policy_cache_bytes": 0,
+  "policy_cache_files": 0,
+  "purejs_timings": [],
+  "node_launches": null,
+  "cli_sha": "243d4fa7ee",
+  "cmd": "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi preview --stack pulumi_local/bench-new --non-interactive --diff=false --event-log /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/results/20260928T104710-new-cloud-warm-1.events.jsonl"
+}

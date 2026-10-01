@@ -1,0 +1,79 @@
+name: policy-bench
+runtime: yaml
+description: Small AWS program that trips resource and stack policies. Preview only; runs offline with fake creds.
+resources:
+  bucket:
+    type: aws:s3:Bucket
+    properties:
+      forceDestroy: true
+  bucketPab:
+    type: aws:s3:BucketPublicAccessBlock
+    properties:
+      bucket: ${bucket.id}
+      blockPublicAcls: false
+      blockPublicPolicy: false
+      ignorePublicAcls: false
+      restrictPublicBuckets: false
+  openSg:
+    type: aws:ec2:SecurityGroup
+    properties:
+      description: open ssh
+      ingress:
+        - protocol: tcp
+          fromPort: 22
+          toPort: 22
+          cidrBlocks: ["0.0.0.0/0"]
+      egress:
+        - protocol: "-1"
+          fromPort: 0
+          toPort: 0
+          cidrBlocks: ["0.0.0.0/0"]
+  role:
+    type: aws:iam:Role
+    properties:
+      assumeRolePolicy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: { Service: ec2.amazonaws.com }
+              Action: sts:AssumeRole
+  rolePolicy:
+    type: aws:iam:RolePolicy
+    properties:
+      role: ${role.id}
+      policy:
+        fn::toJSON:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "*"
+              Resource: "*"
+  instance:
+    type: aws:ec2:Instance
+    properties:
+      ami: ami-0123456789abcdef0
+      instanceType: t3.micro
+      vpcSecurityGroupIds: ["${openSg.id}"]
+      associatePublicIpAddress: true
+      userData: "#!/bin/bash\nexport AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE\n"
+  db:
+    type: aws:rds:Instance
+    properties:
+      engine: postgres
+      instanceClass: db.t3.micro
+      allocatedStorage: 20
+      username: admin
+      password: not-a-real-password-123
+      publiclyAccessible: true
+      skipFinalSnapshot: true
+  queue:
+    type: aws:sqs:Queue
+  key:
+    type: aws:kms:Key
+    properties:
+      description: no rotation
+  logs:
+    type: aws:cloudwatch:LogGroup
+    properties:
+      retentionInDays: 1

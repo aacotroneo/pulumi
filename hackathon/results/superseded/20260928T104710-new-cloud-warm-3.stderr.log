@@ -1,0 +1,5 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml
+error: failed to install policy pack cmmc-aws@v1.0.2: failed to load policy project at /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2: open /Users/alejandrocotroneo/.pulumi/policies/pulumi_local/pulumi-analyzer-cmmc-aws-v1.0.2/PulumiPolicy.yaml: no such file or directory
+
+Dependency installation output:
+

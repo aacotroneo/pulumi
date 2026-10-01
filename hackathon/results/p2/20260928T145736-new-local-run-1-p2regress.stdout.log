@@ -1,0 +1,868 @@
+Previewing update (bench-local)
+
+View Live: http://localhost:3000/pulumi_local/policy-bench/bench-local/previews/c3142ecd-6269-444a-81d1-88b3b8b03773
+
+    pulumi:pulumi:Stack policy-bench-bench-local  warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+Loading policy packs...: starting
+Loading policy packs...: done
+
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+@ Previewing update.....
+ +  aws:s3:Bucket bucket create 
+ +  aws:iam:Role role create 
+ +  aws:ec2:SecurityGroup openSg create 
+ +  aws:rds:Instance db create 
+ +  aws:sqs:Queue queue create 
+ +  aws:kms:Key key create 
+ +  aws:cloudwatch:LogGroup logs create 
+ +  aws:iam:RolePolicy rolePolicy create 
+ +  aws:s3:BucketPublicAccessBlock bucketPab create 
+ +  aws:ec2:Instance instance create 
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  aws:s3:Bucket bucket create 
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+ +  pulumi:pulumi:Stack policy-bench-bench-local create 1 warning
+Policies:
+    ⚠️ cis-aws@v1.0.2-purejs (local: /Users/.../new/cis-aws)
+        - [advisory] [severity: critical]  ec2-instance-not-publicly-accessible  (aws:ec2:Instance: instance)
+          Ensure EC2 instances do not have public IP addresses for enhanced security.
+          EC2 instance 'instance' has 'associatePublicIpAddress' set to true. For enhanced security and proper access control, set 'associatePublicIpAddress' to false to prevent the instance from being directly accessible from the internet. Consider using a NAT Gateway, Load Balancer, or Bastion Host for controlled internet access.
+        - [advisory] [severity: critical]  iam-policy-no-statements-with-admin-access  (aws:iam:RolePolicy: rolePolicy)
+          Ensure IAM policy documents - standalone policies and inline user, role and group policies - do not contain statements granting administrative access, whether through an administrative action, a wildcard action covering one, or NotAction.
+          IAM policy 'rolePolicy' contains administrative access action '*'. This violates CIS Controls v8 IG1 4.6. For enhanced security and least privilege, avoid granting administrative permissions or add to allowedAdminActions if required.
+        - [advisory] [severity: critical]  iam-policy-no-statements-with-full-access  (aws:iam:RolePolicy: rolePolicy)
+          Ensure IAM policy documents - standalone policies and inline user, role and group policies - do not contain statements granting full access, whether through a wildcard action, a wildcard resource, NotAction or NotResource.
+          IAM policy 'rolePolicy' contains a statement with full access ("*") action. For enhanced security, specify explicit actions instead of using wildcard permissions.
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  s3-bucket-public-read-prohibited  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-read-prohibited' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .acl can't be known during preview
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'logs-988fe3c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ebs-attached-volume-encryption-enabled  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'ebs-attached-volume-encryption-enabled' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .id can't be known during preview
+        - [advisory] [severity: high]  ec2-imdsv2-required  (aws:ec2:Instance: instance)
+          EC2 instances must use IMDSv2
+          EC2 instance 'instance' must require IMDSv2 for metadata access. Set 'metadataOptions.httpTokens' to 'required' to enforce IMDSv2.
+        - [advisory] [severity: high]  ec2-instance-iam-profile-attached  (aws:ec2:Instance: instance)
+          Ensure EC2 instances have IAM instance profiles attached for proper access control and security.
+          EC2 instance 'instance' does not have an IAM instance profile attached. For proper access control and security, attach an IAM instance profile by setting the 'iamInstanceProfile' property to a valid instance profile name or ARN.
+        - [advisory] [severity: high]  ec2-instance-in-vpc  (aws:ec2:Instance: instance)
+          EC2 instances must be placed in VPC for network isolation
+          EC2 instance 'instance' must be placed in a VPC subnet. Specify 'subnetId' to ensure proper network isolation and security controls. An instance with no 'subnetId' launches into the region's default VPC and its default subnet, whose routing and network controls are not declared by this stack.
+        - [advisory] [severity: high]  ec2-instance-no-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  iam-no-inline-policy-check  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'iam-no-inline-policy-check' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .role can't be known during preview
+        - [advisory] [severity: high]  rds-encryption-enabled  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-deletion-protection-enabled  (aws:rds:Instance: db)
+          RDS database instances must have deletion protection enabled to prevent accidental deletion and ensure data availability
+          RDS database instance (postgres) [db.t3.micro] does not have deletion protection enabled. Configure deletionProtection: true to prevent accidental deletion and protect against data loss. Deletion protection ensures business continuity by requiring explicit disabling before deletion, providing an additional safeguard for critical database resources and supporting contingency planning requirements.
+        - [advisory] [severity: high]  restricted-ssh  (aws:ec2:SecurityGroup: openSg)
+          Ensure security groups restrict SSH access from 0.0.0.0/0 to prevent unauthorized remote access.
+          Security group 'openSg' ingress rule 1 allows SSH access from 0.0.0.0/0 (unrestricted access). Restrict SSH access to specific IP ranges to prevent unauthorized remote access and potential security breaches.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-level-public-access-prohibited  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-level-public-access-prohibited' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-ssl-enforcement-required' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .policy can't be known during preview
+        - [advisory] [severity: high]  vpc-security-group-restrict-ingress-ssh-all  (aws:ec2:SecurityGroup: openSg)
+          Ensure VPC security groups restrict SSH ingress access from all IPs (0.0.0.0/0) to prevent unauthorized access.
+          VPC security group 'openSg' ingress rule 1 allows SSH access from 0.0.0.0/0 (unrestricted access). This violates CIS Controls v8 IG1 4.6. Restrict SSH access to specific IP ranges or use a bastion host to prevent unauthorized remote access and potential security breaches.
+        - [advisory] [severity: medium]  cloudwatch-log-group-retention-period-365  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have appropriate retention periods for compliance.
+          CloudWatch log group 'logs-988fe3c' retention period of 1 days is too short. Set 'retentionInDays' to at least 365 days.
+        - [advisory] [severity: medium]  ebs-optimized-instance  (aws:ec2:Instance: instance)
+          EC2 instances must be EBS optimized
+          EC2 instance 'instance' should be EBS optimized for better performance and reliability. Set 'ebsOptimized' to true if the instance type supports it.
+        - [advisory] [severity: medium]  ec2-instance-ssm-managed  (aws:ec2:Instance: instance)
+          Ensure EC2 instances are managed by AWS Systems Manager for network infrastructure management.
+          EC2 instance 'instance' does not have an IAM instance profile attached. Network infrastructure should be managed by AWS Systems Manager, which requires an IAM instance profile with appropriate SSM permissions (typically AmazonSSMManagedInstanceCore).
+        - [advisory] [severity: medium]  kms-key-rotation-enabled  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS key rotation is not enabled.  enable automatic key rotation to ensure cryptographic keys are periodically rotated for enhanced security.
+        - [advisory] [severity: medium]  rds-db-instance-backup-enabled  (aws:rds:Instance: db)
+          Checks that RDS Instances backup retention policy is enabled.
+          RDS Instance backup retention should be enabled.
+        - [advisory] [severity: medium]  rds-instance-logging-enabled  (aws:rds:Instance: db)
+          Ensure RDS database instances have logging enabled for monitoring and audit compliance.
+          RDS instance 'db' has no CloudWatch logs exports enabled. Enable logging for postgresql, upgrade to meet monitoring and audit compliance requirements.
+        - [advisory] [severity: medium]  rds-logging-enabled  (aws:rds:Instance: db)
+          Ensure RDS database instances have logging enabled for monitoring and audit compliance.
+          RDS instance 'db' has no CloudWatch logs exports enabled. Enable logging for postgresql to meet monitoring and audit compliance requirements.
+        - [advisory] [severity: medium]  rds-multi-az-support  (aws:rds:Instance: db)
+          Ensures RDS instances have Multi-AZ deployment enabled for high availability
+          RDS instance must have Multi-AZ deployment enabled. High availability configuration is required for critical database systems.
+        - [advisory] [severity: medium]  s3-bucket-logging-enabled  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-logging-enabled' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-replication' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .replicationConfiguration can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning-enabled  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-versioning-enabled' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .versioning can't be known during preview
+        - [advisory] [severity: medium]  vpc-security-group-associated-to-eni  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'vpc-security-group-associated-to-eni' from policy pack 'cis-aws@v1.0.2-purejs' during preview: string value at .securityGroups can't be known during preview
+        - [advisory] [severity: low]  ec2-instance-detailed-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  ec2-stopped-instance-30-days  (aws:ec2:Instance: instance)
+          Ensure EC2 instances are stopped after 30 days to maintain asset inventory hygiene.
+          EC2 instance 'instance' must have a creation date tag (CreationDate, Created, or LaunchDate) to verify it's stopped within 30 days. Consider adding lifecycle management tags.
+    ⚠️ cmmc-aws@v1.0.2-purejs (local: /Users/.../new/cmmc-aws)
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'cmmc-aws@v1.0.2-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Action: "*" in statement 1. Use specific actions instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Resource: "*" in statement 1. Use specific resource ARNs instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  rds-instance-disallow-unencrypted-storage  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'cmmc-aws@v1.0.2-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group ingress rule allows unrestricted access (0.0.0.0/0) on port 22. Security groups require default deny with explicit allow rules. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group egress rule allows unrestricted access (0.0.0.0/0) on port 0. Security groups require explicit allow rules for egress traffic. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:iam:Role: role)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:rds:Instance: db)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:s3:Bucket: bucket)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  environment-separation-tagging  (aws:sqs:Queue: queue)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-enable-key-rotation  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS Keys should have key rotation enabled.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-audit-logging  (aws:rds:Instance: db)
+          Ensures RDS instances have audit logging enabled
+          RDS instance must have enabledCloudwatchLogsExports configured. Database audit logging is required to forward detailed audit logs to a central system (CloudWatch Logs).
+        - [advisory] [severity: medium]  resource-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:iam:Role: role)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:rds:Instance: db)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:s3:Bucket: bucket)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  resource-tagging  (aws:sqs:Queue: queue)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'cmmc-aws@v1.0.2-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'cmmc-aws@v1.0.2-purejs' during preview: string value at .lifecycleRules can't be known during preview
+    ⚠️ hitrust-aws@v2.6.4-purejs (local: /Users/.../new/hitrust-aws)
+        - [advisory] [severity: critical]  database-strict-network-access  (aws:rds:Instance: db)
+          Ensures RDS instances have strict network access controls
+          RDS instance must have VPC security groups specified. Database instances require strict network access controls to restrict ingress to only necessary application/internal services.
+        - [advisory] [severity: critical]  no-hardcoded-secrets  (aws:ec2:Instance: instance)
+          Ensures EC2 instance userData does not contain hardcoded secrets
+          EC2 instance userData contains potential hardcoded secrets. Remove hardcoded secrets from userData scripts.
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  rds-private-subnet-validation  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-private-subnet-validation' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .dbSubnetGroupName can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: critical]  security-group-ssh-rdp  (aws:ec2:SecurityGroup: openSg)
+          Ensures security groups do not allow SSH/RDP from the internet
+          Security group must not allow SSH (port 22) from 0.0.0.0/0. Direct SSH from the internet is prohibited. Use bastion hosts, Session Manager, or OS Login instead.
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Action: "*" in statement 1. Use specific actions instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Resource: "*" in statement 1. Use specific resource ARNs instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: high]  rds-instance-disallow-unencrypted-storage  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-ssl-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-instance-ssl-encryption' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .parameterGroupName can't be known during preview
+        - [advisory] [severity: high]  rds-secure-master-credentials  (aws:rds:Instance: db)
+          Ensures RDS instances delegate the master password to AWS Secrets Manager (manageMasterUserPassword) instead of supplying it inline
+          RDS instance supplies its master password inline instead of delegating it to AWS Secrets Manager.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group ingress rule allows unrestricted access (0.0.0.0/0) on port 22. Security groups require default deny with explicit allow rules. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group egress rule allows unrestricted access (0.0.0.0/0) on port 0. Security groups require explicit allow rules for egress traffic. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: medium]  centralized-os-app-logging  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have logging agents configured to forward OS/application logs to central system
+          EC2 instance must have logging agent installation/configuration in userData. Forward OS/application logs to central system using one of the allowed logging agents: amazon-cloudwatch-agent, awslogs, td-agent, fluentd, filebeat, fluent-bit, logstash, rsyslog, syslog-ng, vector
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-enable-key-rotation  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS Keys should have key rotation enabled.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-audit-logging  (aws:rds:Instance: db)
+          Ensures RDS instances have audit logging enabled
+          RDS instance must have enabledCloudwatchLogsExports configured. Database audit logging is required to forward detailed audit logs to a central system (CloudWatch Logs).
+        - [advisory] [severity: medium]  rds-iam-authentication  (aws:rds:Instance: db)
+          Ensures RDS instances have IAM database authentication enabled
+          RDS instance must have IAM database authentication enabled.
+        - [advisory] [severity: medium]  rds-instance-enable-backup-retention  (aws:rds:Instance: db)
+          Checks that RDS Instances backup retention policy is enabled.
+          RDS Instances backup retention should be enabled.
+        - [advisory] [severity: medium]  rds-instance-high-availability  (aws:rds:Instance: db)
+          Ensures RDS instances have Multi-AZ deployment enabled for high availability
+          RDS instance must have Multi-AZ deployment enabled. High availability configuration is required for critical database systems.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .lifecycleRules can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-replication' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .replicationConfiguration can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-versioning' from policy pack 'hitrust-aws@v2.6.4-purejs' during preview: string value at .versioning can't be known during preview
+        - [advisory] [severity: medium]  sqs-dead-letter-queue  (aws:sqs:Queue: queue)
+          Ensures SQS queues have dead letter queue configuration
+          SQS queue must have a dead letter queue configured. Configure 'redrivePolicy' with deadLetterTargetArn and maxReceiveCount to capture failed messages.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: role)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:rds:Instance: db)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bucket)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:sqs:Queue: queue)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: role)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:rds:Instance: db)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bucket)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:sqs:Queue: queue)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+    ⚠️ iso-27001-aws@v1.0.1-purejs (local: /Users/.../new/iso-27001-aws)
+        - [advisory] [severity: critical]  database-strict-network-access  (aws:rds:Instance: db)
+          Ensures RDS instances have strict network access controls
+          RDS instance must have VPC security groups specified. Database instances require strict network access controls to restrict ingress to only necessary application/internal services.
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: high]  anti-malware-edr  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have anti-malware/EDR agents deployed
+          EC2 instance must have anti-malware/EDR agent installation in userData. Deploy anti-malware and EDR agents on all compute instances. Examples: amazon-cloudwatch-agent, amazon-ssm-agent, falcon-agent, crowdstrike, sentinel, defender.
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'logs-988fe3c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          EC2 instances must be placed in VPC for network isolation
+          EC2 instance 'instance' must be placed in a VPC subnet but declares no subnet or network interface, so unless its placement comes from a launch template it launches into the region's default VPC.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Action: "*" in statement 1. Use specific actions instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Resource: "*" in statement 1. Use specific resource ARNs instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-mfa-enforcement  (aws:iam:RolePolicy: rolePolicy)
+          IAM role policies must require MFA for privileged actions
+          IAM role contains privileged actions [*] in statement 1 without MFA enforcement. Add Condition: { "Bool": { "aws:MultiFactorAuthPresent": "true" } } to require MFA for privileged operations.
+        - [advisory] [severity: high]  no-hardcoded-secrets  (aws:ec2:Instance: instance)
+          Ensures EC2 instance userData does not contain hardcoded secrets
+          EC2 instance userData contains potential hardcoded secrets. Remove hardcoded secrets from userData scripts.
+        - [advisory] [severity: high]  rds-instance-disallow-unencrypted-storage  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-ssl-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-instance-ssl-encryption' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .parameterGroupName can't be known during preview
+        - [advisory] [severity: high]  rds-private-subnet-validation  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-private-subnet-validation' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .dbSubnetGroupName can't be known during preview
+        - [advisory] [severity: high]  rds-secure-master-credentials  (aws:rds:Instance: db)
+          Ensures RDS instances delegate the master password to AWS Secrets Manager (manageMasterUserPassword) instead of supplying it inline
+          RDS instance supplies its master password inline instead of delegating it to AWS Secrets Manager.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-ssl-enforcement-required' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .policy can't be known during preview
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group ingress rule allows unrestricted access (0.0.0.0/0) on port 22. Security groups require default deny with explicit allow rules. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group egress rule allows unrestricted access (0.0.0.0/0) on port 0. Security groups require explicit allow rules for egress traffic. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: medium]  centralized-os-app-logging  (aws:ec2:Instance: instance)
+          Ensures EC2 instances have logging agents configured to forward OS/application logs to central system
+          EC2 instance must have logging agent installation/configuration in userData. Forward OS/application logs to central system using one of the allowed logging agents: amazon-cloudwatch-agent, awslogs, td-agent, fluentd, filebeat, fluent-bit, logstash, rsyslog, syslog-ng, vector
+        - [advisory] [severity: medium]  cloudwatch-log-retention  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have appropriate retention periods for compliance.
+          CloudWatch log group 'logs-988fe3c' retention period of 1 days is too short. Set 'retentionInDays' to at least 365 days.
+        - [advisory] [severity: medium]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: medium]  ec2-imdsv2-required  (aws:ec2:Instance: instance)
+          EC2 instances must use IMDSv2
+          EC2 instance 'instance' must require IMDSv2 for metadata access. Set 'metadataOptions.httpTokens' to 'required' to enforce IMDSv2.
+        - [advisory] [severity: medium]  iam-role-policy-restriction  (aws:iam:RolePolicy: rolePolicy)
+          can't run policy 'iam-role-policy-restriction' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .role can't be known during preview
+        - [advisory] [severity: medium]  kms-key-enable-key-rotation  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS Keys should have key rotation enabled.
+        - [advisory] [severity: medium]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-deletion-protection  (aws:rds:Instance: db)
+          RDS database instances must have deletion protection enabled to prevent accidental deletion and ensure data availability
+          RDS database instance (postgres) [db.t3.micro] does not have deletion protection enabled. Configure deletionProtection: true to prevent accidental deletion and protect against data loss. Deletion protection ensures business continuity by requiring explicit disabling before deletion, providing an additional safeguard for critical database resources and supporting contingency planning requirements.
+        - [advisory] [severity: medium]  rds-iam-authentication  (aws:rds:Instance: db)
+          Ensures RDS instances have IAM database authentication enabled
+          RDS instance must have IAM database authentication enabled.
+        - [advisory] [severity: medium]  rds-instance-enable-backup-retention  (aws:rds:Instance: db)
+          Checks that RDS Instances backup retention policy is enabled.
+          RDS Instances backup retention should be enabled.
+        - [advisory] [severity: medium]  rds-instance-enhanced-monitoring  (aws:rds:Instance: db)
+          RDS database instances must have enhanced monitoring enabled to provide detailed system-level metrics
+          RDS database instance does not have enhanced monitoring enabled. Configure monitoringInterval to a value greater than 0 to establish system-level metrics monitoring. Enhanced monitoring provides detailed CPU, memory, file system, and disk I/O metrics that are essential for continuous monitoring and performance optimization of database operations.
+        - [advisory] [severity: medium]  rds-instance-high-availability  (aws:rds:Instance: db)
+          Ensures RDS instances have Multi-AZ deployment enabled for high availability
+          RDS instance must have Multi-AZ deployment enabled. High availability configuration is required for critical database systems.
+        - [advisory] [severity: medium]  rds-instance-logging-enabled  (aws:rds:Instance: db)
+          Ensure RDS database instances have logging enabled for monitoring and audit compliance.
+          RDS instance 'db' has no CloudWatch logs exports enabled. Enable logging for postgresql, upgrade to meet monitoring and audit compliance requirements.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .lifecycleRules can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-replication  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-replication' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .replicationConfiguration can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-versioning' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .versioning can't be known during preview
+        - [advisory] [severity: medium]  vpc-security-group-associated-to-eni  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'vpc-security-group-associated-to-eni' from policy pack 'iso-27001-aws@v1.0.1-purejs' during preview: string value at .securityGroups can't be known during preview
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: role)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:rds:Instance: db)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bucket)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:sqs:Queue: queue)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+    ⚠️ nist-aws@v1.0.2-purejs (local: /Users/.../new/nist-aws)
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: critical]  security-group-ssh-rdp  (aws:ec2:SecurityGroup: openSg)
+          Ensures security groups do not allow SSH/RDP from the internet
+          Security group must not allow SSH (port 22) from 0.0.0.0/0. Direct SSH from the internet is prohibited. Use bastion hosts, Session Manager, or OS Login instead.
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'logs-988fe3c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          EC2 instances must be placed in VPC for network isolation
+          EC2 instance 'instance' must be placed in a VPC subnet but declares no subnet or network interface, so unless its placement comes from a launch template it launches into the region's default VPC.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Action: "*" in statement 1. Use specific actions instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Resource: "*" in statement 1. Use specific resource ARNs instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-mfa-enforcement  (aws:iam:RolePolicy: rolePolicy)
+          IAM role policies must require MFA for privileged actions
+          IAM role contains privileged actions [*] in statement 1 without MFA enforcement. Add Condition: { "Bool": { "aws:MultiFactorAuthPresent": "true" } } to require MFA for privileged operations.
+        - [advisory] [severity: high]  rds-instance-disallow-unencrypted-storage  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-ssl-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-instance-ssl-encryption' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .parameterGroupName can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-ssl-enforcement-required' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .policy can't be known during preview
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group ingress rule allows unrestricted access (0.0.0.0/0) on port 22. Security groups require default deny with explicit allow rules. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group egress rule allows unrestricted access (0.0.0.0/0) on port 0. Security groups require explicit allow rules for egress traffic. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: medium]  cloudwatch-log-retention  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have appropriate retention periods for compliance.
+          CloudWatch log group 'logs-988fe3c' retention period of 1 days is too short. Set 'retentionInDays' to at least 365 days.
+        - [advisory] [severity: medium]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: medium]  ec2-imdsv2-required  (aws:ec2:Instance: instance)
+          EC2 instances must use IMDSv2
+          EC2 instance 'instance' must require IMDSv2 for metadata access. Set 'metadataOptions.httpTokens' to 'required' to enforce IMDSv2.
+        - [advisory] [severity: medium]  iam-role-policy-restriction  (aws:iam:RolePolicy: rolePolicy)
+          can't run policy 'iam-role-policy-restriction' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .role can't be known during preview
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-enable-key-rotation  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS Keys should have key rotation enabled.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-audit-logging  (aws:rds:Instance: db)
+          Ensures RDS instances have audit logging enabled
+          RDS instance must have enabledCloudwatchLogsExports configured. Database audit logging is required to forward detailed audit logs to a central system (CloudWatch Logs).
+        - [advisory] [severity: medium]  rds-deletion-protection  (aws:rds:Instance: db)
+          RDS database instances must have deletion protection enabled to prevent accidental deletion and ensure data availability
+          RDS database instance (postgres) [db.t3.micro] does not have deletion protection enabled. Configure deletionProtection: true to prevent accidental deletion and protect against data loss. Deletion protection ensures business continuity by requiring explicit disabling before deletion, providing an additional safeguard for critical database resources and supporting contingency planning requirements.
+        - [advisory] [severity: medium]  rds-instance-enable-backup-retention  (aws:rds:Instance: db)
+          Checks that RDS Instances backup retention policy is enabled.
+          RDS Instances backup retention should be enabled.
+        - [advisory] [severity: medium]  rds-instance-enhanced-monitoring  (aws:rds:Instance: db)
+          RDS database instances must have enhanced monitoring enabled to provide detailed system-level metrics
+          RDS database instance does not have enhanced monitoring enabled. Configure monitoringInterval to a value greater than 0 to establish system-level metrics monitoring. Enhanced monitoring provides detailed CPU, memory, file system, and disk I/O metrics that are essential for continuous monitoring and performance optimization of database operations.
+        - [advisory] [severity: medium]  rds-instance-high-availability  (aws:rds:Instance: db)
+          Ensures RDS instances have Multi-AZ deployment enabled for high availability
+          RDS instance must have Multi-AZ deployment enabled. High availability configuration is required for critical database systems.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .lifecycleRules can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-notifications-enabled  (aws:s3:Bucket: bucket)
+          S3 buckets must have event notifications enabled to alert personnel of important bucket activities
+          S3 bucket "bucket-14c00fb" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements.
+        - [advisory] [severity: medium]  s3-bucket-replication  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-replication' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .replicationConfiguration can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-versioning' from policy pack 'nist-aws@v1.0.2-purejs' during preview: string value at .versioning can't be known during preview
+        - [advisory] [severity: medium]  sqs-dead-letter-queue  (aws:sqs:Queue: queue)
+          Ensures SQS queues have dead letter queue configuration
+          SQS queue must have a dead letter queue configured. Configure 'redrivePolicy' with deadLetterTargetArn and maxReceiveCount to capture failed messages.
+        - [advisory] [severity: low]  ec2-ebs-optimized-required  (aws:ec2:Instance: instance)
+          EC2 instances must be EBS optimized
+          EC2 instance 'instance' should be EBS optimized for better performance and reliability. Set 'ebsOptimized' to true if the instance type supports it.
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+    ⚠️ pci-dss-aws@v2.0.4-purejs (local: /Users/.../new/pci-dss-aws)
+        - [advisory] [severity: critical]  database-strict-egress  (aws:ec2:SecurityGroup: openSg)
+          Ensures database security groups have strict egress controls
+          Security group must not allow all protocols (-1) to 0.0.0.0/0 in egress rules. Database instances require strict egress controls to restrict outbound traffic to only necessary destinations.
+        - [advisory] [severity: critical]  database-strict-network-access  (aws:rds:Instance: db)
+          Ensures RDS instances have strict network access controls
+          RDS instance must have VPC security groups specified. Database instances require strict network access controls to restrict ingress to only necessary application/internal services.
+        - [advisory] [severity: critical]  no-hardcoded-secrets  (aws:ec2:Instance: instance)
+          Ensures EC2 instance userData does not contain hardcoded secrets
+          EC2 instance userData contains potential hardcoded secrets. Remove hardcoded secrets from userData scripts.
+        - [advisory] [severity: critical]  rds-instance-disallow-public-access  (aws:rds:Instance: db)
+          Checks that RDS Instance public access is not enabled.
+          RDS Instances public access should not be enabled.
+        - [advisory] [severity: critical]  rds-private-subnet-validation  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-private-subnet-validation' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .dbSubnetGroupName can't be known during preview
+        - [advisory] [severity: critical]  security-group-ssh-rdp-egress-restricted  (aws:ec2:SecurityGroup: openSg)
+          Enforces strict egress restrictions for SSH and RDP traffic in security groups
+          Security group must not allow SSH (port 22) egress to 0.0.0.0/0 via an all-protocols (`-1`) rule, which reaches every port. Outbound SSH should be restricted to specific destination IPs or management networks only.
+        - [advisory] [severity: critical]  security-group-ssh-rdp-egress-restricted  (aws:ec2:SecurityGroup: openSg)
+          Enforces strict egress restrictions for SSH and RDP traffic in security groups
+          Security group must not allow RDP (port 3389) egress to 0.0.0.0/0 via an all-protocols (`-1`) rule, which reaches every port. Outbound RDP should be restricted to specific destination IPs or management networks only.
+        - [advisory] [severity: critical]  security-group-ssh-rdp-ingress-restricted  (aws:ec2:SecurityGroup: openSg)
+          Ensures security groups do not allow SSH/RDP ingress from the internet
+          Security group must not allow SSH (port 22) from 0.0.0.0/0. Direct SSH from the internet is prohibited. Use bastion hosts, Session Manager, or OS Login instead.
+        - [advisory] [severity: high]  cloudtrail-s3-bucket-public-access-denied  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'cloudtrail-s3-bucket-public-access-denied' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .id can't be known during preview
+        - [advisory] [severity: high]  cloudwatch-log-group-kms-encryption-enabled  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have encryption enabled using KMS keys.
+          CloudWatch log group 'logs-988fe3c' does not have encryption at rest enabled.
+        - [advisory] [severity: high]  ec2-iam-profile-required  (aws:ec2:Instance: instance)
+          EC2 instances must have IAM profile attached
+          EC2 instance 'instance' must have an IAM instance profile attached. Attach an IAM instance profile to enable role-based access control.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  ec2-vpc-placement-required  (aws:ec2:Instance: instance)
+          EC2 instances must be placed in VPC for network isolation
+          EC2 instance 'instance' must be placed in a VPC subnet but declares no subnet or network interface, so unless its placement comes from a launch template it launches into the region's default VPC.
+        - [advisory] [severity: high]  kms-key-policy-access-control  (aws:kms:Key: key)
+          Validates KMS key policies for least privilege and separation of duties
+          KMS key does not have a key policy defined. Define an explicit key policy that implements least privilege access and separation of duties between key administrators and key users.
+        - [advisory] [severity: high]  rds-instance-disallow-unencrypted-storage  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-ssl-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-instance-ssl-encryption' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .parameterGroupName can't be known during preview
+        - [advisory] [severity: high]  rds-secure-master-credentials  (aws:rds:Instance: db)
+          Ensures RDS instances delegate the master password to AWS Secrets Manager (manageMasterUserPassword) instead of supplying it inline
+          RDS instance supplies its master password inline instead of delegating it to AWS Secrets Manager.
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-public-access-block-required  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block-required' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .id can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-ssl-enforcement-required  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-ssl-enforcement-required' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .policy can't be known during preview
+        - [advisory] [severity: high]  security-group-egress-restriction  (aws:ec2:SecurityGroup: openSg)
+          Ensures security groups restrict egress traffic with default deny principles
+          Security group must not allow all protocols (-1) for egress to 0.0.0.0/0. Strict security group rules with specific protocols are required.
+        - [advisory] [severity: medium]  cloudwatch-log-retention  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have appropriate retention periods for compliance.
+          CloudWatch log group 'logs-988fe3c' retention period of 1 days is too short. Set 'retentionInDays' to at least 365 days.
+        - [advisory] [severity: medium]  kms-key-rotation-enabled  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS key rotation is not enabled.  enable automatic key rotation to ensure cryptographic keys are periodically rotated for enhanced security.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-audit-logging  (aws:rds:Instance: db)
+          Ensures RDS instances have audit logging enabled
+          RDS instance must have enabledCloudwatchLogsExports configured. Database audit logging is required to forward detailed audit logs to a central system (CloudWatch Logs).
+        - [advisory] [severity: medium]  rds-iam-authentication  (aws:rds:Instance: db)
+          Ensures RDS instances have IAM database authentication enabled
+          RDS instance must have IAM database authentication enabled.
+        - [advisory] [severity: medium]  rds-instance-enhanced-monitoring  (aws:rds:Instance: db)
+          RDS database instances must have enhanced monitoring enabled to provide detailed system-level metrics
+          RDS database instance does not have enhanced monitoring enabled. Configure monitoringInterval to a value greater than 0 to establish system-level metrics monitoring. Enhanced monitoring provides detailed CPU, memory, file system, and disk I/O metrics that are essential for continuous monitoring and performance optimization of database operations.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-lifecycle  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-lifecycle' from policy pack 'pci-dss-aws@v2.0.4-purejs' during preview: string value at .lifecycleRules can't be known during preview
+        - [advisory] [severity: low]  ec2-monitoring-enabled  (aws:ec2:Instance: instance)
+          EC2 instances must have detailed monitoring enabled
+          EC2 instance 'instance' must have detailed monitoring enabled for enhanced security monitoring. Set 'monitoring' to true to enable 1-minute monitoring intervals.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: role)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:rds:Instance: db)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bucket)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:sqs:Queue: queue)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: role)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:rds:Instance: db)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bucket)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:sqs:Queue: queue)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+    ⚠️ pulumi-best-practices-aws@v1.4.1-purejs (local: /Users/.../new/pulumi-best-practices-aws)
+        - [advisory] [severity: critical]  rds-private-subnet-validation  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-private-subnet-validation' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .dbSubnetGroupName can't be known during preview
+        - [advisory] [severity: critical]  s3-bucket-public-access-block  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-public-access-block' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .bucket can't be known during preview
+        - [advisory] [severity: critical]  security-group-ssh-rdp  (aws:ec2:SecurityGroup: openSg)
+          Ensures security groups do not allow SSH/RDP from the internet
+          Security group must not allow SSH (port 22) from 0.0.0.0/0. Direct SSH from the internet is prohibited. Use bastion hosts, Session Manager, or OS Login instead.
+        - [advisory] [severity: high]  ec2-instance-disallow-public-ip  (aws:ec2:Instance: instance)
+          Checks that EC2 instances do not have a public IP address.
+          EC2 Instances should not have a public IP address.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Action: "*" in statement 1. Use specific actions instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  iam-role-policy-least-privilege  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM role policies follow least privilege principles
+          IAM policy contains overly broad Resource: "*" in statement 1. Use specific resource ARNs instead of wildcards to enforce least privilege access.
+        - [advisory] [severity: high]  rds-encryption-enabled  (aws:rds:Instance: db)
+          Checks that RDS instance storage is encrypted.
+          RDS Instance storage should be encrypted.
+        - [advisory] [severity: high]  rds-instance-ssl-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 'rds-instance-ssl-encryption' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .parameterGroupName can't be known during preview
+        - [advisory] [severity: high]  s3-bucket-encryption  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-encryption' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .serverSideEncryptionConfiguration can't be known during preview
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group ingress rule allows unrestricted access (0.0.0.0/0) on port 22. Security groups require default deny with explicit allow rules. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: high]  security-group-default-deny  (aws:ec2:SecurityGroup: openSg)
+          Ensures Security Groups follow default deny with explicit allow principle
+          Security Group egress rule allows unrestricted access (0.0.0.0/0) on port 0. Security groups require explicit allow rules for egress traffic. Use specific CIDR blocks or security group references instead of 0.0.0.0/0.
+        - [advisory] [severity: medium]  cloudwatch-log-retention  (aws:cloudwatch:LogGroup: logs)
+          Ensures CloudWatch log groups have appropriate retention periods for compliance.
+          CloudWatch log group 'logs-988fe3c' retention period of 1 days is too short. Set 'retentionInDays' to at least 365 days.
+        - [advisory] [severity: medium]  kms-key-deletion-lifecycle  (aws:kms:Key: key)
+          Validates KMS key deletion windows and lifecycle management
+          KMS key has no tags defined for lifecycle management. Add tags to identify key purpose, criticality, and ownership for proper lifecycle management.
+        - [advisory] [severity: medium]  kms-key-rotation-enabled  (aws:kms:Key: key)
+          Checks that KMS Keys have key rotation enabled.
+          KMS key rotation is not enabled.  enable automatic key rotation to ensure cryptographic keys are periodically rotated for enhanced security.
+        - [advisory] [severity: medium]  pubsub-least-privilege-iam  (aws:iam:RolePolicy: rolePolicy)
+          Ensures IAM policies follow least privilege principles for Pub/Sub services (SNS, SQS, Kinesis)
+          IAM Role Policy contains wildcard (*) Action which grants excessive permissions to Pub/Sub services. Use specific Pub/Sub actions like 'sqs:SendMessage', 'sns:Publish', or 'kinesis:PutRecord' for least privilege access.
+        - [advisory] [severity: medium]  rds-instance-enable-backup-retention  (aws:rds:Instance: db)
+          Checks that RDS Instances backup retention policy is enabled.
+          RDS Instances backup retention should be enabled.
+        - [advisory] [severity: medium]  rds-instance-high-availability  (aws:rds:Instance: db)
+          Ensures RDS instances have Multi-AZ deployment enabled for high availability
+          RDS instance must have Multi-AZ deployment enabled. High availability configuration is required for critical database systems.
+        - [advisory] [severity: medium]  s3-bucket-access-logging  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-access-logging' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .logging can't be known during preview
+        - [advisory] [severity: medium]  s3-bucket-versioning  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-versioning' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .versioning can't be known during preview
+        - [advisory] [severity: medium]  sqs-dead-letter-queue  (aws:sqs:Queue: queue)
+          Ensures SQS queues have dead letter queue configuration
+          SQS queue must have a dead letter queue configured. Configure 'redrivePolicy' with deadLetterTargetArn and maxReceiveCount to capture failed messages.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:Instance: instance)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:iam:Role: role)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:kms:Key: key)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:rds:Instance: db)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:s3:Bucket: bucket)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  environment-separation-tagging  (aws:sqs:Queue: queue)
+          Ensures that resources are tagged to distinguish between production and non-production environments
+          Resource must have tags including 'Environment'. Environment tags ensure appropriate separation of environments to reduce risks of unauthorized access or unintended changes.
+        - [advisory] [severity: low]  resource-tagging  (aws:cloudwatch:LogGroup: logs)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:Instance: instance)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:ec2:SecurityGroup: openSg)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:iam:Role: role)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:kms:Key: key)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:rds:Instance: db)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:s3:Bucket: bucket)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory] [severity: low]  resource-tagging  (aws:sqs:Queue: queue)
+          Ensures all AWS resources must include tags for proper change tracking
+          Resource must have tags defined. This ensures proper tracking and documentation of changes made to information systems at creation time.
+        - [advisory]  s3-bucket-replication  (pulumi:pulumi:Stack: policy-bench-bench-local)
+          can't run policy 's3-bucket-replication' from policy pack 'pulumi-best-practices-aws@v1.4.1-purejs' during preview: string value at .replicationConfiguration can't be known during preview
+
+Diagnostics:
+  pulumi:pulumi:Stack (policy-bench-bench-local):
+    warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+
+    [Pulumi Neo] Would you like help with these diagnostics?
+    http://localhost:3000/pulumi_local/policy-bench/bench-local/previews/c3142ecd-6269-444a-81d1-88b3b8b03773?explainFailure
+    Or run `pulumi neo --debug-preview` for an interactive agent in your terminal.
+
+Resources:
+    + 11 to create
+

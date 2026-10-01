@@ -1,0 +1,239 @@
+{
+ "transitions": {
+  "stack:advisory-output -> advisory-output": 3,
+  "stack:pass -> pass": 225,
+  "stack:violation -> violation": 118
+ },
+ "changed": [
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-versioning-enabled",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:violation",
+   "to": "violation",
+   "lost": [
+    "good"
+   ],
+   "gained": []
+  }
+ ]
+}

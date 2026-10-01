@@ -1,0 +1,6 @@
+{"variant":"base","goos":"darwin","goarch":"arm64","bytes":117136018,"gzip_bytes":33881067,"src":"243d4fa7ee"}
+{"variant":"goja","goos":"darwin","goarch":"arm64","bytes":123164018,"gzip_bytes":35853061,"src":"243d4fa7ee+working-tree"}
+{"variant":"base","goos":"linux","goarch":"amd64","bytes":123642018,"gzip_bytes":36042594,"src":"243d4fa7ee"}
+{"variant":"goja","goos":"linux","goarch":"amd64","bytes":129806498,"gzip_bytes":38138196,"src":"243d4fa7ee+working-tree"}
+{"variant":"base","goos":"windows","goarch":"amd64","bytes":126092800,"gzip_bytes":36655186,"src":"243d4fa7ee"}
+{"variant":"goja","goos":"windows","goarch":"amd64","bytes":132364800,"gzip_bytes":38776769,"src":"243d4fa7ee+working-tree"}

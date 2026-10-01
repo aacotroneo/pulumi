@@ -1,0 +1,15 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+[policy-timing] purejs pack pulumi-best-practices-aws: 55 policies, 163KB, read=437µs compile=8.366709ms eval=6.0935ms describe=1.342833ms total=16.240042ms
+[policy-timing] purejs pack cmmc-aws: 54 policies, 175KB, read=84.667µs compile=7.540542ms eval=7.808833ms describe=1.319667ms total=16.753709ms
+[policy-timing] purejs pack cis-aws: 115 policies, 324KB, read=88.042µs compile=16.119417ms eval=2.229125ms describe=5.817708ms total=24.254292ms
+[policy-timing] purejs pack hitrust-aws: 130 policies, 320KB, read=90.958µs compile=16.166958ms eval=5.492292ms describe=3.13925ms total=24.889458ms
+[policy-timing] purejs pack nist-aws: 139 policies, 397KB, read=155.583µs compile=17.703417ms eval=5.850792ms describe=3.538958ms total=27.24875ms
+[policy-timing] purejs pack pci-dss-aws: 160 policies, 449KB, read=114.083µs compile=17.976709ms eval=6.333291ms describe=3.592209ms total=28.016292ms
+[policy-timing] purejs pack iso-27001-aws: 238 policies, 605KB, read=191.125µs compile=23.892334ms eval=4.594458ms describe=7.032917ms total=35.710834ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/cmmc-aws: analyze calls=36 total=4.583374ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/cis-aws: analyze calls=36 total=2.661039ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/hitrust-aws: analyze calls=36 total=6.141336ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/iso-27001-aws: analyze calls=36 total=6.447291ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/nist-aws: analyze calls=36 total=4.552789ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/pci-dss-aws: analyze calls=36 total=6.495166ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-pure/pulumi-best-practices-aws: analyze calls=36 total=4.904292ms

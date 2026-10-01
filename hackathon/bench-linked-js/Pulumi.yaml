@@ -1,0 +1,5 @@
+name: policy-bench-linked
+runtime: nodejs
+description: >
+  The linked bench (../bench-linked) as a Node.js program, run against the local Node SDK so that the program reports
+  which output each unknown input is (PULUMI_POLICY_OUTPUT_SOURCES=1). Preview only; runs offline with fake creds.

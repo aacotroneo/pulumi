@@ -1,0 +1,15 @@
+warning: using pulumi-language-yaml from $PATH at /opt/homebrew/bin/pulumi-language-yaml expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-yaml
+[policy-timing] purejs pack pulumi-best-practices-aws: 54 policies, 160KB, read=441.917µs compile=17.076625ms eval=10.604458ms describe=1.924958ms total=30.047958ms
+[policy-timing] purejs pack cmmc-aws: 54 policies, 174KB, read=351.917µs compile=16.322458ms eval=12.400333ms describe=1.291084ms total=30.365792ms
+[policy-timing] purejs pack hitrust-aws: 130 policies, 326KB, read=568.375µs compile=19.482166ms eval=11.290042ms describe=2.961125ms total=34.301708ms
+[policy-timing] purejs pack cis-aws: 115 policies, 334KB, read=355.75µs compile=17.984042ms eval=11.547542ms describe=3.074791ms total=32.962125ms
+[policy-timing] purejs pack nist-aws: 139 policies, 401KB, read=452.541µs compile=18.585667ms eval=11.915167ms describe=3.841458ms total=34.794833ms
+[policy-timing] purejs pack pci-dss-aws: 160 policies, 467KB, read=662.083µs compile=20.97225ms eval=10.650334ms describe=4.592416ms total=36.877083ms
+[policy-timing] purejs pack iso-27001-aws: 238 policies, 609KB, read=921.167µs compile=21.690667ms eval=10.662083ms describe=7.550917ms total=40.824834ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pulumi-best-practices-aws: analyze calls=12 total=2.322833ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cmmc-aws: analyze calls=12 total=2.782624ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cis-aws: analyze calls=12 total=1.245876ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/hitrust-aws: analyze calls=12 total=3.583872ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pci-dss-aws: analyze calls=12 total=3.779084ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/iso-27001-aws: analyze calls=12 total=4.059542ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/nist-aws: analyze calls=12 total=3.072209ms

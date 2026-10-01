@@ -1,0 +1,29 @@
+warning: using pulumi-language-nodejs from $PATH at /opt/homebrew/bin/pulumi-language-nodejs expected /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi-language-nodejs
+[policy-timing] purejs pack pulumi-best-practices-aws: 55 policies, 169KB, read=205.25µs compile=6.637334ms eval=6.125916ms describe=1.981834ms total=14.950334ms
+[policy-timing] purejs pack cmmc-aws: 54 policies, 181KB, read=1.071791ms compile=9.166292ms eval=3.385708ms describe=1.776334ms total=15.400125ms
+[policy-timing] purejs pack cis-aws: 115 policies, 330KB, read=1.18175ms compile=13.603083ms eval=6.389417ms describe=3.260208ms total=24.434458ms
+[policy-timing] purejs pack hitrust-aws: 130 policies, 328KB, read=289.917µs compile=14.381542ms eval=6.414916ms describe=2.985875ms total=24.07225ms
+[policy-timing] purejs pack nist-aws: 139 policies, 404KB, read=336.042µs compile=16.441333ms eval=6.963084ms describe=4.786833ms total=28.527292ms
+[policy-timing] purejs pack pci-dss-aws: 160 policies, 457KB, read=351.625µs compile=19.708583ms eval=3.962792ms describe=6.392291ms total=30.415291ms
+[policy-timing] purejs pack iso-27001-aws: 238 policies, 616KB, read=600.167µs compile=21.505083ms eval=8.384167ms describe=6.758917ms total=37.248334ms
+[policy-timing] purejs pack cmmc-aws: input view of 41 resources built in 423.667µs (sourced=false refs=35 unknown=6), 53 input policies ran in 10.784ms
+[policy-timing] purejs pack pulumi-best-practices-aws: input view of 41 resources built in 333.375µs (sourced=false refs=35 unknown=6), 53 input policies ran in 10.300708ms
+[policy-timing] purejs pack hitrust-aws: input view of 41 resources built in 342.375µs (sourced=false refs=35 unknown=6), 128 input policies ran in 21.467875ms
+[policy-timing] purejs pack cis-aws: input view of 41 resources built in 344µs (sourced=false refs=35 unknown=6), 109 input policies ran in 21.858ms
+[policy-timing] purejs pack nist-aws: input view of 41 resources built in 352.292µs (sourced=false refs=35 unknown=6), 132 input policies ran in 22.551833ms
+[policy-timing] purejs pack pci-dss-aws: input view of 41 resources built in 342.292µs (sourced=false refs=35 unknown=6), 153 input policies ran in 23.354375ms
+[policy-timing] purejs pack iso-27001-aws: input view of 41 resources built in 357.583µs (sourced=false refs=35 unknown=6), 231 input policies ran in 29.45075ms
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cmmc-aws: analyze calls=41 total=22.919µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cmmc-aws: output reads: [s3-bucket-least-privilege=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/hitrust-aws: analyze calls=41 total=44.586µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/hitrust-aws: output reads: [s3-bucket-least-privilege=1 s3-bucket-macie-access=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pci-dss-aws: analyze calls=41 total=50.5µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pci-dss-aws: output reads: [s3-bucket-ssl-enforcement-required=1 s3-bucket-least-privilege=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/iso-27001-aws: analyze calls=41 total=48.793µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/iso-27001-aws: output reads: [s3-bucket-ssl-enforcement-required=1 s3-bucket-least-privilege=1 s3-bucket-policy-grantee-check=1 s3-bucket-macie-access=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pulumi-best-practices-aws: analyze calls=41 total=17.587µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/pulumi-best-practices-aws: output reads: [s3-bucket-least-privilege=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/nist-aws: analyze calls=41 total=40.331µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/nist-aws: output reads: [s3-bucket-least-privilege=1 s3-bucket-ssl-enforcement-required=1]
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cis-aws: analyze calls=41 total=46.752µs
+[policy-timing] purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure/dist-input/cis-aws: output reads: [s3-bucket-ssl-enforcement-required=1 s3-bucket-policy-grantee-check=1 s3-bucket-public-read-prohibited=1]

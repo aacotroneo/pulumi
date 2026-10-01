@@ -1,0 +1,805 @@
+{
+  "generated": "2026-09-28T11:57:56",
+  "floor_no_policies": {
+    "mode": "none",
+    "path": "local",
+    "phase": "run",
+    "walls_s": [
+      1.497,
+      1.519,
+      1.794
+    ],
+    "median_s": 1.519,
+    "note": "bench-local preview with no policy packs: engine + yaml host + aws provider floor"
+  },
+  "runs": [
+    {
+      "mode": "new",
+      "path": "cloud",
+      "phase": "cold",
+      "n": 3,
+      "median_s": 1.47,
+      "min_s": 1.434,
+      "max_s": 3.102,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": 2535148,
+      "policy_cache_files": 14
+    },
+    {
+      "mode": "new",
+      "path": "cloud",
+      "phase": "warm",
+      "n": 3,
+      "median_s": 1.46,
+      "min_s": 1.438,
+      "max_s": 1.78,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": 2535148,
+      "policy_cache_files": 14
+    },
+    {
+      "mode": "new",
+      "path": "local",
+      "phase": "run",
+      "n": 3,
+      "median_s": 1.44,
+      "min_s": 1.431,
+      "max_s": 1.51,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": null,
+      "policy_cache_files": null
+    },
+    {
+      "mode": "old",
+      "path": "cloud",
+      "phase": "cold",
+      "n": 3,
+      "median_s": 99.51,
+      "min_s": 94.967,
+      "max_s": 113.805,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": 2158112981,
+      "policy_cache_files": 257898
+    },
+    {
+      "mode": "old",
+      "path": "cloud",
+      "phase": "warm",
+      "n": 3,
+      "median_s": 11.62,
+      "min_s": 10.307,
+      "max_s": 11.851,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": 2158112981,
+      "policy_cache_files": 257898
+    },
+    {
+      "mode": "old",
+      "path": "local",
+      "phase": "run",
+      "n": 3,
+      "median_s": 8.57,
+      "min_s": 7.798,
+      "max_s": 9.999,
+      "violations": [
+        276
+      ],
+      "policy_cache_bytes": null,
+      "policy_cache_files": null
+    }
+  ],
+  "verbose_breakdown": {
+    "new-cloud": {
+      "wall_s": 1.518,
+      "log_span_s": 1.46,
+      "install_s_by_pack": {
+        "cis-aws@v1.0.2-purejs": 0.03,
+        "pci-dss-aws@v2.0.4-purejs": 0.03,
+        "hitrust-aws@v2.6.4-purejs": 0.03,
+        "cmmc-aws@v1.0.2-purejs": 0.03,
+        "nist-aws@v1.0.2-purejs": 0.03,
+        "iso-27001-aws@v1.0.1-purejs": 0.03,
+        "pulumi-best-practices-aws@v1.4.1-purejs": 0.03
+      },
+      "install_wall_s": 0.03,
+      "first_install_begin_s": 0.52,
+      "first_get_analyzer_info_s": null,
+      "first_analyze_or_load_s": 0.56,
+      "last_purejs_loaded_s": 0.59,
+      "plugin_launches": [
+        "yaml",
+        "yaml",
+        "aws (resource)"
+      ],
+      "policy_processes_spawned": 0,
+      "purejs_timings": [
+        "purejs pack pulumi-best-practices-aws: 54 policies, 160KB, read=68.708\u00b5s compile=7.0675ms eval=3.954708ms describe=1.254834ms total=12.34575ms",
+        "purejs pack cmmc-aws: 54 policies, 174KB, read=313.042\u00b5s compile=5.625916ms eval=5.02125ms describe=1.294167ms total=12.254375ms",
+        "purejs pack cis-aws: 115 policies, 334KB, read=65.167\u00b5s compile=14.239958ms eval=3.352458ms describe=4.08925ms total=21.746833ms",
+        "purejs pack hitrust-aws: 130 policies, 326KB, read=248.542\u00b5s compile=13.262625ms eval=6.517792ms describe=2.695083ms total=22.724042ms",
+        "purejs pack nist-aws: 139 policies, 401KB, read=254.333\u00b5s compile=16.528083ms eval=4.579459ms describe=3.636166ms total=24.998041ms",
+        "purejs pack pci-dss-aws: 160 policies, 467KB, read=109.875\u00b5s compile=19.1475ms eval=3.7185ms describe=3.857167ms total=26.833042ms",
+        "purejs pack iso-27001-aws: 238 policies, 609KB, read=141.459\u00b5s compile=21.783583ms eval=4.704833ms describe=7.499417ms total=34.129292ms",
+        "purejs pack pci-dss-aws: analyze calls=12 total=41.2045ms",
+        "purejs pack pulumi-best-practices-aws: analyze calls=12 total=1.822082ms",
+        "purejs pack iso-27001-aws: analyze calls=12 total=43.608746ms",
+        "purejs pack nist-aws: analyze calls=12 total=1.615374ms",
+        "purejs pack hitrust-aws: analyze calls=12 total=42.830622ms",
+        "purejs pack cmmc-aws: analyze calls=12 total=1.696624ms",
+        "purejs pack cis-aws: analyze calls=12 total=1.116833ms"
+      ]
+    },
+    "new-local": {
+      "wall_s": 1.383,
+      "log_span_s": 1.32,
+      "install_s_by_pack": {},
+      "install_wall_s": null,
+      "first_install_begin_s": null,
+      "first_get_analyzer_info_s": null,
+      "first_analyze_or_load_s": 0.48,
+      "last_purejs_loaded_s": 0.5,
+      "plugin_launches": [
+        "yaml",
+        "yaml",
+        "aws (resource)"
+      ],
+      "policy_processes_spawned": 0,
+      "purejs_timings": [
+        "purejs pack pulumi-best-practices-aws: 54 policies, 160KB, read=53.917\u00b5s compile=5.644542ms eval=2.220166ms describe=3.36575ms total=11.284375ms",
+        "purejs pack cmmc-aws: 54 policies, 174KB, read=67.75\u00b5s compile=6.113125ms eval=5.191542ms describe=1.466417ms total=12.838834ms",
+        "purejs pack hitrust-aws: 130 policies, 326KB, read=171.375\u00b5s compile=11.672084ms eval=3.66025ms describe=3.887708ms total=19.391417ms",
+        "purejs pack cis-aws: 115 policies, 334KB, read=87.542\u00b5s compile=12.336541ms eval=4.2935ms describe=3.541625ms total=20.259208ms",
+        "purejs pack nist-aws: 139 policies, 401KB, read=109.209\u00b5s compile=14.112333ms eval=4.911208ms describe=3.592209ms total=22.724959ms",
+        "purejs pack pci-dss-aws: 160 policies, 467KB, read=200.167\u00b5s compile=18.343166ms eval=3.305042ms describe=5.42975ms total=27.278125ms",
+        "purejs pack iso-27001-aws: 238 policies, 609KB, read=270.5\u00b5s compile=21.631709ms eval=6.469208ms describe=5.349625ms total=33.721042ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cis-aws: analyze calls=12 total=1.212876ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pci-dss-aws: analyze calls=12 total=41.440167ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/iso-27001-aws: analyze calls=12 total=42.483375ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/hitrust-aws: analyze calls=12 total=41.912667ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/pulumi-best-practices-aws: analyze calls=12 total=2.136376ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/cmmc-aws: analyze calls=12 total=1.87604ms",
+        "purejs pack /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/new/nist-aws: analyze calls=12 total=1.926378ms"
+      ]
+    },
+    "old-local": {
+      "wall_s": 7.933,
+      "log_span_s": 7.83,
+      "install_s_by_pack": {},
+      "install_wall_s": null,
+      "first_install_begin_s": null,
+      "first_get_analyzer_info_s": 1.46,
+      "first_analyze_or_load_s": 6.81,
+      "last_purejs_loaded_s": null,
+      "plugin_launches": [
+        "yaml",
+        "yaml",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-pulumi-best-practices-aws (analyzer)",
+        "nodejs",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-pci-dss-aws (analyzer)",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-cis-aws (analyzer)",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-cmmc-aws (analyzer)",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-hitrust-aws (analyzer)",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-nist-aws (analyzer)",
+        "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/.build/old/old-iso-27001-aws (analyzer)",
+        "aws (resource)"
+      ],
+      "policy_processes_spawned": 8,
+      "purejs_timings": []
+    },
+    "old-cloud": {
+      "wall_s": 99.174,
+      "log_span_s": 98.86,
+      "install_s_by_pack": {
+        "old-nist-aws@v1.0.2": 87.44,
+        "old-cmmc-aws@v1.0.2": 50.45,
+        "old-pulumi-best-practices-aws@v1.4.1": 86.88,
+        "old-iso-27001-aws@v1.0.1": 87.5,
+        "old-cis-aws@v1.0.2": 50.46,
+        "old-hitrust-aws@v2.6.4": 85.89,
+        "old-pci-dss-aws@v2.0.4": 86.65
+      },
+      "install_wall_s": 87.5,
+      "first_install_begin_s": 0.84,
+      "first_get_analyzer_info_s": 89.49,
+      "first_analyze_or_load_s": 96.49,
+      "last_purejs_loaded_s": null,
+      "plugin_launches": [
+        "yaml",
+        "yaml",
+        "nodejs",
+        "old-cis-aws (analyzer)",
+        "old-pci-dss-aws (analyzer)",
+        "old-cmmc-aws (analyzer)",
+        "old-pulumi-best-practices-aws (analyzer)",
+        "old-hitrust-aws (analyzer)",
+        "old-nist-aws (analyzer)",
+        "old-iso-27001-aws (analyzer)",
+        "aws (resource)"
+      ],
+      "policy_processes_spawned": 8,
+      "purejs_timings": []
+    }
+  },
+  "old_build": [
+    {
+      "pack": "cis-aws",
+      "dir": "packs/cis/aws",
+      "build_s": 14.64,
+      "index_js_bytes": 18870652,
+      "index_js_gzip_bytes": 3389279
+    },
+    {
+      "pack": "cmmc-aws",
+      "dir": "packs/cmmc/aws",
+      "build_s": 12.91,
+      "index_js_bytes": 18667089,
+      "index_js_gzip_bytes": 3348822
+    },
+    {
+      "pack": "hitrust-aws",
+      "dir": "packs/hitrust/aws",
+      "build_s": 16.56,
+      "index_js_bytes": 20214693,
+      "index_js_gzip_bytes": 3540545
+    },
+    {
+      "pack": "iso-27001-aws",
+      "dir": "packs/iso-27001/aws",
+      "build_s": 14.16,
+      "index_js_bytes": 20385970,
+      "index_js_gzip_bytes": 3607140
+    },
+    {
+      "pack": "nist-aws",
+      "dir": "packs/nist/aws",
+      "build_s": 16.27,
+      "index_js_bytes": 19506721,
+      "index_js_gzip_bytes": 3477163
+    },
+    {
+      "pack": "pci-dss-aws",
+      "dir": "packs/pci-dss/aws",
+      "build_s": 15.15,
+      "index_js_bytes": 20472247,
+      "index_js_gzip_bytes": 3595775
+    },
+    {
+      "pack": "pulumi-best-practices-aws",
+      "dir": "packs/pulumi-best-practices/aws",
+      "build_s": 13,
+      "index_js_bytes": 18065459,
+      "index_js_gzip_bytes": 3281331,
+      "note": "built from HEAD worktree; working tree has an uncommitted WIP edit that fails tsc"
+    }
+  ],
+  "new_bundles": [
+    {
+      "pack": "cis-aws",
+      "policies_js_bytes": 342520,
+      "policies_js_gzip_bytes": 70055,
+      "tarball_bytes": 71680
+    },
+    {
+      "pack": "cmmc-aws",
+      "policies_js_bytes": 178401,
+      "policies_js_gzip_bytes": 39470,
+      "tarball_bytes": 40960
+    },
+    {
+      "pack": "hitrust-aws",
+      "policies_js_bytes": 333852,
+      "policies_js_gzip_bytes": 66898,
+      "tarball_bytes": 71680
+    },
+    {
+      "pack": "iso-27001-aws",
+      "policies_js_bytes": 624589,
+      "policies_js_gzip_bytes": 119160,
+      "tarball_bytes": 122880
+    },
+    {
+      "pack": "nist-aws",
+      "policies_js_bytes": 411017,
+      "policies_js_gzip_bytes": 84418,
+      "tarball_bytes": 92160
+    },
+    {
+      "pack": "pci-dss-aws",
+      "policies_js_bytes": 478991,
+      "policies_js_gzip_bytes": 97542,
+      "tarball_bytes": 102400
+    },
+    {
+      "pack": "pulumi-best-practices-aws",
+      "policies_js_bytes": 164604,
+      "policies_js_gzip_bytes": 36699,
+      "tarball_bytes": 40960
+    }
+  ],
+  "publish_old": [
+    {
+      "mode": "old",
+      "pack": "old-cis-aws",
+      "ok": true,
+      "publish_s": 3.88
+    },
+    {
+      "mode": "old",
+      "pack": "old-cmmc-aws",
+      "ok": true,
+      "publish_s": 2.36
+    },
+    {
+      "mode": "old",
+      "pack": "old-hitrust-aws",
+      "ok": true,
+      "publish_s": 2.51
+    },
+    {
+      "mode": "old",
+      "pack": "old-iso-27001-aws",
+      "ok": true,
+      "publish_s": 2.47
+    },
+    {
+      "mode": "old",
+      "pack": "old-nist-aws",
+      "ok": true,
+      "publish_s": 2.41
+    },
+    {
+      "mode": "old",
+      "pack": "old-pci-dss-aws",
+      "ok": true,
+      "publish_s": 2.94
+    },
+    {
+      "mode": "old",
+      "pack": "old-pulumi-best-practices-aws",
+      "ok": true,
+      "publish_s": 2.47
+    }
+  ],
+  "publish_new": [
+    {
+      "mode": "new",
+      "pack": "cis-aws",
+      "ok": true,
+      "publish_s": 0.55
+    },
+    {
+      "mode": "new",
+      "pack": "cmmc-aws",
+      "ok": true,
+      "publish_s": 0.47
+    },
+    {
+      "mode": "new",
+      "pack": "hitrust-aws",
+      "ok": true,
+      "publish_s": 0.51
+    },
+    {
+      "mode": "new",
+      "pack": "iso-27001-aws",
+      "ok": true,
+      "publish_s": 0.59
+    },
+    {
+      "mode": "new",
+      "pack": "nist-aws",
+      "ok": true,
+      "publish_s": 0.55
+    },
+    {
+      "mode": "new",
+      "pack": "pci-dss-aws",
+      "ok": true,
+      "publish_s": 0.52
+    },
+    {
+      "mode": "new",
+      "pack": "pulumi-best-practices-aws",
+      "ok": true,
+      "publish_s": 0.49
+    }
+  ],
+  "parity": {
+    "cloud": {
+      "path": "cloud",
+      "old": 276,
+      "new": 276,
+      "matching": 276,
+      "only_old": 0,
+      "only_new": 0,
+      "only_old_by_policy": [],
+      "only_new_by_policy": []
+    },
+    "local": {
+      "path": "local",
+      "old": 276,
+      "new": 276,
+      "matching": 276,
+      "only_old": 0,
+      "only_new": 0,
+      "only_old_by_policy": [],
+      "only_new_by_policy": []
+    }
+  },
+  "go_bench": "BenchmarkPureJSLoad-12       \t      97\t  12200854 ns/op\t13096416 B/op\t  150618 allocs/op\nBenchmarkPureJSAnalyze-12    \t     800\t   1387286 ns/op\t 2956485 B/op\t   33331 allocs/op\nok  \tgithub.com/pulumi/pulumi/pkg/v3/resource/plugin\t2.925s\n",
+  "cli_size": [
+    {
+      "variant": "base",
+      "goos": "darwin",
+      "goarch": "arm64",
+      "bytes": 117136018,
+      "gzip_bytes": 33881067,
+      "src": "243d4fa7ee"
+    },
+    {
+      "variant": "goja",
+      "goos": "darwin",
+      "goarch": "arm64",
+      "bytes": 123164018,
+      "gzip_bytes": 35853061,
+      "src": "243d4fa7ee+working-tree"
+    },
+    {
+      "variant": "base",
+      "goos": "linux",
+      "goarch": "amd64",
+      "bytes": 123642018,
+      "gzip_bytes": 36042594,
+      "src": "243d4fa7ee"
+    },
+    {
+      "variant": "goja",
+      "goos": "linux",
+      "goarch": "amd64",
+      "bytes": 129806498,
+      "gzip_bytes": 38138196,
+      "src": "243d4fa7ee+working-tree"
+    },
+    {
+      "variant": "base",
+      "goos": "windows",
+      "goarch": "amd64",
+      "bytes": 126092800,
+      "gzip_bytes": 36655186,
+      "src": "243d4fa7ee"
+    },
+    {
+      "variant": "goja",
+      "goos": "windows",
+      "goarch": "amd64",
+      "bytes": 132364800,
+      "gzip_bytes": 38776769,
+      "src": "243d4fa7ee+working-tree"
+    }
+  ],
+  "cli_size_breakdown": {
+    "symbol_bytes_base": 167657872,
+    "symbol_bytes_goja": 173963735,
+    "delta_by_group": {
+      "Go runtime tables for the new code (pclntab)": 1765001,
+      "goja (engine)": 1736242,
+      "golang.org/x/text (newly linked packages)": 1459504,
+      "Go type/func metadata for the new code": 1111296,
+      "regexp2/v2 (goja's fallback regex engine)": 248492,
+      "pulumi plugin pkg (purejs analyzer + prelude)": 31560,
+      "go-sourcemap": 6464,
+      "other": -52696
+    },
+    "top_packages": [
+      {
+        "pkg": "runtime",
+        "delta": 1765001
+      },
+      {
+        "pkg": "github.com/dop251/goja",
+        "delta": 1547930
+      },
+      {
+        "pkg": "golang.org/x/text/collate",
+        "delta": 1384832
+      },
+      {
+        "pkg": "typerel",
+        "delta": 427104
+      },
+      {
+        "pkg": "_type:*",
+        "delta": 427104
+      },
+      {
+        "pkg": "go:func",
+        "delta": 211640
+      },
+      {
+        "pkg": "github.com/dlclark/regexp2/v2/syntax",
+        "delta": 168888
+      },
+      {
+        "pkg": "github.com/dop251/goja/parser",
+        "delta": 89160
+      },
+      {
+        "pkg": "github.com/dlclark/regexp2/v2",
+        "delta": 77700
+      },
+      {
+        "pkg": "",
+        "delta": 41600
+      },
+      {
+        "pkg": "github.com/pulumi/pulumi/pkg/v3/resource/plugin",
+        "delta": 31560
+      },
+      {
+        "pkg": "golang.org/x/text/unicode/norm",
+        "delta": 24752
+      },
+      {
+        "pkg": "golang.org/x/text/internal/colltab",
+        "delta": 21792
+      },
+      {
+        "pkg": "github.com/dop251/goja/ftoa",
+        "delta": 14576
+      },
+      {
+        "pkg": "github.com/dop251/goja.sparseArrayObject,github.com/dop251/goja",
+        "delta": 12968
+      },
+      {
+        "pkg": "github.com/dop251/goja/ast",
+        "delta": 12480
+      },
+      {
+        "pkg": "golang.org/x/text/internal/language",
+        "delta": 8672
+      },
+      {
+        "pkg": "golang.org/x/text/width",
+        "delta": 8608
+      },
+      {
+        "pkg": "github.com/dop251/goja/ftoa/internal/fast",
+        "delta": 8480
+      },
+      {
+        "pkg": "go:main",
+        "delta": 6400
+      },
+      {
+        "pkg": "crypto/internal/fips140/pbkdf2",
+        "delta": 6144
+      },
+      {
+        "pkg": "github.com/go-sourcemap/sourcemap",
+        "delta": 5904
+      },
+      {
+        "pkg": "github.com/bazelbuild/buildtools/build",
+        "delta": 5376
+      },
+      {
+        "pkg": "golang.org/x/text/cases",
+        "delta": 4112
+      },
+      {
+        "pkg": "_go:funcdescrel",
+        "delta": 3848
+      }
+    ],
+    "unstripped_file_bytes": {
+      "base": 167399362,
+      "goja": 175564194
+    }
+  },
+  "m1_bundle_sizes": {
+    "generatedAt": "2026-09-28T13:46:45.889Z",
+    "worktree": "/Users/alejandrocotroneo/go/src/github.com/pulumi/policy-packs-internal-pure",
+    "branch": "hackathon/pure-policies",
+    "commit": "1aebe33520cdcea34466fb4d9394027a9df2b219",
+    "abiVersion": 1,
+    "esbuild": "0.25.12",
+    "target": "es2020",
+    "notes": "legacyIndexJsBytes is the rollup output of npm run build in the pack dir; it still needs node_modules (@pulumi/policy, @pulumi/pulumi, @pulumi/aws externals) at runtime. namespaceGranularPass1Bytes is the bundle before root-barrel pruning. nodeVm timings were taken on a loaded machine (load avg ~10-18) and are a rough proxy only.",
+    "packs": {
+      "cis-aws": {
+        "dir": "packs/cis/aws",
+        "version": "1.0.2",
+        "policiesJsBytes": 342520,
+        "policiesJsGzipBytes": 70177,
+        "policyCount": 115,
+        "resourcePolicies": 88,
+        "stackPolicies": 27,
+        "uniqueResourceTypes": 52,
+        "untypedResourcePolicies": 0,
+        "untypedStackPolicies": 27,
+        "stubBytesInOutput": 5573,
+        "namespaceGranularPass1Bytes": 534421,
+        "preludeGlobals": [
+          "URL",
+          "console"
+        ],
+        "legacyIndexJsBytes": 18870652,
+        "nodeVm": {
+          "compileMsMedian": 2.58,
+          "runMsMedian": 0.76,
+          "legacyColdRequireMs": 513
+        }
+      },
+      "cmmc-aws": {
+        "dir": "packs/cmmc/aws",
+        "version": "1.0.2",
+        "policiesJsBytes": 178401,
+        "policiesJsGzipBytes": 39553,
+        "policyCount": 54,
+        "resourcePolicies": 42,
+        "stackPolicies": 12,
+        "uniqueResourceTypes": 32,
+        "untypedResourcePolicies": 3,
+        "untypedStackPolicies": 12,
+        "stubBytesInOutput": 3279,
+        "namespaceGranularPass1Bytes": 354421,
+        "preludeGlobals": [
+          "Buffer",
+          "console"
+        ],
+        "legacyIndexJsBytes": 18667089,
+        "nodeVm": {
+          "compileMsMedian": 1.42,
+          "runMsMedian": 0.59,
+          "legacyColdRequireMs": 718
+        }
+      },
+      "hitrust-aws": {
+        "dir": "packs/hitrust/aws",
+        "version": "2.6.4",
+        "policiesJsBytes": 333852,
+        "policiesJsGzipBytes": 67001,
+        "policyCount": 130,
+        "resourcePolicies": 113,
+        "stackPolicies": 17,
+        "uniqueResourceTypes": 54,
+        "untypedResourcePolicies": 5,
+        "untypedStackPolicies": 17,
+        "stubBytesInOutput": 4689,
+        "namespaceGranularPass1Bytes": 510929,
+        "preludeGlobals": [
+          "Buffer",
+          "console"
+        ],
+        "legacyIndexJsBytes": 20214693,
+        "nodeVm": {
+          "compileMsMedian": 2.98,
+          "runMsMedian": 0.95,
+          "legacyColdRequireMs": 656
+        }
+      },
+      "iso-27001-aws": {
+        "dir": "packs/iso-27001/aws",
+        "version": "1.0.1",
+        "policiesJsBytes": 624589,
+        "policiesJsGzipBytes": 119109,
+        "policyCount": 238,
+        "resourcePolicies": 201,
+        "stackPolicies": 37,
+        "uniqueResourceTypes": 95,
+        "untypedResourcePolicies": 4,
+        "untypedStackPolicies": 37,
+        "stubBytesInOutput": 9203,
+        "namespaceGranularPass1Bytes": 827431,
+        "preludeGlobals": [
+          "Buffer",
+          "console"
+        ],
+        "legacyIndexJsBytes": 20385970,
+        "nodeVm": {
+          "compileMsMedian": 8.32,
+          "runMsMedian": 2.21,
+          "legacyColdRequireMs": 739
+        }
+      },
+      "nist-aws": {
+        "dir": "packs/nist/aws",
+        "version": "1.0.2",
+        "policiesJsBytes": 411017,
+        "policiesJsGzipBytes": 84461,
+        "policyCount": 139,
+        "resourcePolicies": 109,
+        "stackPolicies": 30,
+        "uniqueResourceTypes": 56,
+        "untypedResourcePolicies": 1,
+        "untypedStackPolicies": 30,
+        "stubBytesInOutput": 4922,
+        "namespaceGranularPass1Bytes": 599873,
+        "preludeGlobals": [],
+        "legacyIndexJsBytes": 19506721,
+        "nodeVm": {
+          "compileMsMedian": 3.96,
+          "runMsMedian": 1.13,
+          "legacyColdRequireMs": 522
+        }
+      },
+      "pci-dss-aws": {
+        "dir": "packs/pci-dss/aws",
+        "version": "2.0.4",
+        "policiesJsBytes": 478991,
+        "policiesJsGzipBytes": 97685,
+        "policyCount": 160,
+        "resourcePolicies": 134,
+        "stackPolicies": 26,
+        "uniqueResourceTypes": 68,
+        "untypedResourcePolicies": 6,
+        "untypedStackPolicies": 26,
+        "stubBytesInOutput": 5770,
+        "namespaceGranularPass1Bytes": 664897,
+        "preludeGlobals": [
+          "Buffer",
+          "console"
+        ],
+        "legacyIndexJsBytes": 20472247,
+        "nodeVm": {
+          "compileMsMedian": 3.9,
+          "runMsMedian": 1.13,
+          "legacyColdRequireMs": 570
+        }
+      },
+      "pulumi-best-practices-aws": {
+        "dir": "packs/pulumi-best-practices/aws",
+        "version": "1.4.1",
+        "policiesJsBytes": 164604,
+        "policiesJsGzipBytes": 36731,
+        "policyCount": 54,
+        "resourcePolicies": 44,
+        "stackPolicies": 10,
+        "uniqueResourceTypes": 30,
+        "untypedResourcePolicies": 3,
+        "untypedStackPolicies": 10,
+        "stubBytesInOutput": 2447,
+        "namespaceGranularPass1Bytes": 338463,
+        "preludeGlobals": [],
+        "legacyIndexJsBytes": 18065459,
+        "nodeVm": {
+          "compileMsMedian": 1.36,
+          "runMsMedian": 0.58,
+          "legacyColdRequireMs": 525
+        }
+      },
+      "pure-examples": {
+        "dir": "shared/pure/examples",
+        "version": "0.1.0",
+        "policiesJsBytes": 10920,
+        "policiesJsGzipBytes": 3662,
+        "policyCount": 5,
+        "resourcePolicies": 4,
+        "stackPolicies": 1,
+        "uniqueResourceTypes": 17,
+        "untypedResourcePolicies": 0,
+        "untypedStackPolicies": 1,
+        "stubBytesInOutput": 0,
+        "namespaceGranularPass1Bytes": 10920,
+        "preludeGlobals": [],
+        "legacyIndexJsBytes": null,
+        "nodeVm": {
+          "compileMsMedian": 0.15,
+          "runMsMedian": 0.12,
+          "legacyColdRequireMs": null
+        }
+      }
+    }
+  }
+}

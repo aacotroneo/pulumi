@@ -1,0 +1,925 @@
+{
+ "transitions": {
+  "resource:advisory-unknown -> pass": 16,
+  "resource:pass -> absent": 7,
+  "resource:pass -> pass": 131,
+  "resource:violation -> violation": 58,
+  "stack:advisory-unknown -> advisory-output": 3,
+  "stack:advisory-unknown -> pass": 17,
+  "stack:advisory-unknown -> violation": 50,
+  "stack:pass -> pass": 61,
+  "stack:violation -> violation": 10
+ },
+ "changed": [
+  {
+   "pack": "cis-aws",
+   "policy": "alb-http-to-https-redirection-check",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "alb-waf-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-attached-volume-encryption-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ebs-volume-unused",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "unusedVolume"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "ec2-instance-in-vpc",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-policy-no-statements-with-admin-access",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "iam-policy-no-statements-with-full-access",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-level-public-access-prohibited",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-logging-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-public-read-prohibited",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "s3-bucket-versioning-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "secrets-manager-kms-encryption-enabled",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "orphanSg"
+   ]
+  },
+  {
+   "pack": "cis-aws",
+   "policy": "wafv2-logging-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "acl"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "api-gateway-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "appsync-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "load-balancer-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "s3-bucket-public-access-block",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "subnet-multi-az",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "vpcNoLogs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "subnetNoLogs"
+   ]
+  },
+  {
+   "pack": "cmmc-aws",
+   "policy": "waf-association-validation",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "api-gateway-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "appsync-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "load-balancer-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-public-access-block",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-replication",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "subnet-multi-az",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "vpcNoLogs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "subnetNoLogs"
+   ]
+  },
+  {
+   "pack": "hitrust-aws",
+   "policy": "waf-association-validation",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "alb-http-to-https-redirection-check",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "api-gateway-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "appsync-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "ec2-vpc-placement-required",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "internet-gateway-authorized-vpc",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "load-balancer-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-public-access-block",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-replication",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "secrets-manager-rotation-required",
+   "from": "stack:advisory-unknown",
+   "to": "advisory-output",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "subnet-multi-az",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "vpcNoLogs"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-nacl-no-unrestricted-ssh-rdp",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-security-group-associated-to-eni",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "orphanSg"
+   ]
+  },
+  {
+   "pack": "iso-27001-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "subnetNoLogs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "api-gateway-waf-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ebs-unused-volumes-prohibited",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "unusedVolume"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "ec2-vpc-placement-required",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "elb-waf-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "load-balancer-waf-association",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-public-access-block",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-replication",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-ssl-enforcement-required",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "secrets-manager-rotation-required",
+   "from": "stack:advisory-unknown",
+   "to": "advisory-output",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "nist-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "anti-spoofing-measures",
+   "from": "resource:pass",
+   "to": "absent",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "api-gateway-waf-enabled",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "cloudtrail-s3-bucket-public-access-denied",
+   "from": "stack:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ebs-unused-volumes-prohibited",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "unusedVolume"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "ec2-vpc-placement-required",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "efs-file-system-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-lifecycle",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "s3-bucket-public-access-block-required",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "secrets-manager-rotation-required",
+   "from": "stack:advisory-unknown",
+   "to": "advisory-output",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "secrets-manager-secret-configure-customer-managed-key",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "vpc-subnet-flow-logs",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "subnetNoLogs"
+   ]
+  },
+  {
+   "pack": "pci-dss-aws",
+   "policy": "waf-association-validation",
+   "from": "resource:advisory-unknown",
+   "to": "pass",
+   "lost": [],
+   "gained": []
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-access-logging",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-encryption",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-public-access-block",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "barePab",
+    "logs"
+   ]
+  },
+  {
+   "pack": "pulumi-best-practices-aws",
+   "policy": "s3-bucket-versioning",
+   "from": "stack:advisory-unknown",
+   "to": "violation",
+   "lost": [],
+   "gained": [
+    "bare",
+    "good",
+    "logs"
+   ]
+  }
+ ]
+}

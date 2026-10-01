@@ -1,0 +1,12 @@
+{
+  "name": "policy-bench-linked-js",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@pulumi/aws": "7.47.0",
+    "@pulumi/pulumi": "file:../../sdk/nodejs/bin"
+  },
+  "overrides": {
+    "@pulumi/pulumi": "$@pulumi/pulumi"
+  }
+}

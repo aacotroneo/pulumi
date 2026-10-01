@@ -1,0 +1,43 @@
+{
+  "ts": "20260928T105045",
+  "mode": "new",
+  "path": "cloud",
+  "phase": "warm",
+  "run": 2,
+  "tag": "",
+  "verbose": false,
+  "wall_s": 1.461,
+  "exit_code": 0,
+  "violations": 276,
+  "policy_load_events": 7,
+  "violations_by_pack": {
+    "cis-aws": 33,
+    "cmmc-aws": 32,
+    "hitrust-aws": 46,
+    "iso-27001-aws": 47,
+    "nist-aws": 35,
+    "pci-dss-aws": 46,
+    "pulumi-best-practices-aws": 37
+  },
+  "policy_cache_bytes": 2535148,
+  "policy_cache_files": 14,
+  "purejs_timings": [
+    "purejs pack cmmc-aws: 54 policies, 174KB, read=63.333\u00b5s compile=5.505125ms eval=4.041ms describe=1.426542ms total=11.036ms",
+    "purejs pack pulumi-best-practices-aws: 54 policies, 160KB, read=63.083\u00b5s compile=5.408458ms eval=4.315ms describe=1.834459ms total=11.621ms",
+    "purejs pack cis-aws: 115 policies, 334KB, read=349.916\u00b5s compile=11.805584ms eval=3.809666ms describe=3.388042ms total=19.353208ms",
+    "purejs pack hitrust-aws: 130 policies, 326KB, read=128.375\u00b5s compile=11.5575ms eval=5.745166ms describe=2.598417ms total=20.029458ms",
+    "purejs pack nist-aws: 139 policies, 401KB, read=99.5\u00b5s compile=15.12625ms eval=3.863125ms describe=4.286708ms total=23.375583ms",
+    "purejs pack pci-dss-aws: 160 policies, 467KB, read=136.667\u00b5s compile=17.561625ms eval=3.216416ms describe=5.336084ms total=26.250792ms",
+    "purejs pack iso-27001-aws: 238 policies, 609KB, read=140.542\u00b5s compile=21.692583ms eval=6.638625ms describe=5.476209ms total=33.947959ms",
+    "purejs pack pulumi-best-practices-aws: analyze calls=12 total=1.600208ms",
+    "purejs pack nist-aws: analyze calls=12 total=2.445749ms",
+    "purejs pack hitrust-aws: analyze calls=12 total=41.141625ms",
+    "purejs pack pci-dss-aws: analyze calls=12 total=41.355916ms",
+    "purejs pack iso-27001-aws: analyze calls=12 total=41.333961ms",
+    "purejs pack cis-aws: analyze calls=12 total=1.046751ms",
+    "purejs pack cmmc-aws: analyze calls=12 total=1.655292ms"
+  ],
+  "node_launches": null,
+  "cli_sha": "243d4fa7ee",
+  "cmd": "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/bin/pulumi preview --stack pulumi_local/bench-new --non-interactive --diff=false --event-log /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/results/20260928T105045-new-cloud-warm-2.events.jsonl"
+}
