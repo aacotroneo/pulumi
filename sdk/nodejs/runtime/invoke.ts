@@ -16,7 +16,7 @@ import * as grpc from "@grpc/grpc-js";
 
 import { InvokeOptions, InvokeOutputOptions } from "../invoke";
 import * as log from "../log";
-import { Inputs, Output } from "../output";
+import { Inputs, Output, unknown } from "../output";
 import { debuggablePromise } from "./debuggable";
 import {
     deserializeProperties,
@@ -196,6 +196,18 @@ async function invokeAsync(
     containsSecrets: boolean;
     dependencies: Resource[];
 }> {
+    // Hackathon (policy lint): no providers run, so every invoke result is unknown. Plain invokes get an
+    // object whose every property is `unknown`, so `(await getX()).id` flows into inputs as an unknown.
+    if (process.env.PULUMI_LINT && tok !== "pulumi:pulumi:getResource") {
+        // A fixture (Pulumi.lint.yaml `invokes:`) gives the result; fields it leaves out are unknown.
+        const fixture = lintInvokeFixture(tok);
+        if (fixture !== undefined) {
+            return { result: lintPartial(fixture), isKnown: true, containsSecrets: false, dependencies: [] };
+        }
+        lintNote("__pulumiLintUnknownInvokes", tok);
+        return { result: lintUnknownResult(), isKnown: false, containsSecrets: false, dependencies: [] };
+    }
+
     const label = `Invoking function: tok=${tok} asynchronously`;
     log.debug(label + (excessiveDebugOutput ? `, props=${JSON.stringify(props)}` : ``));
 
@@ -442,6 +454,10 @@ function callAsync<T>(
 }> {
     const label = `Calling function: tok=${tok}`;
     log.debug(label + (excessiveDebugOutput ? `, props=${JSON.stringify(props)}` : ``));
+    if (process.env.PULUMI_LINT) {
+        // Hackathon (policy lint): no provider constructs components, so their methods return unknowns.
+        return Promise.resolve({ result: lintUnknown(), isKnown: false, containsSecrets: false, dependencies: [] });
+    }
 
     return debuggablePromise(
         Promise.resolve().then(async () => {
@@ -719,4 +735,85 @@ async function createCallRequest(
     }
 
     return req;
+}
+
+function lintUnknownResult(): any {
+    return lintUnknown();
+}
+
+/**
+ * Hackathon (policy lint): a value that supports whatever the program does with it (property access, calls,
+ * iteration, string conversion) and serializes as an unknown. Invoke results are these, since no provider runs.
+ */
+export function lintUnknown(): any {
+    const target = function () {
+        return undefined;
+    };
+    return new Proxy(target, {
+        get(_t, p) {
+            if (p === Symbol.for("pulumi.lint.unknown")) {
+                return true;
+            }
+            if (p === "then" || p === "toJSON" || p === "constructor") {
+                return undefined;
+            }
+            if (p === "length") {
+                return 0;
+            }
+            if (p === Symbol.iterator) {
+                return function* () {
+                    // No elements.
+                };
+            }
+            if (p === Symbol.toPrimitive || p === "toString" || p === "valueOf") {
+                return () => "[unknown]";
+            }
+            if (typeof p === "symbol") {
+                return undefined;
+            }
+            return lintUnknown();
+        },
+        apply() {
+            return lintUnknown();
+        },
+        construct() {
+            return lintUnknown();
+        },
+    });
+}
+
+function lintNote(key: string, value: string) {
+    const g = globalThis as any;
+    (g[key] = g[key] || new Set<string>()).add(value);
+}
+
+/**
+ * Hackathon (policy lint): the fixture for an invoke, by its full token or its function name
+ * (`aws:index/getCallerIdentity:getCallerIdentity` or `getCallerIdentity`).
+ */
+function lintInvokeFixture(tok: string): any {
+    const invokes = ((globalThis as any).__pulumiLintFixtures || {}).invokes || {};
+    for (const key of [tok, tok.split(":").pop()!]) {
+        if (Object.prototype.hasOwnProperty.call(invokes, key)) {
+            lintNote("__pulumiLintUsedFixtures", `invoke ${key}`);
+            return invokes[key];
+        }
+    }
+    return undefined;
+}
+
+/** Hackathon (policy lint): a fixture object whose missing fields read as the universal unknown. */
+export function lintPartial(value: any): any {
+    if (value === null || typeof value !== "object" || Array.isArray(value)) {
+        return value;
+    }
+    return new Proxy(value, {
+        get(t, p) {
+            if (typeof p === "symbol" || p in t || p === "then" || p === "toJSON" || p === "constructor") {
+                const v = (t as any)[p];
+                return v !== null && typeof v === "object" && !Array.isArray(v) ? lintPartial(v) : v;
+            }
+            return lintUnknown();
+        },
+    });
 }

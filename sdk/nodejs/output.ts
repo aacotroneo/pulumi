@@ -370,14 +370,25 @@ To manipulate the value of this Output, use '.apply' instead.`);
     public apply<U>(func: (t: T) => Input<U>, runWithUnknowns?: boolean): Output<U> {
         // we're inside the modern `output` code, so it's safe to call `.allResources!` here.
 
+        // Hackathon (policy lint): a callback that preview would skip runs with probes for its unknown inputs, and
+        // the result is rebuilt with identifiable unknowns where the probes ended up (lintApply).
+        const lint = !!process.env.PULUMI_LINT && !runWithUnknowns && !(func as any)[lintNoProbeKey];
+        const tags: { source?: OutputSource; template?: OutputTemplate } = {};
+        const self = this;
         const applied = Promise.all([
             this.allResources!(),
             this.promise(/*withUnknowns*/ true),
             this.isKnown,
             this.isSecret,
-        ]).then(([allResources, value, isKnown, isSecret]) =>
-            applyHelperAsync<T, U>(allResources, value, isKnown, isSecret, func, !!runWithUnknowns),
-        );
+        ]).then(async ([allResources, value, isKnown, isSecret]) => {
+            if (lint && (!isKnown || lintContainsOutputs(value))) {
+                const probed = await lintApply(self, func, tags);
+                if (probed !== undefined) {
+                    return { allResources, value: probed.value, isKnown: probed.isKnown, isSecret };
+                }
+            }
+            return applyHelperAsync<T, U>(allResources, value, isKnown, isSecret, func, !!runWithUnknowns);
+        });
 
         const result = new OutputImpl<U>(
             this.resources(),
@@ -386,6 +397,11 @@ To manipulate the value of this Output, use '.apply' instead.`);
             applied.then((a) => a.isSecret),
             applied.then((a) => a.allResources),
         );
+        if (lint) {
+            // Known only once the callback ran, so read lazily.
+            Object.defineProperty(result, outputSourceKey, { get: () => tags.source, configurable: true });
+            Object.defineProperty(result, outputTemplateKey, { get: () => tags.template, configurable: true });
+        }
         return <Output<U>>(<any>result);
     }
 }
@@ -600,8 +616,7 @@ function outputRec(val: any, seen?: Set<object>, preallocatedError?: Error): any
             allResources,
         );
         const lifted = newOutput.apply((v) => outputRec(v, seen, preallocatedError), /*runWithUnknowns*/ true);
-        setOutputSource(lifted, getOutputSource(val));
-        setOutputTemplate(lifted, getOutputTemplate(val));
+        forwardOutputTags(lifted, val);
         return lifted;
     }
 
@@ -702,7 +717,19 @@ export function output<T>(val: Input<T>): Output<Unwrap<T>>;
 export function output<T>(val: Input<T> | undefined): Output<Unwrap<T | undefined>>;
 export function output<T>(val: Input<T | undefined>): Output<Unwrap<T | undefined>> {
     const ov = outputRec(val);
-    return Output.isInstance<Unwrap<T>>(ov) ? ov : createSimpleOutput(ov);
+    const result = Output.isInstance<Unwrap<T>>(ov) ? ov : createSimpleOutput(ov);
+    if (
+        process.env.PULUMI_LINT &&
+        val !== null &&
+        typeof val === "object" &&
+        !Output.isInstance(val) &&
+        !(val instanceof Promise) &&
+        !Resource.isInstance(val)
+    ) {
+        // Hackathon (policy lint): which outputs went into an `all`/`output` of a structure, for probing.
+        Object.defineProperty(result, lintChildrenKey, { value: val, enumerable: false, configurable: true });
+    }
+    return result;
 }
 
 /**
@@ -722,7 +749,7 @@ export function secret<T>(val: Input<T | undefined>): Output<Unwrap<T | undefine
         Promise.resolve(true),
         o.allResources!(),
     );
-    setOutputSource(s, getOutputSource(o));
+    forwardOutputTags(s, o);
     setOutputTemplate(s, getOutputTemplate(o));
     return s;
 }
@@ -1289,7 +1316,7 @@ export type LiftedArray<T> = {
  *
  */
 export function concat(...params: Input<any>[]): Output<string> {
-    const o = output(params).apply((array) => array.join(""));
+    const o = output(params).apply(lintNoProbe((array: any[]) => array.join("")));
     setOutputTemplate(o, { concat: params });
     return o;
 }
@@ -1312,7 +1339,7 @@ export function interpolate(literals: TemplateStringsArray, ...placeholders: Inp
         parts.push(literals[i], placeholders[i]);
     }
     parts.push(literals[literals.length - 1]);
-    const o = output(placeholders).apply((unwrapped) => {
+    const o = output(placeholders).apply(lintNoProbe((unwrapped: any[]) => {
         let result = "";
 
         // interleave the literals with the placeholders
@@ -1324,7 +1351,7 @@ export function interpolate(literals: TemplateStringsArray, ...placeholders: Inp
         // add the last literal
         result += literals[literals.length - 1];
         return result;
-    });
+    }));
     setOutputTemplate(o, { concat: parts });
     return o;
 }
@@ -1338,9 +1365,11 @@ export function jsonStringify(
     replacer?: (this: any, key: string, value: any) => any | (number | string)[],
     space?: string | number,
 ): Output<string> {
-    const result = output(obj).apply((o) => {
-        return JSON.stringify(o, replacer, space);
-    });
+    const result = output(obj).apply(
+        lintNoProbe((o: any) => {
+            return JSON.stringify(o, replacer, space);
+        }),
+    );
     if (replacer === undefined) {
         setOutputTemplate(result, { json: obj });
     }
@@ -1407,4 +1436,293 @@ export function recover<T>(o: Output<T>, func: (err: any) => Input<T>): Output<T
         data.then((d) => d.allResources),
     );
     return <Output<T>>(<any>result);
+}
+
+/**
+ * Copies an Output's source and template to another Output that has the same value. Read lazily: a lint-probed
+ * apply only learns them once its callback ran.
+ *
+ * @internal
+ */
+function forwardOutputTags(to: any, from: any): void {
+    if (to === null || typeof to !== "object" || from === null || typeof from !== "object") {
+        return;
+    }
+    Object.defineProperty(to, outputSourceKey, { get: () => getOutputSource(from), configurable: true });
+    Object.defineProperty(to, outputTemplateKey, { get: () => getOutputTemplate(from), configurable: true });
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Hackathon (policy lint): probes. During a lint nothing is deployed, so an apply callback on an unknown value can
+// run: each unknown output it reads is replaced by a probe string, and in what the callback returns every probe
+// becomes that output again (an identifiable unknown), strings with probes inside become templates (JSON documents
+// a `jsonStringify` template, other text a `concat` one). A callback that throws on a probe falls back to unknown.
+// ---------------------------------------------------------------------------------------------------------------
+
+const lintChildrenKey = "__pulumiLintChildren";
+const lintProbeRe = /__pulumiprobe(\d+)__/gi;
+const lintProbeOutputs: Output<any>[] = [];
+const lintProbeIds = new WeakMap<object, number>();
+
+function lintCount(key: string) {
+    const g = globalThis as any;
+    g[key] = (g[key] || 0) + 1;
+}
+
+const lintProbeMark = Symbol.for("pulumi.lint.probe");
+const lintProbeProxies: any[] = [];
+
+/**
+ * The stand-in for an unknown output inside an apply callback. It converts to its probe text (template literals,
+ * `+`, JSON.stringify), so strings built from it can be traced back; anything else done with it (property access,
+ * calls, string methods) gives another, unidentified unknown rather than a made-up known value.
+ */
+function lintProbeFor(o: Output<any> | undefined): any {
+    if (o === undefined) {
+        o = new Output(
+            new Set(),
+            Promise.resolve(undefined),
+            Promise.resolve(false),
+            Promise.resolve(false),
+            Promise.resolve(new Set()),
+        );
+    }
+    let id = lintProbeIds.get(o);
+    if (id === undefined) {
+        id = lintProbeOutputs.length;
+        lintProbeOutputs.push(o);
+        lintProbeIds.set(o, id);
+    }
+    if (lintProbeProxies[id] !== undefined) {
+        return lintProbeProxies[id];
+    }
+    const text = `__pulumiprobe${id}__`;
+    const pid = id;
+    const derived = new Map<PropertyKey, any>();
+    const target = function () {
+        return lintProbeFor(undefined);
+    };
+    const proxy = new Proxy(target, {
+        get(_t, p) {
+            if (p === lintProbeMark) {
+                return pid;
+            }
+            if (p === Symbol.for("pulumi.lint.unknown")) {
+                // Used as a resource input directly (a resource made inside the callback): an unknown.
+                return true;
+            }
+            if (p === Symbol.toPrimitive || p === "toString" || p === "valueOf" || p === "toJSON") {
+                return () => text;
+            }
+            if (p === "then" || (typeof p === "string" && p.startsWith("__pulumi"))) {
+                return undefined;
+            }
+            if (p === Symbol.iterator) {
+                return function* () {
+                    // Nothing known to iterate.
+                };
+            }
+            if (typeof p === "symbol") {
+                return undefined;
+            }
+            let d = derived.get(p);
+            if (d === undefined) {
+                d = lintProbeFor(undefined);
+                derived.set(p, d);
+            }
+            return d;
+        },
+        apply() {
+            return lintProbeFor(undefined);
+        },
+        construct() {
+            return lintProbeFor(undefined);
+        },
+    });
+    lintProbeProxies[id] = proxy;
+    return proxy;
+}
+
+function lintProbeId(v: any): number | undefined {
+    return (typeof v === "function" || (typeof v === "object" && v !== null)) ? v[lintProbeMark] : undefined;
+}
+
+async function lintDeep(v: any, seen: Set<any> = new Set(), depth = 0): Promise<any> {
+    if (lintProbeId(v) !== undefined) {
+        return v;
+    }
+    if (Output.isInstance(v) || v instanceof Promise) {
+        return lintProbeValue(v, seen, depth + 1);
+    }
+    if (isUnknown(v)) {
+        return lintProbeFor(undefined);
+    }
+    if (v === null || typeof v !== "object") {
+        return v;
+    }
+    // Cycles and very deep structures: leave them as they are (a structure the callback may still use).
+    if (seen.has(v) || depth > 32) {
+        return v;
+    }
+    if (Array.isArray(v)) {
+        const next = new Set(seen).add(v);
+        return Promise.all(v.map((e) => lintDeep(e, next, depth + 1)));
+    }
+    if (Object.getPrototypeOf(v) === Object.prototype) {
+        const next = new Set(seen).add(v);
+        const out: Record<string, any> = {};
+        for (const k of Object.keys(v)) {
+            out[k] = await lintDeep(v[k], next, depth + 1);
+        }
+        return out;
+    }
+    return v;
+}
+
+/** The value an apply callback sees for `o` during a lint: real where known, probes where not. */
+async function lintProbeValue(o: any, seen: Set<any> = new Set(), depth = 0): Promise<any> {
+    if (depth > 32 || seen.has(o)) {
+        return lintProbeFor(undefined);
+    }
+    const next = new Set(seen).add(o);
+    if (o instanceof Promise) {
+        return lintDeep(await o, next, depth + 1);
+    }
+    if (!Output.isInstance(o)) {
+        return lintDeep(o, next, depth + 1);
+    }
+    const children = (o as any)[lintChildrenKey];
+    if (children !== undefined) {
+        return lintDeep(children, next, depth + 1);
+    }
+    if (await o.isKnown) {
+        return lintDeep(await o.promise(/*withUnknowns*/ true), next, depth + 1);
+    }
+    const template = getOutputTemplate(o);
+    if (template !== undefined && "concat" in template) {
+        return (await Promise.all(template.concat.map((p) => lintDeep(p, next, depth + 1)))).join("");
+    }
+    if (template !== undefined && "json" in template) {
+        return JSON.stringify(await lintDeep(template.json, next, depth + 1));
+    }
+    return lintProbeFor(o);
+}
+
+/** A probed apply's known result can hold outputs at its leaves; callbacks on it get probes there too. */
+function lintContainsOutputs(v: any, depth = 0): boolean {
+    if (depth > 50 || v === null || typeof v !== "object") {
+        return false;
+    }
+    if (Output.isInstance(v)) {
+        return true;
+    }
+    if (Array.isArray(v)) {
+        return v.some((e) => lintContainsOutputs(e, depth + 1));
+    }
+    if (Object.getPrototypeOf(v) === Object.prototype) {
+        return Object.keys(v).some((k) => lintContainsOutputs(v[k], depth + 1));
+    }
+    return false;
+}
+
+function lintHasProbe(s: string): boolean {
+    lintProbeRe.lastIndex = 0;
+    return lintProbeRe.test(s);
+}
+
+/** What a callback returned, with each probe turned back into the output it stands for. */
+function lintRebuild(v: any, seen: Set<any> = new Set(), depth = 0): any {
+    const pid = lintProbeId(v);
+    if (pid !== undefined) {
+        return lintProbeOutputs[pid];
+    }
+    if (typeof v === "string") {
+        if (!lintHasProbe(v)) {
+            return v;
+        }
+        const exact = /^__pulumiprobe(\d+)__$/i.exec(v);
+        if (exact) {
+            return lintProbeOutputs[Number(exact[1])];
+        }
+        const trimmed = v.trim();
+        if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+            try {
+                return jsonStringify(lintRebuild(JSON.parse(v), seen, depth + 1));
+            } catch {
+                // Not JSON: a plain template.
+            }
+        }
+        const parts: Input<any>[] = [];
+        let last = 0;
+        lintProbeRe.lastIndex = 0;
+        for (let m = lintProbeRe.exec(v); m !== null; m = lintProbeRe.exec(v)) {
+            parts.push(v.slice(last, m.index), lintProbeOutputs[Number(m[1])]);
+            last = m.index + m[0].length;
+        }
+        parts.push(v.slice(last));
+        return concat(...parts);
+    }
+    if (v === null || typeof v !== "object" || seen.has(v) || depth > 32) {
+        return v;
+    }
+    const next = new Set(seen).add(v);
+    if (Array.isArray(v)) {
+        return v.map((e) => lintRebuild(e, next, depth + 1));
+    }
+    if (Object.getPrototypeOf(v) === Object.prototype) {
+        const out: Record<string, any> = {};
+        for (const k of Object.keys(v)) {
+            out[k] = lintRebuild(v[k], next, depth + 1);
+        }
+        return out;
+    }
+    return v;
+}
+
+async function lintApply<T, U>(
+    o: OutputInstance<T>,
+    func: (t: T) => Input<U>,
+    tags: { source?: OutputSource; template?: OutputTemplate },
+): Promise<{ value: any; isKnown: boolean } | undefined> {
+    let out: any;
+    try {
+        out = await func(await lintProbeValue(o));
+    } catch {
+        lintCount("__pulumiLintApplyFailed");
+        return undefined;
+    }
+    lintCount("__pulumiLintApplyProbed");
+    if (process.env.PULUMI_LINT_DEBUG) {
+        const g = globalThis as any;
+        const m: Map<string, number> = (g.__pulumiLintApplyBySource = g.__pulumiLintApplyBySource || new Map());
+        const k = func.toString().replace(/\s+/g, " ").slice(0, 140);
+        m.set(k, (m.get(k) || 0) + 1);
+        if (g.__pulumiLintApplyProbed % 20000 === 0) {
+            const top = [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+            process.stderr.write(`LINT-PROBES ${g.__pulumiLintApplyProbed}\n${top.map(([c, n]) => `  ${n} ${c}`).join("\n")}\n`);
+        }
+    }
+    if (Output.isInstance(out)) {
+        tags.source = getOutputSource(out);
+        tags.template = getOutputTemplate(out);
+        const l = await liftInnerOutput(new Set(), out, true, false);
+        return { value: l.value, isKnown: l.isKnown };
+    }
+    const rebuilt = lintRebuild(out);
+    if (Output.isInstance(rebuilt)) {
+        // A string with probes: unknown, but identifiable (one output) or a template.
+        tags.source = getOutputSource(rebuilt);
+        tags.template = getOutputTemplate(rebuilt);
+        return { value: undefined, isKnown: false };
+    }
+    // A structure: known, with identifiable unknowns (outputs) at the probed leaves.
+    return { value: rebuilt, isKnown: true };
+}
+
+const lintNoProbeKey = "__pulumiLintNoProbe";
+
+/** Marks an apply callback the SDK uses to build a template (concat, interpolate, jsonStringify): not probed. */
+function lintNoProbe<F extends (...args: any[]) => any>(f: F): F {
+    Object.defineProperty(f, lintNoProbeKey, { value: true });
+    return f;
 }

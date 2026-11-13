@@ -1,0 +1,1652 @@
+{
+ "summary": {
+  "bench": "/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/bench-linked-js",
+  "env": {
+   "BENCH_BAD_POLICY": "1"
+  },
+  "preview_s": 4.31,
+  "lint_s": 0.86,
+  "lint_timings_ms": {
+   "analyzeMs": 124,
+   "loadPackMs": 120,
+   "scan.cacheMs": 1,
+   "scan.programMs": 299,
+   "scan.sdkMs": 211,
+   "scan.totalMs": 647,
+   "scan.typescriptMs": 136,
+   "scanMs": 676,
+   "totalMs": 802
+  },
+  "resources": {
+   "preview": 40,
+   "lint": 40,
+   "only_preview": [],
+   "only_lint": []
+  },
+  "input_diffs": 39,
+  "unknown_source_diffs": 2,
+  "policy_results": {
+   "preview": 406,
+   "lint": 409,
+   "preview_cant_run": 0,
+   "lint_cant_run": 0,
+   "only_preview": 55,
+   "only_lint": 58
+  },
+  "stubs": [],
+  "errors": null
+ },
+ "input_diffs": [
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "name": "flowLogGroup-328decd",
+    "region": "us-west-2",
+    "retentionInDays": 365,
+    "tagsAll": {}
+   },
+   "lint": {
+    "retentionInDays": 365
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ebs/volume:Volume::unusedVolume",
+   "preview": {
+    "__defaults": null,
+    "availabilityZone": "us-west-2a",
+    "encrypted": true,
+    "region": "us-west-2",
+    "size": 10,
+    "tagsAll": {}
+   },
+   "lint": {
+    "availabilityZone": "us-west-2a",
+    "encrypted": true,
+    "size": 10
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ebs/volume:Volume::volume",
+   "preview": {
+    "__defaults": null,
+    "availabilityZone": "us-west-2a",
+    "encrypted": true,
+    "kmsKeyId": "<unknown>",
+    "region": "us-west-2",
+    "size": 10,
+    "tagsAll": {}
+   },
+   "lint": {
+    "availabilityZone": "us-west-2a",
+    "encrypted": true,
+    "kmsKeyId": "<unknown>",
+    "size": 10
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/flowLog:FlowLog::flowLog",
+   "preview": {
+    "__defaults": [
+     "logDestinationType",
+     "maxAggregationInterval"
+    ],
+    "iamRoleArn": "<unknown>",
+    "logDestination": "<unknown>",
+    "logDestinationType": "cloud-watch-logs",
+    "maxAggregationInterval": 600,
+    "region": "us-west-2",
+    "tagsAll": {},
+    "trafficType": "ALL",
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "iamRoleArn": "<unknown>",
+    "logDestination": "<unknown>",
+    "trafficType": "ALL",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/instance:Instance::instance",
+   "preview": {
+    "__defaults": [
+     "sourceDestCheck"
+    ],
+    "ami": "ami-0123456789abcdef0",
+    "instanceType": "t3.micro",
+    "metadataOptions": {
+     "__defaults": [
+      "httpEndpoint",
+      "httpProtocolIpv6"
+     ],
+     "httpEndpoint": "enabled",
+     "httpProtocolIpv6": "disabled",
+     "httpTokens": "required"
+    },
+    "region": "us-west-2",
+    "sourceDestCheck": true,
+    "subnetId": "<unknown>",
+    "tagsAll": {},
+    "vpcSecurityGroupIds": [
+     "<unknown>"
+    ]
+   },
+   "lint": {
+    "ami": "ami-0123456789abcdef0",
+    "instanceType": "t3.micro",
+    "metadataOptions": {
+     "httpTokens": "required"
+    },
+    "subnetId": "<unknown>",
+    "vpcSecurityGroupIds": [
+     "<unknown>"
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/networkInterface:NetworkInterface::eni",
+   "preview": {
+    "__defaults": [
+     "sourceDestCheck"
+    ],
+    "region": "us-west-2",
+    "securityGroups": [
+     "<unknown>"
+    ],
+    "sourceDestCheck": true,
+    "subnetId": "<unknown>",
+    "tagsAll": {}
+   },
+   "lint": {
+    "securityGroups": [
+     "<unknown>"
+    ],
+    "subnetId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/networkInterface:NetworkInterface::eniMulti",
+   "preview": {
+    "__defaults": [
+     "sourceDestCheck"
+    ],
+    "region": "us-west-2",
+    "securityGroups": [
+     "<unknown>",
+     "<unknown>"
+    ],
+    "sourceDestCheck": true,
+    "subnetId": "<unknown>",
+    "tagsAll": {}
+   },
+   "lint": {
+    "securityGroups": [
+     "<unknown>",
+     "<unknown>"
+    ],
+    "subnetId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/securityGroup:SecurityGroup::appSg",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "description": "attached",
+    "name": "appSg-9df6a4d",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "description": "attached",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/securityGroup:SecurityGroup::dbSg",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "description": "db",
+    "name": "dbSg-cb6d577",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "description": "db",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/securityGroup:SecurityGroup::orphanSg",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "description": "orphan",
+    "name": "orphanSg-4329f4f",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "description": "orphan",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/subnet:Subnet::subnetA",
+   "preview": {
+    "__defaults": null,
+    "availabilityZone": "us-west-2a",
+    "cidrBlock": "10.0.1.0/24",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "availabilityZone": "us-west-2a",
+    "cidrBlock": "10.0.1.0/24",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/subnet:Subnet::subnetB",
+   "preview": {
+    "__defaults": null,
+    "availabilityZone": "us-west-2b",
+    "cidrBlock": "10.0.2.0/24",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "availabilityZone": "us-west-2b",
+    "cidrBlock": "10.0.2.0/24",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/subnet:Subnet::subnetNoLogs",
+   "preview": {
+    "__defaults": null,
+    "cidrBlock": "10.1.1.0/24",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "vpcId": "<unknown>"
+   },
+   "lint": {
+    "cidrBlock": "10.1.1.0/24",
+    "vpcId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/volumeAttachment:VolumeAttachment::attachment",
+   "preview": {
+    "__defaults": null,
+    "deviceName": "/dev/sdh",
+    "instanceId": "<unknown>",
+    "region": "us-west-2",
+    "volumeId": "<unknown>"
+   },
+   "lint": {
+    "deviceName": "/dev/sdh",
+    "instanceId": "<unknown>",
+    "volumeId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/vpc:Vpc::vpc",
+   "preview": {
+    "__defaults": [
+     "enableDnsSupport"
+    ],
+    "cidrBlock": "10.0.0.0/16",
+    "enableDnsSupport": true,
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {
+    "cidrBlock": "10.0.0.0/16"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/vpc:Vpc::vpcNoLogs",
+   "preview": {
+    "__defaults": [
+     "enableDnsSupport"
+    ],
+    "cidrBlock": "10.1.0.0/16",
+    "enableDnsSupport": true,
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {
+    "cidrBlock": "10.1.0.0/16"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:efs/fileSystem:FileSystem::efs",
+   "preview": {
+    "__defaults": [
+     "creationToken",
+     "throughputMode"
+    ],
+    "creationToken": "efs-204560e",
+    "encrypted": true,
+    "kmsKeyId": "<unknown>",
+    "region": "us-west-2",
+    "tagsAll": {},
+    "throughputMode": "bursting"
+   },
+   "lint": {
+    "encrypted": true,
+    "kmsKeyId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/group:Group::group",
+   "preview": {
+    "__defaults": [
+     "name",
+     "path"
+    ],
+    "name": "group-75628f9",
+    "path": "/"
+   },
+   "lint": {}
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/role:Role::flowLogRole",
+   "preview": {
+    "__defaults": [
+     "maxSessionDuration",
+     "name",
+     "path"
+    ],
+    "assumeRolePolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}",
+    "maxSessionDuration": 3600,
+    "name": "flowLogRole-3c9aa6c",
+    "path": "/",
+    "tagsAll": {}
+   },
+   "lint": {
+    "assumeRolePolicy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "preview": {
+    "__defaults": [
+     "name",
+     "path"
+    ],
+    "name": "user-36dcc13",
+    "path": "/",
+    "tagsAll": {}
+   },
+   "lint": {}
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/userGroupMembership:UserGroupMembership::membership",
+   "preview": {
+    "__defaults": null,
+    "groups": [
+     "group-75628f9"
+    ],
+    "user": "user-36dcc13"
+   },
+   "lint": {
+    "groups": [
+     "<unknown>"
+    ],
+    "user": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:kms/key:Key::key",
+   "preview": {
+    "__defaults": [
+     "customerMasterKeySpec",
+     "isEnabled",
+     "keyUsage"
+    ],
+    "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+    "enableKeyRotation": true,
+    "isEnabled": true,
+    "keyUsage": "ENCRYPT_DECRYPT",
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {
+    "enableKeyRotation": true
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "preview": {
+    "__defaults": [
+     "clientKeepAlive",
+     "desyncMitigationMode",
+     "dnsRecordClientRoutingPolicy",
+     "enableHttp2",
+     "idleTimeout",
+     "name",
+     "xffHeaderProcessingMode"
+    ],
+    "clientKeepAlive": 3600,
+    "desyncMitigationMode": "defensive",
+    "dnsRecordClientRoutingPolicy": "any_availability_zone",
+    "dropInvalidHeaderFields": true,
+    "enableHttp2": true,
+    "idleTimeout": 60,
+    "loadBalancerType": "application",
+    "name": "alb-e121a8b",
+    "region": "us-west-2",
+    "securityGroups": [
+     "<unknown>"
+    ],
+    "subnets": [
+     "<unknown>",
+     "<unknown>"
+    ],
+    "tagsAll": {},
+    "xffHeaderProcessingMode": "append"
+   },
+   "lint": {
+    "dropInvalidHeaderFields": true,
+    "loadBalancerType": "application",
+    "securityGroups": [
+     "<unknown>"
+    ],
+    "subnets": [
+     "<unknown>",
+     "<unknown>"
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:rds/instance:Instance::db",
+   "preview": {
+    "__defaults": [
+     "autoMinorVersionUpgrade",
+     "deleteAutomatedBackups",
+     "identifier"
+    ],
+    "allocatedStorage": 20,
+    "autoMinorVersionUpgrade": true,
+    "dbSubnetGroupName": "db-subnets-b6edb3e",
+    "deleteAutomatedBackups": true,
+    "engine": "postgres",
+    "identifier": "db9f10020",
+    "instanceClass": "db.t3.micro",
+    "kmsKeyId": "<unknown>",
+    "manageMasterUserPassword": true,
+    "region": "us-west-2",
+    "storageEncrypted": true,
+    "tagsAll": {},
+    "username": "app",
+    "vpcSecurityGroupIds": [
+     "<unknown>"
+    ]
+   },
+   "lint": {
+    "allocatedStorage": 20,
+    "dbSubnetGroupName": "<unknown>",
+    "engine": "postgres",
+    "instanceClass": "db.t3.micro",
+    "kmsKeyId": "<unknown>",
+    "manageMasterUserPassword": true,
+    "storageEncrypted": true,
+    "username": "app",
+    "vpcSecurityGroupIds": [
+     "<unknown>"
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:rds/subnetGroup:SubnetGroup::db-subnets",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "description": "Managed by Pulumi",
+    "name": "db-subnets-b6edb3e",
+    "region": "us-west-2",
+    "subnetIds": [
+     "<unknown>",
+     "<unknown>"
+    ],
+    "tagsAll": {}
+   },
+   "lint": {
+    "description": "Managed by Pulumi",
+    "subnetIds": [
+     "<unknown>",
+     "<unknown>"
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "preview": {
+    "__defaults": [
+     "bucket"
+    ],
+    "bucket": "bare-99c07d6",
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {}
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "preview": {
+    "__defaults": [
+     "bucket"
+    ],
+    "bucket": "good-4524daa",
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {}
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "preview": {
+    "__defaults": [
+     "bucket"
+    ],
+    "bucket": "logs-4075985",
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {}
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketLifecycleConfiguration:BucketLifecycleConfiguration::goodLifecycle",
+   "preview": {
+    "bucket": "<unknown>",
+    "region": "us-west-2",
+    "rules": [
+     {
+      "expiration": {
+       "days": 90
+      },
+      "filter": {},
+      "id": "expire",
+      "status": "Enabled"
+     }
+    ]
+   },
+   "lint": {
+    "bucket": "<unknown>",
+    "rules": [
+     {
+      "expiration": {
+       "days": 90
+      },
+      "filter": {},
+      "id": "expire",
+      "status": "Enabled"
+     }
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketLogging:BucketLogging::goodLogging",
+   "preview": {
+    "__defaults": null,
+    "bucket": "<unknown>",
+    "region": "us-west-2",
+    "targetBucket": "<unknown>",
+    "targetPrefix": "good/"
+   },
+   "lint": {
+    "bucket": "<unknown>",
+    "targetBucket": "<unknown>",
+    "targetPrefix": "good/"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "preview": {
+    "__defaults": null,
+    "bucket": "<unknown>",
+    "policy": "<unknown>",
+    "region": "us-west-2"
+   },
+   "lint": {
+    "bucket": "<unknown>",
+    "policy": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::barePab",
+   "preview": {
+    "__defaults": null,
+    "blockPublicAcls": false,
+    "blockPublicPolicy": true,
+    "bucket": "<unknown>",
+    "ignorePublicAcls": true,
+    "region": "us-west-2",
+    "restrictPublicBuckets": true
+   },
+   "lint": {
+    "blockPublicAcls": false,
+    "blockPublicPolicy": true,
+    "bucket": "<unknown>",
+    "ignorePublicAcls": true,
+    "restrictPublicBuckets": true
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::goodPab",
+   "preview": {
+    "__defaults": null,
+    "blockPublicAcls": true,
+    "blockPublicPolicy": true,
+    "bucket": "<unknown>",
+    "ignorePublicAcls": true,
+    "region": "us-west-2",
+    "restrictPublicBuckets": true
+   },
+   "lint": {
+    "blockPublicAcls": true,
+    "blockPublicPolicy": true,
+    "bucket": "<unknown>",
+    "ignorePublicAcls": true,
+    "restrictPublicBuckets": true
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketServerSideEncryptionConfiguration:BucketServerSideEncryptionConfiguration::goodSse",
+   "preview": {
+    "__defaults": null,
+    "bucket": "<unknown>",
+    "region": "us-west-2",
+    "rules": [
+     {
+      "__defaults": null,
+      "applyServerSideEncryptionByDefault": {
+       "__defaults": null,
+       "kmsMasterKeyId": "<unknown>",
+       "sseAlgorithm": "aws:kms"
+      },
+      "bucketKeyEnabled": true
+     }
+    ]
+   },
+   "lint": {
+    "bucket": "<unknown>",
+    "rules": [
+     {
+      "applyServerSideEncryptionByDefault": {
+       "kmsMasterKeyId": "<unknown>",
+       "sseAlgorithm": "aws:kms"
+      },
+      "bucketKeyEnabled": true
+     }
+    ]
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketVersioning:BucketVersioning::goodVersioning",
+   "preview": {
+    "__defaults": null,
+    "bucket": "<unknown>",
+    "region": "us-west-2",
+    "versioningConfiguration": {
+     "__defaults": null,
+     "status": "Enabled"
+    }
+   },
+   "lint": {
+    "bucket": "<unknown>",
+    "versioningConfiguration": {
+     "status": "Enabled"
+    }
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:secretsmanager/secret:Secret::secret",
+   "preview": {
+    "__defaults": [
+     "name",
+     "recoveryWindowInDays"
+    ],
+    "kmsKeyId": "<unknown>",
+    "name": "secret-96aeeaf",
+    "recoveryWindowInDays": 30,
+    "region": "us-west-2",
+    "tagsAll": {}
+   },
+   "lint": {
+    "kmsKeyId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:secretsmanager/secretRotation:SecretRotation::rotation",
+   "preview": {
+    "__defaults": [
+     "rotateImmediately"
+    ],
+    "region": "us-west-2",
+    "rotateImmediately": true,
+    "rotationLambdaArn": "arn:aws:lambda:us-west-2:123456789012:function:rotate",
+    "rotationRules": {
+     "__defaults": null,
+     "automaticallyAfterDays": 30
+    },
+    "secretId": "<unknown>"
+   },
+   "lint": {
+    "rotationLambdaArn": "arn:aws:lambda:us-west-2:123456789012:function:rotate",
+    "rotationRules": {
+     "automaticallyAfterDays": 30
+    },
+    "secretId": "<unknown>"
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "preview": {
+    "__defaults": [
+     "name"
+    ],
+    "defaultAction": {
+     "__defaults": null,
+     "allow": {
+      "__defaults": null
+     }
+    },
+    "name": "acl-dd35bc9",
+    "region": "us-west-2",
+    "scope": "REGIONAL",
+    "tagsAll": {},
+    "visibilityConfig": {
+     "__defaults": null,
+     "cloudwatchMetricsEnabled": true,
+     "metricName": "acl",
+     "sampledRequestsEnabled": true
+    }
+   },
+   "lint": {
+    "defaultAction": {
+     "allow": {}
+    },
+    "scope": "REGIONAL",
+    "visibilityConfig": {
+     "cloudwatchMetricsEnabled": true,
+     "metricName": "acl",
+     "sampledRequestsEnabled": true
+    }
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAclAssociation:WebAclAssociation::aclAssociation",
+   "preview": {
+    "__defaults": null,
+    "region": "us-west-2",
+    "resourceArn": "<unknown>",
+    "webAclArn": "<unknown>"
+   },
+   "lint": {
+    "resourceArn": "<unknown>",
+    "webAclArn": "<unknown>"
+   }
+  }
+ ],
+ "unknown_diffs": [
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/userGroupMembership:UserGroupMembership::membership",
+   "preview": {},
+   "lint": {
+    "groups.0": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/group:Group::group",
+     "property": "name",
+     "template": false
+    },
+    "user": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+     "property": "name",
+     "template": false
+    }
+   }
+  },
+  {
+   "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:rds/instance:Instance::db",
+   "preview": {
+    "kmsKeyId": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:kms/key:Key::key",
+     "property": "arn",
+     "template": false
+    },
+    "vpcSecurityGroupIds.0": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/securityGroup:SecurityGroup::dbSg",
+     "property": "id",
+     "template": false
+    }
+   },
+   "lint": {
+    "dbSubnetGroupName": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:rds/subnetGroup:SubnetGroup::db-subnets",
+     "property": "name",
+     "template": false
+    },
+    "kmsKeyId": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:kms/key:Key::key",
+     "property": "arn",
+     "template": false
+    },
+    "vpcSecurityGroupIds.0": {
+     "urn": "urn:pulumi:linked-js::policy-bench-linked::aws:ec2/securityGroup:SecurityGroup::dbSg",
+     "property": "id",
+     "template": false
+    }
+   }
+  }
+ ],
+ "only_preview": [
+  [
+   "cis-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group 'flowLogGroup-328decd' does not have encryption at rest enabled."
+  ],
+  [
+   "cis-aws",
+   "elb-deletion-protection-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb-e121a8b' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "cis-aws",
+   "iam-user-mfa-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "advisory",
+   "Ensure all IAM users have Multi-Factor Authentication (MFA) devices configured for enhanced security.\nIAM user 'user-36dcc13' does not have a Multi-Factor Authentication (MFA) device configured. This violates CIS Controls v8 IG1 5.2. Create a VirtualMfaDevice resource for this user to enhance account security with two-factor authentication. Note: After creating the MFA device, the user must activate it through the AWS Console or CLI."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-public-read-prohibited",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensure S3 buckets prohibit public read access through comprehensive access controls.\nS3 bucket 'good-4524daa' has a bucket policy that grants public read access to principal \"*\". This violates CIS Controls v8 IG1 4.6. Remove public access from the bucket policy or use specific principals."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'bare-99c07d6' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'good-4524daa' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'logs-4075985' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare-99c07d6\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good-4524daa\" does not enforce SSL/TLS for all requests. Add a bucket policy statement with Effect: \"Deny\", Principal: \"*\", Action: \"s3:*\", and Condition: {\"Bool\": {\"aws:SecureTransport\": \"false\"}} to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs-4075985\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-versioning-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have versioning enabled using BucketVersioning resource\nS3 bucket \"bare-99c07d6\" does not have a BucketVersioning resource configured. Create a BucketVersioning resource to enable versioning for data integrity and recovery."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-versioning-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have versioning enabled using BucketVersioning resource\nS3 bucket \"logs-4075985\" does not have a BucketVersioning resource configured. Create a BucketVersioning resource to enable versioning for data integrity and recovery."
+  ],
+  [
+   "cmmc-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cmmc-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "hitrust-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db9f10020' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "hitrust-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "hitrust-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group 'flowLogGroup-328decd' does not have encryption at rest enabled."
+  ],
+  [
+   "iso-27001-aws",
+   "elb-deletion-protection",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb-e121a8b' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "iso-27001-aws",
+   "lb-access-logging",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "ELBv2 load balancers must have access logging enabled.\nLoad Balancer 'alb-e121a8b' must have access logging enabled; set accessLogs.enabled to true with an S3 bucket."
+  ],
+  [
+   "iso-27001-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db9f10020' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare-99c07d6\" does not have a bucket policy configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs-4075985\" does not have a bucket policy configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good-4524daa\" does not enforce SSL/TLS for all requests."
+  ],
+  [
+   "iso-27001-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL 'acl-dd35bc9' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "nist-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group 'flowLogGroup-328decd' does not have encryption at rest enabled."
+  ],
+  [
+   "nist-aws",
+   "elb-deletion-protection",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb-e121a8b' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "nist-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db9f10020' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"bare-99c07d6\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"good-4524daa\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"logs-4075985\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare-99c07d6\" does not have a bucket policy configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs-4075985\" does not have a bucket policy configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good-4524daa\" does not enforce SSL/TLS for all requests."
+  ],
+  [
+   "nist-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL 'acl-dd35bc9' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "pci-dss-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group 'flowLogGroup-328decd' does not have encryption at rest enabled."
+  ],
+  [
+   "pci-dss-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db9f10020' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare-99c07d6\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs-4075985\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good-4524daa\" does not enforce SSL/TLS for all requests. Add a bucket policy statement with Effect: \"Deny\", Action: \"s3:*\", and Condition: {\"Bool\": {\"aws:SecureTransport\": \"false\"}} to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL 'acl-dd35bc9' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db9f10020' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare-99c07d6\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs-4075985\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"bare-99c07d6\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"good-4524daa\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"logs-4075985\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ]
+ ],
+ "only_lint": [
+  [
+   "cis-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group '' does not have encryption at rest enabled."
+  ],
+  [
+   "cis-aws",
+   "elb-deletion-protection-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "cis-aws",
+   "iam-user-mfa-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "advisory",
+   "Ensure all IAM users have Multi-Factor Authentication (MFA) devices configured for enhanced security.\nIAM user 'user' does not have a Multi-Factor Authentication (MFA) device configured. This violates CIS Controls v8 IG1 5.2. Create a VirtualMfaDevice resource for this user to enhance account security with two-factor authentication. Note: After creating the MFA device, the user must activate it through the AWS Console or CLI."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-public-read-prohibited",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensure S3 buckets prohibit public read access through comprehensive access controls.\nS3 bucket 'good' has a bucket policy that grants public read access to principal \"*\". This violates CIS Controls v8 IG1 4.6. Remove public access from the bucket policy or use specific principals."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'bare' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'good' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "Ensure S3 buckets have replication enabled for automated backup to different regions.\nS3 bucket 'logs' must have replication configuration. This violates CIS Controls v8 IG1 11.2. Enable replication to replicate objects for disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good\" does not enforce SSL/TLS for all requests. Add a bucket policy statement with Effect: \"Deny\", Principal: \"*\", Action: \"s3:*\", and Condition: {\"Bool\": {\"aws:SecureTransport\": \"false\"}} to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-versioning-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have versioning enabled using BucketVersioning resource\nS3 bucket \"bare\" does not have a BucketVersioning resource configured. Create a BucketVersioning resource to enable versioning for data integrity and recovery."
+  ],
+  [
+   "cis-aws",
+   "s3-bucket-versioning-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have versioning enabled using BucketVersioning resource\nS3 bucket \"logs\" does not have a BucketVersioning resource configured. Create a BucketVersioning resource to enable versioning for data integrity and recovery."
+  ],
+  [
+   "cmmc-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "cmmc-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "hitrust-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "hitrust-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "hitrust-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group '' does not have encryption at rest enabled."
+  ],
+  [
+   "iso-27001-aws",
+   "elb-deletion-protection",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "iso-27001-aws",
+   "iam-user-group-membership-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "advisory",
+   "IAM users must be members of groups for proper access management\nIAM user is not a member of any groups."
+  ],
+  [
+   "iso-27001-aws",
+   "lb-access-logging",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "ELBv2 load balancers must have access logging enabled.\nLoad Balancer 'alb' must have access logging enabled; set accessLogs.enabled to true with an S3 bucket."
+  ],
+  [
+   "iso-27001-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare\" does not have a bucket policy configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs\" does not have a bucket policy configured."
+  ],
+  [
+   "iso-27001-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good\" does not enforce SSL/TLS for all requests."
+  ],
+  [
+   "iso-27001-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL '' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "nist-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group '' does not have encryption at rest enabled."
+  ],
+  [
+   "nist-aws",
+   "elb-deletion-protection",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:lb/loadBalancer:LoadBalancer::alb",
+   "advisory",
+   "Load balancers must have deletion protection enabled\nApplication load balancer 'alb' must have deletion protection enabled. Set 'enableDeletionProtection' to true to prevent accidental deletion and ensure service continuity. This is critical for contingency planning and system availability requirements."
+  ],
+  [
+   "nist-aws",
+   "iam-user-group-membership-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "advisory",
+   "IAM users must be members of groups for proper access management\nIAM user is not a member of any groups."
+  ],
+  [
+   "nist-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"bare\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"good\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-notifications-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have event notifications enabled to alert personnel of important bucket activities\nS3 bucket \"logs\" does not have event notifications configured. Create a BucketNotification resource with SNS topics, SQS queues, Lambda functions, or EventBridge to alert personnel of bucket activities and audit events in accordance with organizational monitoring requirements."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare\" does not have a bucket policy configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs\" does not have a bucket policy configured."
+  ],
+  [
+   "nist-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good\" does not enforce SSL/TLS for all requests."
+  ],
+  [
+   "nist-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL '' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "pci-dss-aws",
+   "cloudwatch-log-group-kms-encryption-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:cloudwatch/logGroup:LogGroup::flowLogGroup",
+   "advisory",
+   "Ensures CloudWatch log groups have encryption enabled using KMS keys.\nCloudWatch log group '' does not have encryption at rest enabled."
+  ],
+  [
+   "pci-dss-aws",
+   "iam-user-group-membership-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:iam/user:User::user",
+   "advisory",
+   "IAM users must be members of groups for proper access management\nIAM user is not a member of any groups."
+  ],
+  [
+   "pci-dss-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"bare\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"logs\" does not have a bucket policy configured. Create a BucketPolicy resource with SSL enforcement to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "s3-bucket-ssl-enforcement-required",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucketPolicy:BucketPolicy::goodPolicy",
+   "advisory",
+   "S3 buckets must enforce SSL/TLS for all requests to ensure encryption in transit\nS3 bucket \"good\" does not enforce SSL/TLS for all requests. Add a bucket policy statement with Effect: \"Deny\", Action: \"s3:*\", and Condition: {\"Bool\": {\"aws:SecureTransport\": \"false\"}} to ensure all communication is encrypted in transit and protect against eavesdropping attacks."
+  ],
+  [
+   "pci-dss-aws",
+   "wafv2-logging-enabled",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:wafv2/webAcl:WebAcl::acl",
+   "advisory",
+   "Ensures WAFv2 Web ACLs have logging configurations enabled for audit and monitoring purposes.\nWAFv2 Web ACL '' does not have a logging configuration. Create a WebAclLoggingConfiguration resource with log destinations like Kinesis Data Firehose, CloudWatch Logs, or S3 bucket to enable audit logging."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "rds-instance-ssl-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::pulumi:pulumi:Stack::policy-bench-linked-linked-js",
+   "advisory",
+   "Ensures RDS instances have SSL/TLS encryption enabled through parameter group configuration\nRDS instance 'db' with engine 'postgres' does not have a parameter group configured."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"bare\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-encryption",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "S3 buckets must have server-side encryption configured using BucketServerSideEncryptionConfiguration resource\nS3 bucket \"logs\" does not have a BucketServerSideEncryptionConfiguration resource configured. Create a BucketServerSideEncryptionConfiguration resource to enable server-side encryption and protect data at rest."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::bare",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"bare\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::good",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"good\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ],
+  [
+   "pulumi-best-practices-aws",
+   "s3-bucket-replication",
+   "urn:pulumi:linked-js::policy-bench-linked::aws:s3/bucket:Bucket::logs",
+   "advisory",
+   "Ensures S3 buckets have replication configured for enhanced availability\nS3 bucket \"logs\" must have replication configuration. Configure replication for enhanced availability and disaster recovery. Create a BucketReplicationConfig resource with at least one enabled rule and destination bucket."
+  ]
+ ]
+}

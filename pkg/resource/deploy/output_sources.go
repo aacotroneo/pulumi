@@ -103,3 +103,8 @@ func joinSourcePath(path, k string) string {
 	}
 	return path + "." + k
 }
+
+// CollectOutputSources is collectOutputSources for callers outside the engine (hackathon: `pulumi policy lint`).
+func CollectOutputSources(obj *structpb.Struct) map[string]plugin.OutputSource {
+	return collectOutputSources(obj)
+}

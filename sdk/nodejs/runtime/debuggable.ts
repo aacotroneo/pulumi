@@ -284,7 +284,11 @@ export function debuggablePromise<T>(p: Promise<T>, ctx: any): Promise<T> {
     // Whack some stack onto the promise.  Leave them non-enumerable to avoid awkward rendering.
     Object.defineProperty(p, "_debugId", { writable: true, value: promiseId });
     Object.defineProperty(p, "_debugCtx", { writable: true, value: ctx });
-    Object.defineProperty(p, "_debugStackTrace", { writable: true, value: new Error().stack });
+    // Hackathon (policy lint): a stack per promise is only for leak reports, and source-mapping each one is costly.
+    Object.defineProperty(p, "_debugStackTrace", {
+        writable: true,
+        value: process.env.PULUMI_LINT ? undefined : new Error().stack,
+    });
 
     promiseId++;
 

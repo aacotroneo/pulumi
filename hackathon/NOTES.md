@@ -487,3 +487,164 @@ Output: `hackathon/unknowns-audit.{json,md}` on the packs branch.
 - **Idea:** the "what kind of resource" checks could look the producer up by equality (`resources.find(r => r.outputs.arn === certArn)?.type`), which works at preview. A known ARN of an existing resource still parses.
 - **Different verdict (14).** The new ones are exemptions by id: EMR subnets, a Lambda exemption. They're the same class as config literals: without the `toLowerCase` guard, a lowercased ref silently doesn't match.
 - **Host gap:** `toLowerCase`/`toLocaleLowerCase` should be guarded like `toUpperCase`. `trim` is harmless on a ref.
+
+## 2026-11-13 — Part 3: `pulumi policy lint` (policies on a folder: no engine, credentials or installed dependencies)
+
+**What it is.** A hidden `pulumi policy lint [dir] --policy-pack <dir>... [--json] [--stack s] [--graph-out f]`. It runs a Node.js program in-process against a recording resource monitor (SDK mock mode, preview on), then feeds the recorded graph to the purejs analyzer directly. It needs no login, stack, provider plugin or cloud credentials, and the project's `node_modules` isn't needed.
+
+**How it works** (branch `hackathon/static-scan`, local only):
+- **Driver:** `pkg/cmd/pulumi/policy/lint/scan.js`, embedded in the CLI with `go:embed`.
+  - **Recording monitor:** a `MockMonitor` subclass that advertises `outputValues`. It records the raw RegisterResource struct, so the part 2b/2g `source`/`template` tags arrive as they do in the engine. It also records parent, dependencies, propertyDependencies, and the source position: the first stack frame in the program's own code, so resources a library creates still point at the program line.
+  - **Outputs:** known inputs are echoed back as outputs, as a provider does in preview; everything else is unknown.
+  - **Engine-style URNs:** the Stack is stripped from the parent chain.
+  - **Resolve hook:** `@pulumi/pulumi` always resolves to the patched SDK (`PULUMI_LINT_SDK` or `bin/../sdk/nodejs/bin`). The program's other `@pulumi/*` imports resolve to a shared cache (`~/.pulumi/lint/sdk-cache`, filled on demand with `npm install --ignore-scripts`). Libraries keep their own nested versions (awsx → aws v6). Any other missing module the program imports becomes an inert stub that serializes as unknown.
+  - **TypeScript:** ts-node, transpile-only, CommonJS whatever the package `type` (ESM programs included), limited to the program's own files. ESM-style `./x.js` imports resolve to `./x.ts`.
+- **Go:** `pkg/cmd/pulumi/policy/policy_lint.go`.
+  - **Config:** project and template defaults, then `Pulumi.<stack>.yaml`. Secure values become a placeholder.
+  - **Analyzer input:** `Inputs` come from the struct, and `UnknownInputs` from `deploy.CollectOutputSources`, the engine's code exported. `ID` is empty, so `outputs.id` is the ref.
+  - **Referenced outputs:** any output another resource reads gets its identifiable unknown on the source resource (`alb.arn` read by a WAF association → `outputs.arn` on the ALB). No provider ran, so this is what makes the join work; it's generic, with no per-type table.
+  - **Report:** findings grouped by `file:line:col`, plus a "couldn't be decided before deployment" section. Exit 255 on mandatory violations. `--json` is shaped for LSP diagnostics and GitHub annotations.
+- **SDK hacks** (all `PULUMI_LINT`):
+  - Invokes and component method `call`s return a "universal unknown", a Proxy that tolerates any property access, call or iteration. `rpc.ts` serializes it as unknown.
+  - Missing required config returns a placeholder and is reported.
+  - Closures aren't serialized (Lambda callbacks).
+
+**Parity with a real preview** (`static-scan/parity.py`, bench-linked-js, 7 ABI v2 packs, file backend):
+- **Resources:** both runs record the same 40.
+- **Policy results:** neither run has any undecidable ("can't run") results.
+- **Lint vs preview:** ignoring message text, every preview result is also in lint, and lint has 3 extra. `BENCH_BAD_POLICY=1` gives the same picture (+13 bad-document violations on both sides).
+  - **Message differences** come only from provider-filled values: auto-names (`flowLogGroup-729555b` vs `''`), `region`, `tagsAll`.
+  - **The 3 extras** are all `iam-user-group-membership-required` (iso/nist/pci). The legacy policy matches the membership's `user` with the user's physical `name`. In preview, provider Check auto-names it; lint has no Check. The shim gives legacy policies only `id`/`arn` outputs. A v2 policy comparing `membership.inputs.user === user.outputs.name` works, because both are the same ref. The fix is porting the policy, not a name table.
+- **Time:** lint 0.83–0.93 s; preview with the same packs 3.9–4.3 s warm (10 s cold).
+
+**Real programs** (`static-scan/examples.py`, the 61 Node.js `aws-ts-*` programs in pulumi/examples, cloned untimed with `gh repo clone pulumi/examples -- --depth 1`):
+- **Loading:** 50 of 61 load and finish.
+- **Volume:** 901 resources and 4,501 findings, of which 97% (4,386) carry a program `file:line`. 203 results couldn't be decided before deployment.
+- **Time:** warm median 0.66 s, p90 0.84 s (scan 0.53 s, of which the program itself is 0.18 s; pack load 0.11 s; analyze 0.03 s). Cold (cache install) up to 9 s. An empty `PULUMI_HOME` with no credentials: 10.6 s cold, 1.05 s warm; the cache is 188 MB.
+- **The 11 that don't finish:**
+  - **4 eks/k8s programs** stop with partial graphs: they wait on remote-component outputs (`cluster.provider`) that only the component's plugin can construct.
+  - **5 validate made-up config:** a file path, a TLD, a username length, a key.
+  - **1 needs a build artifact** (`./website/dist`).
+  - **1 uses an old awsx API** that would fail anyway.
+  - **1 passes a stub as `dependsOn`.**
+- **Remote components** (awsx v2, eks v3+, aws-apigateway) show up as a single component with no children. **Next step:** run the component plugin's `Construct` against the same recording monitor (no credentials needed to construct).
+
+**Editor: corymhall/pulumilsp** (`static-scan/pulumilsp.patch` against 21e9c5c; `static-scan/lsp-smoke.py` drives it like VS Code):
+- **Today:** every save runs Automation API `stack.Preview` on the selected stack, then tails `PULUMI_DEBUG_GRPC` for source positions and analyzer responses.
+- **With `PULUMILSP_LINT_PACKS` set:** it runs `pulumi policy lint --json` instead. No stack or login is needed.
+- **Parser fallback:** the tree-sitter query only knows `new X("literal", ...)`, so the patch falls back to the reported position.
+- **Results:** bench 387 diagnostics in 0.85–0.93 s per save; aws-ts-wordpress-fargate-rds (multi-file components) 93 diagnostics on `network.ts` in 0.99 s.
+- **Next:** dedupe the same policy across packs; lint unsaved buffers through the server's file overlay.
+
+### Part 3b (2026-11-13): pulumi-service/infrastructure (a pnpm workspace)
+
+Running `static-scan/sweep.py ../pulumi-service/infrastructure -c pulumi-service:workflowPoolAccountId=123456789012` needed these driver changes:
+
+| Change | What it does |
+|---|---|
+| Workspaces | Reads pnpm `catalog:` versions, resolves `workspace:*` members to their sources, and finds `file:` SDKs (the generated `@pulumi/sentry`). The code root is the workspace, so shared packages are transpiled and count as program code for stubs and positions. |
+| `main` | Can name an entry file. |
+| ESM | Handles top-level `await` (the module runs in an async wrapper the driver awaits), `import.meta` (rewritten to CommonJS on the same line), and `import x from "cjs"` (a module marked `__esModule` gets a `default` that is itself). |
+| Stack references | Values are the universal unknown. |
+| Build outputs | Missing paths under `dist/`, `build/` or `out/` are assumed built and reported. Example: Lambda bundles that `lambdaBundle.ts` checks for. |
+| Config | `-c key=value` overrides. |
+| Hooks | No-op monitor methods for resource and error hooks. |
+| SDK cache | One directory per set of package majors (`<cache>/sets/<hash>`); tools are in `<cache>/tools`. Installs use `--legacy-peer-deps`. |
+
+**Results:**
+- 23 of 29 Node.js projects produce a full graph.
+- `service`, the production stack: 1,448 resources, 4,446 findings (all advisory with these packs), 439 undecidable, about 30 s. Of that, 17 s is running the program and 9.6 s is analysis. The speed is untuned.
+- Findings checked by hand are real. For example, `core/network/vpc.ts:163` creates a LogGroup with `{}`, so it has no retention.
+
+**Programs that don't finish:**
+- They validate made-up config: `syncedEnv` format, and a null number.
+- They call the GitHub API directly (401).
+- `reviewStacksCluster` waits on remote-component outputs.
+- `01-iam` uses `aws.iam.ManagedPolicies`, which `@pulumi/aws` 7.48 doesn't have. That's a real bug in the program.
+
+### Part 3c (2026-11-13): hermetic runs and fixtures (`Pulumi.lint.yaml`)
+
+**1. Hermetic by default.** `PULUMI_LINT_ALLOW_NETWORK=1` turns it off.
+- **Network client modules:** when the program imports one, it gets a stub, and calls on it give unknowns. Modules covered: axios, node-fetch, got, `@aws-sdk/*`, aws-sdk, `@azure/*`, `@google-cloud/*`, octokit, `@slack/*`, stripe, `@pulumi/esc-sdk`, and db clients.
+- **Raw `http`/`https`:** fails fast with "network access is disabled".
+- **`fetch`:** resolves with a body that is unknown.
+- **Report:** everything blocked is listed as "Network access blocked".
+
+**2. Fixtures.** They are read from `Pulumi.lint.yaml` next to `Pulumi.yaml`, or from `--fixtures <file>`:
+
+```yaml
+config:              # like a stack file; namespace defaults to the project; applied after the stack file, before -c
+  syncedEnv: lint-project/lint-env
+invokes:             # data-source results, by full token or function name; fields left out are unknown
+  getCallerIdentity:
+    accountId: "123456789012"
+stackReferences:     # another stack's outputs, by stack name (full or trailing segments)
+  network.production:
+    network: { vpc: { id: vpc-123 } }
+```
+
+- **Data sources:** the SDK's lint branch in `invokeAsync` returns the fixture, partially known through `lintPartial`.
+- **Stack references:** the recording monitor answers the `StackReference` read with `{name, outputs}`. `getOutputValue` returns known values, and the universal unknown otherwise.
+- **Report:** lists "Fixtures used", and "Unknown without a fixture", which names the tokens and stack references to add.
+- **Config:** null values count as unset; this fixed `05-eks-cluster`.
+
+**Results:**
+- **pulumi-service:** 26 of 29 projects finish, up from 23. `service` needs no `-c` with a 2-line `getCallerIdentity` fixture, which makes the account check pass.
+- **`github-secrets-sync`:** finishes now that `@pulumi/esc-sdk` is blocked.
+- **Still unfinished:** `reviewStacksCluster` (remote component), `01-iam` (a real bug), and `oauth-client-apps/sync-stack` (it validates the ESC environment's contents, which a module-level mock, item 3, would cover).
+- **Examples:** unchanged, 51 of 61. With a config fixture, `aws-ts-static-website` and `aws-ts-ruby-on-rails` also finish.
+- **Parity:** unchanged.
+
+### Part 3d (2026-11-13): apply probes (lint only)
+
+**The question.** Lint showed many "can't be known during preview" results. Was a value read for real, or did an unknown lose its source?
+
+**What they were.** On `service` with 7 packs, there were 361. 298 (83%) were whole values built inside `.apply()`, mostly IAM policy documents (`bucket.arn.apply(arn => ({Statement: [...]}))`). At preview the callback never runs, so the document is a source-less unknown. A real preview of the program gives the same advisories. The other 63 are policies that really read inside an output (`.startsWith`, regex, `*` checks on ARNs).
+
+**What probing does** (`sdk/nodejs/output.ts`, `PULUMI_LINT` only):
+- **Probes.** An `apply` that preview would skip runs with a probe for each unknown output it reads, including the elements of `all([...])`/`output({...})`, which are remembered on creation.
+- **Probe behaviour.** A probe is a Proxy that converts to its text `__pulumiprobeN__` (template literals, `+`, `JSON.stringify`). Anything else done with it (property access, calls, string methods) gives another, source-less unknown. It never makes up a known value: string probes turned stack-reference lookups (`os[name]`) into `undefined` and broke `service`.
+- **Rebuilding the result:**
+  - a probe becomes the original output (source kept);
+  - a JSON string with probes becomes a `jsonStringify` template;
+  - other strings become a `concat` template;
+  - structures keep their shape, with identifiable unknowns at the leaves. `rpc.ts` now keeps sources inside a known output's value.
+- **Fallback.** A callback that throws falls back to unknown, as before.
+- **Not probed.** The SDK's own template builders (`concat`, `interpolate`, `jsonStringify`) are marked: probing them recursed forever, rebuilding `concat` through `concat`.
+- **Guards.** Cycle and depth guards on the walks.
+- **Report.** It counts probed and fallen-back callbacks.
+- **Debugging.** `PULUMI_LINT_DEBUG` prints the hottest probed callbacks. `PULUMI_LINT_NODE_ARGS` passes flags such as `--prof` to node.
+
+**Results:**
+- **`service`:** undecided 361 → 54, findings 4,464 → 4,468, 1,448 resources, about 33 s; 212 callbacks probed, 5 fell back.
+  - The 4 new findings are false positives: `s3-bucket-ssl-enforcement-required` on `public-registry-bucket`. `cdn.ts:355` attaches a TLS policy through `bucket: publicRegistryBucket.bucket`, but the legacy policy joins on the bucket's provider auto-name. This is the same gap as `iam-user-group-membership-required` on the bench. Before probing these were undecided.
+- **Examples:** undecided 203 → 193, findings 4,622 → 4,634, still 51 of 61.
+- **Bench parity:** unchanged.
+- **Unit check (`t2`):** an object document built in `apply` now carries `Resource: concat["", <bucket.arn>, "/*"]`. A JSON document from `all().apply` is a json template with sources, and the policy flags its `Action: "*"`.
+
+**Later:** make probing configurable (per callback, opt-out, or author-provided stand-ins), as the user suggested.
+
+### Part 3e (2026-11-13): demo pack and program
+
+`static-scan/demo/make-demo-pack.sh` builds `../policy-packs-internal-pure/dist-demo/aws-demo`, which is git-ignored, so the proprietary bundle never lands in this repo.
+- **Base:** `pulumi-best-practices-aws` (ABI v2) with the tagging policies dropped through the bundle's `__pulumiPolicyFilter` hook.
+- **Added:** `static-scan/demo/demo-policies.js`, `database-not-reachable-from-internet` (mandatory, critical). It joins only through outputs:
+  - RDS instance/cluster → `vpcSecurityGroupIds` → `SecurityGroup.outputs.id`;
+  - then inline ingress, or standalone `vpc.SecurityGroupIngressRule` / `ec2.SecurityGroupRule` by `securityGroupId` → `0.0.0.0/0` or `::/0`.
+- **Reporting:** it reports on the database and on the offending rule.
+
+**Demo program** (`static-scan/demo/program`, TS, 10 resources): the `db-debug` rule opens 5432 to the internet.
+- **CLI:** 2 mandatory violations (`index.ts:22` rule, `index.ts:32` database) in 1.4 s. Without the rule, 0 mandatory.
+- **pulumilsp:** the same two show as errors (severity 1) 0.8–1.3 s after a save.
+- **`service` (pulumi-service) with this pack:** 235 findings (down from about 760 with the tagging policies) and 0 undecided. The database policy doesn't fire there.
+
+### Part 3f (2026-11-13): `service` in the editor, 21 s → 4.5 s per save
+
+- **`Pulumi.lint.yaml` `stack:`** names the stack to lint as, unless `--stack` is given, so the editor and a plain `pulumi policy lint .` use `Pulumi.production.yaml`. Without it, `service` records 933 of its 1,448 resources (feature flags).
+- **Where the time went** (`PULUMI_LINT_NODE_ARGS="--cpu-prof ..."`, about 19 s of program time):
+  - 4.8 s in `spawnSync`: the program runs `make build_workflow_binaries` (Bazel) and several `git` commands (`diff HEAD --binary`, `ls-files`, `rev-parse`) while it loads;
+  - about 5 s source-mapping stack traces: one per SDK promise for leak reports, and unbounded stacks for source positions.
+- **Fixes:**
+  - Hermetic mode now also blocks child processes (`exec*`, `spawn*`). They return empty output and are listed under "Side effects blocked".
+  - In lint mode the SDK skips the per-promise debug stack and caps `Error.stackTraceLimit` at 64 for source positions.
+- **Result:** `service` takes 4.3 s on the CLI (program 2.8 s) and 4.4–4.7 s per save in pulumilsp, with the same 1,448 resources and 235 findings. Parity is unchanged.

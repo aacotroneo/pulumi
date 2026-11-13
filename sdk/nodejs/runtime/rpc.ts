@@ -425,6 +425,15 @@ export async function serializeProperty(
     dependentResources?: Set<Resource>,
     opts?: SerializationOptions,
 ): Promise<any> {
+    // Hackathon (policy lint): stand-ins for values nothing can know without a deployment (invoke results, missing
+    // modules) are unknowns.
+    if (
+        (typeof prop === "function" || (typeof prop === "object" && prop !== null)) &&
+        (prop as any)[Symbol.for("pulumi.lint.unknown")] === true
+    ) {
+        return unknownValue;
+    }
+
     // if prop is a function type just return undefined, we don't want to try and keep these values around.
     if (typeof prop === "function") {
         if (excessiveDebugOutput) {
@@ -504,6 +513,8 @@ export async function serializeProperty(
         const promiseDeps = new Set<Resource>();
         const value = await serializeProperty(`${ctx}.id`, prop.promise(), promiseDeps, {
             keepOutputValues: false,
+            // Hackathon: a known value can hold unknown outputs (a lint-probed apply's document); keep their sources.
+            keepOutputSources: opts?.keepOutputSources,
         });
         for (const resource of promiseDeps) {
             propResources.add(resource);

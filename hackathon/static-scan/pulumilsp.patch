@@ -1,0 +1,205 @@
+diff --git a/pulumicommand/command.go b/pulumicommand/command.go
+index 49d1eaa..8da02f6 100644
+--- a/pulumicommand/command.go
++++ b/pulumicommand/command.go
+@@ -16,6 +16,8 @@ type Runner struct {
+ 	serialized chan struct{}
+ 
+ 	stack auto.Stack
++
++	lint *lintRunner
+ }
+ 
+ func New(stack auto.Stack) *Runner {
+@@ -51,7 +53,13 @@ func (r *Runner) Run(ctx context.Context) (map[string]*ResourceInfo, error) {
+ 	case r.inFlight <- struct{}{}:
+ 		defer func() { <-r.inFlight }()
+ 	}
+-	res, err := run(ctx, r.stack)
++	var res map[string]*ResourceInfo
++	var err error
++	if r.lint != nil {
++		res, err = r.lint.run(ctx)
++	} else {
++		res, err = run(ctx, r.stack)
++	}
+ 	if err != nil {
+ 		debug.LogError(ctx, "error running pulumi command", err)
+ 	}
+diff --git a/pulumicommand/lint.go b/pulumicommand/lint.go
+new file mode 100644
+index 0000000..bcc287f
+--- /dev/null
++++ b/pulumicommand/lint.go
+@@ -0,0 +1,113 @@
++package pulumicommand
++
++import (
++	"context"
++	"encoding/json"
++	"fmt"
++	"os"
++	"os/exec"
++	"path/filepath"
++	"strings"
++
++	"github.com/corymhall/pulumilsp/debug"
++	rpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
++)
++
++// lintRunner runs `pulumi policy lint --json` on the project instead of a full preview: no stack, login,
++// providers or credentials, and no installed program dependencies.
++type lintRunner struct {
++	root   string
++	packs  []string
++	pulumi string
++}
++
++// LintPacksFromEnv returns the policy packs to lint with (PULUMILSP_LINT_PACKS, a path list); none means lint
++// mode is off and the server runs a preview as before.
++func LintPacksFromEnv() []string {
++	v := os.Getenv("PULUMILSP_LINT_PACKS")
++	if v == "" {
++		return nil
++	}
++	return filepath.SplitList(v)
++}
++
++func NewLint(root string, packs []string) *Runner {
++	bin := os.Getenv("PULUMILSP_PULUMI")
++	if bin == "" {
++		bin = "pulumi"
++	}
++	return &Runner{lint: &lintRunner{root: root, packs: packs, pulumi: bin}}
++}
++
++type lintFinding struct {
++	URI              string `json:"uri"`
++	Line             int32  `json:"line"`
++	Column           int32  `json:"column"`
++	URN              string `json:"urn"`
++	PolicyPack       string `json:"policyPack"`
++	PolicyPackVer    string `json:"policyPackVersion"`
++	Policy           string `json:"policy"`
++	Description      string `json:"description"`
++	EnforcementLevel string `json:"enforcementLevel"`
++	Message          string `json:"message"`
++}
++
++type lintReport struct {
++	Findings   []lintFinding    `json:"findings"`
++	Advisories []lintFinding    `json:"advisories"`
++	Errors     []string         `json:"errors"`
++	Timings    map[string]int64 `json:"timings"`
++}
++
++func enforcementLevel(s string) rpc.EnforcementLevel {
++	switch s {
++	case "mandatory":
++		return rpc.EnforcementLevel_MANDATORY
++	case "remediate":
++		return rpc.EnforcementLevel_REMEDIATE
++	case "disabled":
++		return rpc.EnforcementLevel_DISABLED
++	default:
++		return rpc.EnforcementLevel_ADVISORY
++	}
++}
++
++func (l *lintRunner) run(ctx context.Context) (map[string]*ResourceInfo, error) {
++	args := []string{"policy", "lint", l.root, "--json"}
++	for _, p := range l.packs {
++		args = append(args, "--policy-pack", p)
++	}
++	cmd := exec.CommandContext(ctx, l.pulumi, args...)
++	cmd.Dir = l.root
++	out, runErr := cmd.Output() // exits non-zero on mandatory violations; the report is still on stdout
++	var report lintReport
++	if err := json.Unmarshal(out, &report); err != nil {
++		if runErr != nil {
++			return nil, fmt.Errorf("pulumi policy lint: %w", runErr)
++		}
++		return nil, fmt.Errorf("parsing pulumi policy lint output: %w", err)
++	}
++	debug.Debug.Log(ctx, "pulumi policy lint", "findings", len(report.Findings), "timings", report.Timings)
++	store := &ResourceStore{}
++	for _, f := range append(report.Findings, report.Advisories...) {
++		if f.URI == "" {
++			continue
++		}
++		info := store.getOrCreateResourceInfo(f.URN)
++		info.SetSourcePosition(&rpc.SourcePosition{Uri: f.URI, Line: f.Line, Column: f.Column})
++		msg := f.Message
++		if !strings.Contains(msg, f.Policy) {
++			msg = fmt.Sprintf("[%s/%s] %s", f.PolicyPack, f.Policy, msg)
++		}
++		info.AddDiagnostic(&rpc.AnalyzeDiagnostic{
++			PolicyName:        f.Policy,
++			PolicyPackName:    f.PolicyPack,
++			PolicyPackVersion: f.PolicyPackVer,
++			Description:       f.Description,
++			Message:           msg,
++			EnforcementLevel:  enforcementLevel(f.EnforcementLevel),
++			Urn:               f.URN,
++		})
++	}
++	return store.Resources, nil
++}
+diff --git a/server/diagnostics.go b/server/diagnostics.go
+index 759da15..9167b7c 100644
+--- a/server/diagnostics.go
++++ b/server/diagnostics.go
+@@ -68,7 +68,7 @@ func (s *server) diagnoseChangedView(ctx context.Context, modID uint64, lastChan
+ 		return
+ 	}
+ 
+-	work := s.progress.Start(ctx, "Pulumi", "Running preview...", nil, nil)
++	work := s.progress.Start(ctx, "Pulumi", "Running policy checks...", nil, nil)
+ 	s.diagnoseSnapshot(ctx, snapshot, lastChange, 0 /* delay */)
+ 	work.End(ctx, "Done.")
+ }
+@@ -215,8 +215,9 @@ func (s *server) diagnose(ctx context.Context, snapshot *Snapshot) (diagMap, err
+ 		if _, ok := fileCaptures[uri]; !ok {
+ 			captures, err := s.GetCapturesFromURI(ctx, uri)
+ 			if err != nil {
+-				logger.ErrorContext(ctx, "error getting captures from URI", "error", err)
+-				continue
++				// The parser only knows `new X("literal", ...)`; anything else falls back to the reported position.
++				logger.DebugContext(ctx, "no resource expressions parsed; using reported positions", "error", err)
++				captures = nil
+ 			}
+ 			fileCaptures[uri] = captures
+ 		}
+@@ -224,6 +225,15 @@ func (s *server) diagnose(ctx context.Context, snapshot *Snapshot) (diagMap, err
+ 		diags := []*Diagnostic{}
+ 		for _, diag := range info.Diagnostics {
+ 			diagCapture := findCaptureWithStartLine(infos, info.SourcePosition.Line-1)
++			if diagCapture == nil {
++				// No resource expression starts on that line (e.g. a plain .js file the parser doesn't cover):
++				// fall back to the reported position.
++				diagCapture = &parser.CaptureInfo{}
++				diagCapture.StartPoint.Row = uint(info.SourcePosition.Line - 1)
++				diagCapture.StartPoint.Column = uint(info.SourcePosition.Column - 1)
++				diagCapture.EndPoint.Row = uint(info.SourcePosition.Line - 1)
++				diagCapture.EndPoint.Column = uint(info.SourcePosition.Column + 40)
++			}
+ 			data := lsp.CodeActionResolveData{
+ 				CaptureInfo: *diagCapture,
+ 				URI:         uri,
+diff --git a/server/snapshot.go b/server/snapshot.go
+index a46eec5..221a576 100644
+--- a/server/snapshot.go
++++ b/server/snapshot.go
+@@ -123,6 +123,12 @@ func (s *Snapshot) AwaitInitialized(ctx context.Context) {
+ 
+ func (s *Snapshot) initializeWorkspace(ctx context.Context) error {
+ 	rootPath := s.view.root.Path()
++	if packs := pulumicommand.LintPacksFromEnv(); len(packs) > 0 {
++		s.mu.Lock()
++		defer s.mu.Unlock()
++		s.pulumicmdRunner = pulumicommand.NewLint(rootPath, packs)
++		return nil
++	}
+ 	workspace, err := auto.NewLocalWorkspace(ctx, auto.WorkDir(rootPath))
+ 	if err != nil {
+ 		return fmt.Errorf("error creating workspace: %w", err)

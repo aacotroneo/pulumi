@@ -120,6 +120,10 @@ export async function serializeFunction(func: Function, args: SerializeFunctionA
     const exportName = args.exportName || "handler";
     const serialize = args.serialize || ((_) => true);
     const isFactoryFunction = args.isFactoryFunction === undefined ? false : args.isFactoryFunction;
+    if (process.env.PULUMI_LINT) {
+        // Hackathon (policy lint): the function body is never deployed, so don't capture and serialize it.
+        return { text: `exports.${exportName} = function () {};\n`, exportName, containsSecrets: false };
+    }
 
     const closureInfo = await closure.createClosureInfoAsync(func, serialize, args.logResource);
     if (!args.allowSecrets && closureInfo.containsSecrets) {

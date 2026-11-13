@@ -355,7 +355,8 @@ export abstract class Resource {
         // We process this by splitting it into lines and parsing the position information out of each line.
         const stackTraceLimit = Error.stackTraceLimit;
         try {
-            Error.stackTraceLimit = Number.POSITIVE_INFINITY;
+            // Hackathon (policy lint): the program's frame is near the top; a bounded stack keeps source-mapping cheap.
+            Error.stackTraceLimit = process.env.PULUMI_LINT ? 64 : Number.POSITIVE_INFINITY;
 
             const stackTrace = new Error().stack;
             return (

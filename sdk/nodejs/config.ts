@@ -298,6 +298,9 @@ export class Config {
     ): K {
         const v: K | undefined = this.getImpl(key, opts, use, insteadOf);
         if (v === undefined) {
+            if (process.env.PULUMI_LINT) {
+                return lintMissingConfig(this.fullKey(key), (`[missing config ${this.fullKey(key)}]` as K));
+            }
             throw new ConfigMissingError(this.fullKey(key), secret);
         }
         return v;
@@ -332,6 +335,9 @@ export class Config {
     ): boolean {
         const v: boolean | undefined = this.getBooleanImpl(key, use, insteadOf);
         if (v === undefined) {
+            if (process.env.PULUMI_LINT) {
+                return lintMissingConfig(this.fullKey(key), false);
+            }
             throw new ConfigMissingError(this.fullKey(key), secret);
         }
         return v;
@@ -366,6 +372,9 @@ export class Config {
     ): number {
         const v: number | undefined = this.getNumberImpl(key, opts, use, insteadOf);
         if (v === undefined) {
+            if (process.env.PULUMI_LINT) {
+                return lintMissingConfig(this.fullKey(key), 0);
+            }
             throw new ConfigMissingError(this.fullKey(key), secret);
         }
         return v;
@@ -401,6 +410,9 @@ export class Config {
     ): T {
         const v: T | undefined = this.getObjectImpl<T>(key, use, insteadOf);
         if (v === undefined) {
+            if (process.env.PULUMI_LINT) {
+                return lintMissingConfig(this.fullKey(key), ({} as T));
+            }
             throw new ConfigMissingError(this.fullKey(key), secret);
         }
         return v;
@@ -535,4 +547,14 @@ class ConfigMissingError extends RunError {
                 }${key} <value>\``,
         );
     }
+}
+
+/**
+ * Hackathon (policy lint): a missing required value doesn't stop the program. It gets a placeholder, and the key is
+ * recorded so the linter can say which values it made up.
+ */
+function lintMissingConfig<T>(fullKey: string, fallback: T): T {
+    const g = globalThis as any;
+    (g.__pulumiLintMissingConfig = g.__pulumiLintMissingConfig || new Set<string>()).add(fullKey);
+    return fallback;
 }

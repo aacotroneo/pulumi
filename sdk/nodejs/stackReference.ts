@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { lintUnknown } from "./runtime/invoke";
 import { all, Input, Output, output } from "./output";
 import { CustomResource, CustomResourceOptions } from "./resource";
 
@@ -175,6 +176,13 @@ export class StackReference extends CustomResource {
     }
 
     private async readOutputValue(callerName: string, outputName: string, required: boolean): Promise<[any, boolean]> {
+        if (process.env.PULUMI_LINT) {
+            // Hackathon (policy lint): outputs come from a fixture (Pulumi.lint.yaml `stackReferences:`, served by the
+            // recording monitor); anything else is an unknown the program can still use.
+            const o = this.getOutput(outputName);
+            const [v, secret] = await Promise.all([o.promise(), o.isSecret]);
+            return [v === undefined ? lintUnknown() : v, secret];
+        }
         const out = required ? this.requireOutput(outputName) : this.getOutput(outputName);
         return Promise.all([out.promise(), out.isSecret]);
     }

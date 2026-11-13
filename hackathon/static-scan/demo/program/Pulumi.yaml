@@ -1,0 +1,3 @@
+name: lint-demo
+runtime: nodejs
+description: Demo program for pulumi policy lint
