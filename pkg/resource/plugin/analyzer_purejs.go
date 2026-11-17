@@ -756,3 +756,13 @@ func (a *jsAnalyzer) loadedRuntime() *goja.Runtime {
 		return nil
 	}
 }
+
+// NewPureJSAnalyzer loads the purejs policy pack in dir for a host outside the engine: pulumi-language-purejs serves
+// it over gRPC so that a stock CLI can run purejs packs without Node.js.
+func NewPureJSAnalyzer(dir string) (Analyzer, error) {
+	proj, err := workspace.LoadPolicyPack(filepath.Join(dir, "PulumiPolicy.yaml"))
+	if err != nil {
+		return nil, err
+	}
+	return newJSAnalyzer(tokens.QName(filepath.Base(dir)), dir, proj)
+}

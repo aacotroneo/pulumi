@@ -648,3 +648,36 @@ stackReferences:     # another stack's outputs, by stack name (full or trailing 
   - Hermetic mode now also blocks child processes (`exec*`, `spawn*`). They return empty output and are listed under "Side effects blocked".
   - In lint mode the SDK skips the per-promise debug stack and caps `Error.stackTraceLimit` at 64 for source positions.
 - **Result:** `service` takes 4.3 s on the CLI (program 2.8 s) and 4.4–4.7 s per save in pulumilsp, with the same 1,448 resources and 235 findings. Parity is unchanged.
+
+### Part 3g (2026-11-13): a PR check, built from a GitHub Action plus a bash script
+- **CLI bundle.** `static-scan/ci/build-release.sh` builds a linux-x64 bundle (52 MB): the CLI, plus the patched `@pulumi/pulumi` with its production dependencies. It is published as the prerelease `policy-lint-poc-1` on the fork, and the workflow pins it by sha256.
+- **The check.** It is about 200 lines: a workflow, `lint-pr.sh` and a plain-JS pack of 4 policies. The script lints the PR merge commit and the base, then reports findings that are new by `(urn, pack, policy, message)`. Annotations go on changed lines, and one sticky comment is edited in place. Findings on resources whose inputs changed are listed separately.
+- **On a real private service repo** (a draft PR, not merged):
+  - The job takes 70–85 s, most of it checkout and setup. Lint runs in 4 s warm and 14 s cold; the cold run installs the provider SDK cache.
+  - The demo commit adds an open `0.0.0.0/0` ingress rule to the database's security group. The check flags the rule on its changed line, and also the database cluster in another file. They are linked by database → `vpcSecurityGroupIds` → group `id` ← rule `securityGroupId`, all identifiable unknowns.
+- **Gaps:** inline review comments (rather than annotations), linting more than one project per PR, and caching the base run.
+
+## 2026-11-17 — Part 4: purejs packs on a stock CLI (`pulumi-language-purejs`, no Node.js)
+
+- **What:** `pkg/cmd/pulumi-language-purejs`, a language plugin of about 170 lines that wraps the part 1 goja analyzer. The stock CLI already resolves `runtime: <x>` packs through `pulumi-language-<x>`, so the CLI needs no change.
+  - `RunPlugin` (kind analyzer) starts an `Analyzer` gRPC server in the plugin's own process and streams its port as stdout.
+  - `InstallDependencies` is a no-op. `installRequiredPolicy` calls it for Cloud-enforced packs, so install is download and extract.
+  - `grpcView` uses the stack properties as inputs, because gRPC carries no separate inputs. ABI v1 bundles see exactly what the Node.js SDK sees.
+- **Engine-side edits:**
+  - an exported `plugin.NewPureJSAnalyzer(dir)`;
+  - an upstream bug fix in `analyzerServer.marshalConfigSchema`: `structpb` panicked on the named `JSONSchema` type and on `[]string`. Every pack with a config schema crashed `GetAnalyzerInfo`. It is fixed with a JSON round-trip.
+- **Stock CLI v3.274.1 (mise), bench-stack (11 resources) on a file backend, the 7 part 1 bundles (`.build/new`) vs the Node.js packs (`.build/old`):**
+
+| | violations | wall (warm, 3 runs) | policy processes | peak RSS of policy processes |
+|---|---|---|---|---|
+| no policies | — | 1.0–2.6 s | — | — |
+| Node.js packs | 276 | 7.3–7.9 s | 7 node | ~1.97 GB (~280 MB each) |
+| goja plugin | 276, **276/276 identical** | 1.24–1.28 s | 1 | 102 MB |
+
+- **`--policy-pack-config`** (one policy `disabled`, one `mandatory`) is identical on both: 29/29, and both preview runs exit with code 1.
+- **Install:** `pulumi plugin install language purejs 0.1.0 --file <tgz>` works, and so does putting the binary on PATH (that prints a "using … from $PATH" warning).
+  - The tarball is 10.6 MB for darwin-arm64 and 11.4 MB for linux-amd64. The binary is 30 MB stripped; most of it is the pkg/plugin dependency tree.
+  - Compare 125–404 MB of node_modules per Node.js pack, plus Node itself.
+- **Without the plugin, a stock CLI fails clearly:** "no language plugin 'pulumi-language-purejs' found in the workspace or on your $PATH".
+- **Not verified live:** the Cloud-enforced download (the local service wasn't running). Its stock install path calls only `LanguageRuntime("purejs").InstallDependencies`, which `pulumi install` exercised with exit code 0.
+- **Repro:** `hackathon/purejs-plugin/parity.py <node.events.jsonl> <goja.events.jsonl>`. The commands are in this section's history: preview with `--event-log`, `PULUMI_DEBUG_COMMANDS=true`, one `--policy-pack` per staged dir.

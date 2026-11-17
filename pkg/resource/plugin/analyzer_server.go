@@ -16,6 +16,7 @@ package plugin
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
@@ -319,9 +320,10 @@ func marshalConfigSchema(schema *AnalyzerPolicyConfigSchema) *pulumirpc.PolicyCo
 		return nil
 	}
 
+	// Round-trip through JSON: structpb rejects named and typed values (JSONSchema, []string) that schemas carry.
 	props := make(map[string]any)
-	for k, v := range schema.Properties {
-		props[k] = v
+	if b, err := json.Marshal(schema.Properties); err == nil {
+		_ = json.Unmarshal(b, &props)
 	}
 
 	properties, err := structpb.NewStruct(props)
