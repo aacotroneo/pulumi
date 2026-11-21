@@ -25,7 +25,7 @@ import {
     registerResourceOutputs,
     SourcePosition,
 } from "./runtime/resource";
-import { isPolicyScan } from "./runtime/policyScan";
+import { isPolicyScan, scanNoteResource } from "./runtime/policyScan";
 import { unknownValue } from "./runtime/rpc";
 import { getProject, getStack } from "./runtime/settings";
 import { ensureNotInStateMigration } from "./runtime/stateMigration";
@@ -168,6 +168,13 @@ export abstract class Resource {
      * A regexp for use with {@link sourcePosition}.
      */
     private static framePositionRegExp = /^\s*at .* \((?<file>.*):(?<line>[0-9]+):(?<column>[0-9]+)\)$/;
+
+    /**
+     * During a policy scan, also anonymous frames (`at /path/file.ts:1:2`, e.g. an arrow callback), so resources
+     * created in callbacks get a position.
+     */
+    private static scanFramePositionRegExp =
+        /^\s*at (?:.* \()?(?<file>(?:file:\/\/)?\/[^()]*):(?<line>[0-9]+):(?<column>[0-9]+)\)?$/;
 
     /**
      * A private field to help with RTTI that works in SxS scenarios.
@@ -366,7 +373,8 @@ export abstract class Resource {
                     ?.split("\n")
                     ?.slice(1)
                     ?.map((frame) => {
-                        const { file, line, column } = Resource.framePositionRegExp.exec(frame)?.groups || {};
+                        const re = isPolicyScan() ? Resource.scanFramePositionRegExp : Resource.framePositionRegExp;
+                        const { file, line, column } = re.exec(frame)?.groups || {};
                         if (!file || !line || !column || file.startsWith("node:")) {
                             return {};
                         }
@@ -585,6 +593,7 @@ export abstract class Resource {
         //     new CustomResource (/path/to/resource.ts:678:90)
         //     new Bucket (/path/to/bucket.ts:987:65)
         //     <user code> (/path/to/index.ts:4:3)
+        scanNoteResource(t, name);
         const stackTrace = Resource.stackTrace(4);
         const sourcePosition = stackTrace.length < 1 ? undefined : stackTrace[0];
 

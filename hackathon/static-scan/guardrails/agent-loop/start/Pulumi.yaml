@@ -1,0 +1,11 @@
+name: acme-shop
+description: Acme's shop backend. Teams own src/<team>/ and build on the @acme/platform components.
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+config:
+  searchDbPassword:
+    type: string
+    secret: true
+    description: Master password of the search database.

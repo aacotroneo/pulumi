@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Resource } from "./resource";
-import { isPolicyScan, policyScanState, scanUnknownSymbol } from "./runtime/policyScan";
+import { isPolicyScan, policyScanState, scanRunApply, scanUnknownSymbol } from "./runtime/policyScan";
 import * as settings from "./runtime/settings";
 import { getDeferredOutputSources } from "./runtime/state";
 import * as utils from "./utils";
@@ -533,7 +533,7 @@ async function applyHelperAsync<T, U>(
         value = <T>(<any>unknown);
     }
 
-    const transformed = await func(value);
+    const transformed = await scanRunApply(() => func(value));
 
     // We successfully ran the inner function. Our new Output should be considered known.  We
     // preserve secretness from our original Output to the new one we're creating.
@@ -1689,7 +1689,8 @@ async function lintApply<T, U>(
 ): Promise<{ value: any; isKnown: boolean } | undefined> {
     let out: any;
     try {
-        out = await func(await lintProbeValue(o));
+        const probe = await lintProbeValue(o);
+        out = await scanRunApply(() => func(probe));
     } catch {
         lintCount("failedApplies");
         return undefined;

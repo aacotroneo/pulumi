@@ -1,0 +1,9 @@
+config:
+  aws:region: us-east-1
+  acme-shop:dbSize: large
+  acme-shop:paymentsDbPassword:
+    secure: AAABAIaXyG2kq8qOp1xb7Z0eH3y1Rr6F3gSdY0d5mQx1ZqYbB4ZbTg==
+  acme-shop:searchDbPassword:
+    secure: AAABAPm1ZxW3nH2fQ8b0bNfE5rTt1L0kM2vR7sH9yQwYdF0Aa1Bq3A==
+  acme-shop:allowedRegions: [us-east-1, us-west-2]
+  acme-shop:teamBudgets: { payments: 600, search: 800 }

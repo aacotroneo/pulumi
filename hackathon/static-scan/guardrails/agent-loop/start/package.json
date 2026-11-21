@@ -1,0 +1,16 @@
+{
+  "name": "acme-shop",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "workspaces": ["platform"],
+  "dependencies": {
+    "@acme/platform": "*",
+    "@pulumi/aws": "^7.48.0",
+    "@pulumi/pulumi": "^3.200.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

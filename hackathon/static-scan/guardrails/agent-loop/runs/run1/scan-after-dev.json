@@ -1,0 +1,28 @@
+{
+  "project": "acme-shop",
+  "programDir": "/private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work",
+  "resources": 30,
+  "findings": [],
+  "undecided": [],
+  "stubs": [],
+  "missingConfig": [
+    "acme-shop:paymentsDbPassword"
+  ],
+  "assumedArtifacts": [],
+  "blocked": [],
+  "usedFixtures": [
+    "stackReference acme/network/dev"
+  ],
+  "unknownWithoutFixture": [],
+  "probedApplies": 5,
+  "failedApplies": 0,
+  "identifiableUnknowns": 11,
+  "otherUnknowns": 0,
+  "errors": null,
+  "timings": {
+    "analyzeMs": 12,
+    "loadPackMs": 12,
+    "programMs": 399,
+    "totalMs": 413
+  }
+}

@@ -17,6 +17,7 @@ package policy
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -241,7 +242,7 @@ func TestPolicyScanCmd_Program(t *testing.T) {
 	var report scanReport
 	require.NoError(t, json.Unmarshal([]byte(stdout), &report), stdout)
 	assert.Empty(t, report.Errors)
-	assert.Equal(t, 3, report.Resources) // the Stack and two buckets
+	assert.Equal(t, 5, report.Resources) // the Stack and four buckets
 	require.Len(t, report.Findings, 2)
 	f := report.Findings[0]
 	assert.Equal(t, "public", f.Name)
@@ -250,7 +251,7 @@ func TestPolicyScanCmd_Program(t *testing.T) {
 	join := report.Findings[1]
 	assert.Equal(t, "private", join.Name)
 	assert.Equal(t, "source <output public.id> is public", join.Message)
-	assert.Equal(t, 1, report.Probed)
+	assert.Equal(t, 2, report.Probed)
 	assert.Equal(t, 1, report.Fallbacks)
 
 	assert.Equal(t, []string{"scan-test:owner"}, report.Missing)
@@ -275,12 +276,52 @@ func TestPolicyScanCmd_Program(t *testing.T) {
 	_, hasID := byName["public"].Properties.GetOk("id")
 	assert.False(t, hasID, "resource policies see the inputs only")
 
-	require.Len(t, stack, 3)
+	require.Len(t, stack, 5)
+	var scanCtx map[string]any
 	for _, r := range stack {
 		if r.Name == "public" {
 			assert.Equal(t, ref, r.Properties.Get("id").AsString(), "stack policies see the ID as its identifiable unknown")
 		}
+		if r.Type == resource.RootStackType {
+			scanCtx, _ = resource.ToResourcePropertyMap(r.Properties).Mappable()[scanContextKey].(map[string]any)
+		}
 	}
+	require.NotNil(t, scanCtx, "stack policies see the scan context on the Stack resource")
+	assert.Equal(t, "scan", scanCtx["stack"])
+	res := scanCtx["resources"].(map[string]any)
+	ctxOf := func(name string) map[string]any {
+		for urn, v := range res {
+			if resource.URN(urn).Name() == name {
+				return v.(map[string]any)
+			}
+		}
+		t.Fatalf("no scan context for %s", name)
+		return nil
+	}
+	publicCtx, guarded, inApply := ctxOf("public"), ctxOf("guarded"), ctxOf("in-apply")
+	assert.Equal(t, "index.js", publicCtx["file"])
+	assert.Equal(t, float64(22), publicCtx["line"])
+	assert.Equal(t, false, publicCtx["createdInApply"])
+	assert.Equal(t, true, inApply["createdInApply"])
+	assert.Equal(t, float64(42), inApply["line"], "a resource created in an arrow callback has a position")
+	opts := guarded["options"].(map[string]any)
+	assert.Equal(t, true, opts["protect"])
+	assert.Equal(t, []any{"acl"}, opts["ignoreChanges"])
+	assert.Equal(t, []any{"password"}, guarded["secretInputs"])
+	assert.True(t, byName["guarded"].Options.Protect, "the protocol's own options are filled too")
+
+	program := scanCtx["program"].(map[string]any)
+	configRead := program["configRead"].([]any)
+	reads := make([]string, 0, len(configRead))
+	for _, c := range configRead {
+		c := c.(map[string]any)
+		reads = append(reads, fmt.Sprintf("%s %v %v %s:%v", c["key"], c["required"], c["found"], c["file"], c["line"]))
+	}
+	assert.Equal(t, []string{"scan-test:owner true false index.js:13", "scan-test:tier false false index.js:45"}, reads)
+	effects := program["sideEffects"].([]any)
+	require.Len(t, effects, 1)
+	assert.Equal(t, "index.js", effects[0].(map[string]any)["file"])
+	assert.Equal(t, float64(20), effects[0].(map[string]any)["line"])
 }
 
 func TestScanUnknownsRewrite(t *testing.T) {

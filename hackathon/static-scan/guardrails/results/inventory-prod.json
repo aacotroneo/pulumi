@@ -1,0 +1,38 @@
+{
+ "stack": "prod",
+ "cloudResources": 50,
+ "throughPlatformComponents": 22,
+ "goldenPathShare": 0.44,
+ "platformVersion": "2.3.0",
+ "components": {
+  "acme:legacy:Queue": 1,
+  "acme:storage:Bucket": 3,
+  "acme:iam:Role": 2,
+  "acme:db:Postgres": 2,
+  "acme:network:Service": 1
+ },
+ "rawByType": {
+  "aws:iam/user:User": 1,
+  "aws:sqs/queue:Queue": 5,
+  "aws:sns/topic:Topic": 2,
+  "aws:iam/accountAlias:AccountAlias": 1,
+  "aws:cloudwatch/logGroup:LogGroup": 2,
+  "aws:kms/key:Key": 1,
+  "aws:iam/role:Role": 1,
+  "aws:ec2/vpc:Vpc": 1,
+  "aws:rds/instance:Instance": 1,
+  "aws:s3/bucket:Bucket": 1,
+  "aws:lb/loadBalancer:LoadBalancer": 1,
+  "aws:iam/rolePolicy:RolePolicy": 1,
+  "aws:iam/rolePolicyAttachment:RolePolicyAttachment": 1,
+  "aws:sqs/queuePolicy:QueuePolicy": 2,
+  "aws:ec2/instance:Instance": 2,
+  "aws:lambda/function:Function": 1,
+  "aws:ec2/securityGroupRule:SecurityGroupRule": 1,
+  "aws:ssm/parameter:Parameter": 2,
+  "aws:cloudwatch/metricAlarm:MetricAlarm": 1
+ },
+ "providers": [
+  "aws@7.48.0"
+ ]
+}
