@@ -124,3 +124,29 @@ The full catalog, with a status per idea, is in [`static-scan/guardrails/README.
 - Go tests and golangci-lint: pass;
 - SDK `build_package`, mocha 567 + 38 (circular-reference test excluded), eslint and biome: pass.
 
+**How a policy is written (2026-11-21, later).** The pack now shows how policies should be written: they say only
+what the rule is, and a small framework at the top of `pack/policies.js` does the rest. It is about 360 lines,
+marked "moves into the pack runtime later", and a shim over ABI v1, so it runs on the lean host unchanged.
+- **Shapes:** `policy({..., resourceTypes, validate(r, ctx)})` runs once per matching resource, and
+  `policy({..., validate(ctx)})` once per program.
+- **`r`:** the resource with its scan context (file, line, options, provider, secretInputs, createdInApply).
+  Provider inputs come JSON-decoded.
+- **`ctx`:**
+  - the scan context and `config(key)`;
+  - graph helpers: `resources`, `within`, `ancestors`, `children`, `descendants`, `references`/`referencedBy`
+    (dependencies, property dependencies and output refs), `providerOf`;
+  - `strings`, `parseJSON`;
+  - `reportViolation(message, where?)`, where `where` is a resource or anything with `file`/`line`. The framework
+    builds the `#file:line` hack.
+- **Unknowns:** identifiable unknowns (`output-<hash>.<prop>`), text built from them and plain unknowns become
+  interned, opaque Unknown objects, so `===` joins work. Any other use throws inside the framework, which reports
+  "can't run policy ... uses `<output x.id>`" as undecided. No policy checks for unknowns any more.
+- **Messages:** one or two sentences each (what's wrong, the approved choice, why), with no code and no file:line.
+  The full component calls are in `APPROVED` and `agent-rules.md`.
+- **Sizes:** the file went from 1,388 to 1,152 lines. The policies went from 1,220 to 733 lines, plus the 360-line
+  framework.
+- **Result:** the findings are identical (urn, policy, file, line, level, severity), dev 43/43 and prod 47/47, with
+  0 undecided.
+- **Tested on a scratch program:** an output used as a log retention and as a team tag gives the two expected
+  "can't run" results.
+

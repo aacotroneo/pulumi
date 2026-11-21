@@ -1,133 +1,372 @@
-// Acme guardrails: a hand-written purejs policy pack (ABI v1, no build step) for `pulumi policy scan`.
+// Acme guardrails: a hand-written purejs policy pack (one file, no build step) for `pulumi policy scan`.
 //
-// These policies are about how infrastructure code is written, not only how the cloud is configured: golden-path
-// components, conventions, Pulumi best practices. They're written for an agent (or a person) in an edit-scan loop, so
-// each message says what to change, where, and with which API.
-//
-// What a policy sees:
-//   - resource policies: input.{type,name,urn,props} (the inputs the program declared; secrets unwrapped);
-//   - stack policies: input.resources[], each {type,name,urn,props,parent,dependencies,propertyDependencies}. An
-//     output that only a deployment knows is an "identifiable unknown": the same text ("output-<hash>.id") wherever
-//     the program used it, so `rule.props.securityGroupId === group.props.id` works before deployment;
-//   - the scan context (hackathon/scan-guardrails): the Stack resource's props.scan, read with scanContext(). It has
-//     each resource's file:line, options, provider, secret inputs and createdInApply, and the program's imports,
-//     config reads, side effects, package.json and Pulumi.yaml. Only stack policies can see it.
-//
-// A stack policy can place a finding on any line of code by reporting it on "<stack urn>#<file>:<line>".
+// Policies here say only what the rule is. The framework at the top of the file does the rest: walking the resource
+// graph, reading the scan context, decoding provider inputs, handling values only a deployment knows, and placing
+// findings on lines of code. It is a shim over ABI v1 (every policy becomes one v1 stack policy), so the pack runs on
+// the lean purejs host unchanged.
 
-const STACK = "pulumi:pulumi:Stack";
-const UNKNOWN = { unknown: true };
-const isUnknown = (v) => v === UNKNOWN || (typeof v === "string" && /^output-[0-9a-f]{16}\./.test(v));
+// =====================================================================================================================
+// Framework: moves into the pack runtime later. Policies use only what it passes in (`r`, `ctx`).
+// =====================================================================================================================
+//
+//   policy({ name, description, enforcementLevel, severity, remediationSteps,
+//            resourceTypes: ["aws:s3/bucket:Bucket", "aws:iam/*", "*"],  // exact types, or prefix globs ending in *
+//            validate(r, ctx) { ... } })      // once per matching resource, with the whole program in ctx
+//   policy({ name, ..., validate(ctx) { ... } })   // no resourceTypes: once per program
+//
+// r:   type, name, urn, props, parent, dependencies, propertyDependencies, plus the scan context's file, line,
+//      column, custom, remote, read, provider (URN), version, options, secretInputs, createdInApply. Provider inputs
+//      come JSON-decoded.
+// ctx: stack, project {name, description, config, stackConfig}, program {imports, configRead, sideEffects,
+//      nondeterminism, outputs, packageJson, localPackages, ...}; config(key);
+//      resources(type?), get(urn), parent(r), children(r), descendants(r), ancestors(r), within(r, typeOrResource),
+//      references(r, output?), referencedBy(r, output?), providerOf(r); strings(value), parseJSON(text);
+//      reportViolation(message, where?), where is a resource or anything with file (and line); default: r, or the
+//      program.
+//
+// Unknowns. A value only a deployment knows (another resource's output, or text built from one) is an opaque
+// Unknown: the same output is the same object everywhere, so `===` joins between resources work. Using it in any
+// other way (string conversion, property access, JSON) stops the policy for that resource, and the finding is
+// "can't run policy ... before deployment". Policies never check for unknowns.
 
-// read(obj, "a.b.c"): the value, undefined if missing, or UNKNOWN if a deployment-only value is in the way.
-function read(obj, path) {
-    let v = obj;
-    for (const k of path.split(".")) {
-        if (v === null || v === undefined || typeof v !== "object") {
-            return undefined;
-        }
-        try {
-            v = v[k];
-        } catch (e) {
-            return UNKNOWN;
-        }
+const STACK_TYPE = "pulumi:pulumi:Stack";
+const REF = /output-([0-9a-f]{16})\.([A-Za-z0-9_]+)/g;
+const WHOLE_REF = /^output-([0-9a-f]{16})\.([A-Za-z0-9_]+)$/;
+
+class UnknownValue extends Error {
+    constructor(what) {
+        super(`uses ${what}, which is unknown until deployment`);
+        this.name = "UnknownValue";
+        this.what = what;
     }
-    return v;
 }
 
-// Every string in a value, with its path; unknown parts are skipped.
-function strings(v, path, out) {
-    out = out || [];
-    if (typeof v === "string") {
-        out.push([path, v]);
-    } else if (v && typeof v === "object") {
-        let keys = [];
-        try {
-            keys = Object.keys(v);
-        } catch (e) {
-            return out;
-        }
-        for (const k of keys) {
-            let e;
+const unknowns = new WeakMap(); // the proxy -> {what, refs}
+function makeUnknown(what, refs) {
+    const target = Object.freeze({});
+    const fail = () => {
+        throw new UnknownValue(what);
+    };
+    const u = new Proxy(target, {
+        get: fail,
+        has: fail,
+        ownKeys: fail,
+        getOwnPropertyDescriptor: fail,
+        set: fail,
+        defineProperty: fail,
+        deleteProperty: fail,
+    });
+    unknowns.set(u, { what, refs });
+    return u;
+}
+
+// One program model per AnalyzeStack call (the host passes every stack policy the same input).
+const models = new WeakMap();
+
+function buildModel(input) {
+    const raw = input.resources;
+    const stackRes = raw.find((r) => r.type === STACK_TYPE);
+    let scan = {};
+    try {
+        scan = (stackRes && stackRes.props.scan) || {};
+    } catch (e) {
+        scan = {};
+    }
+    const info = scan.resources || {};
+    // Name the outputs: every resource's `id` (and `arn`) is "output-<hash of its URN>.id" in stack policies.
+    const ownerOfHash = {};
+    for (const r of raw) {
+        for (const k of ["id", "arn"]) {
+            let v;
             try {
-                e = v[k];
-            } catch (err) {
+                v = r.props[k];
+            } catch (e) {
                 continue;
             }
-            strings(e, path ? `${path}.${k}` : k, out);
+            const m = typeof v === "string" && WHOLE_REF.exec(v);
+            if (m) {
+                ownerOfHash[m[1]] = r;
+            }
         }
     }
-    return out;
-}
-
-function scanContext(resources) {
-    const s = resources.find((r) => r.type === STACK);
-    const ctx = s && read(s.props, "scan");
-    return ctx && ctx !== UNKNOWN ? ctx : undefined;
-}
-
-// The resource graph plus the scan context, with the lookups the policies share.
-function graph(resources) {
-    const ctx = scanContext(resources);
-    const byUrn = {};
-    resources.forEach((r) => (byUrn[r.urn] = r));
-    const stack = resources.find((r) => r.type === STACK);
-    const info = (r) => (ctx && ctx.resources[r.urn]) || {};
-    const ancestors = (r) => {
-        const out = [];
-        for (let p = byUrn[r.parent]; p && p.type !== STACK; p = byUrn[p.parent]) {
-            out.push(p);
+    const interned = {};
+    const describeRef = (hash, prop) => `<output ${ownerOfHash[hash] ? ownerOfHash[hash].name : "?"}.${prop}>`;
+    const fromString = (s) => {
+        if (s.indexOf("output-") < 0) {
+            return s;
         }
-        return out;
+        const refs = [];
+        const text = s.replace(REF, (_, hash, prop) => {
+            refs.push({ hash, prop });
+            return describeRef(hash, prop);
+        });
+        if (refs.length === 0) {
+            return s;
+        }
+        if (!interned[s]) {
+            const whole = WHOLE_REF.exec(s);
+            interned[s] = makeUnknown(whole ? text : `a value built from ${refs.map((x) => describeRef(x.hash, x.prop)).join(", ")}`, refs);
+        }
+        return interned[s];
     };
-    const where = (r) => (info(r).file ? `${info(r).file}:${info(r).line}` : "an unknown line");
-    const teamOf = (file) => {
-        const m = /^src\/([^/]+)\//.exec(file || "");
-        return m ? m[1] : undefined;
+    const convert = (v, label) => {
+        if (typeof v === "string") {
+            return fromString(v);
+        }
+        if (Array.isArray(v)) {
+            // By index: an element only a deployment knows throws when read.
+            const out = [];
+            for (let i = 0; i < v.length; i++) {
+                out.push(readSafe(v, i, `${label}[${i}]`));
+            }
+            return out;
+        }
+        if (v && typeof v === "object") {
+            const out = {};
+            for (const k of Object.keys(v)) {
+                out[k] = readSafe(v, k, `${label}.${k}`);
+            }
+            return out;
+        }
+        return v;
     };
-    const isProvider = (r) => r.type.startsWith("pulumi:providers:");
-    const isCustom = (r) => info(r).custom === true;
-    return {
-        ctx,
-        byUrn,
-        info,
-        ancestors,
-        where,
-        teamOf,
-        isProvider,
-        isCustom,
-        stackName: ctx && ctx.stack,
-        project: ctx && ctx.project.name,
-        // A finding on a line of code that isn't a resource's (a config read, an import).
-        at: (file, line) => `${stack ? stack.urn : ""}#${file}:${line || 0}`,
-    };
-}
-
-// A provider's default tags. Provider inputs reach policies JSON-encoded (`defaultTags` is a string).
-function providerTags(p) {
-    let v = read(p.props, "defaultTags");
-    if (typeof v === "string" && !isUnknown(v)) {
+    const readSafe = (obj, k, label) => {
+        let v;
         try {
-            v = JSON.parse(v);
+            v = obj[k];
         } catch (e) {
-            return undefined;
+            return makeUnknown(`<unknown ${label}>`, []);
         }
+        return convert(v, label);
+    };
+
+    const resources = [];
+    const byUrn = {};
+    for (const h of raw) {
+        if (h.type === STACK_TYPE) {
+            continue;
+        }
+        const props = {};
+        for (const k of Object.keys(h.props)) {
+            let v = readSafe(h.props, k, `${h.name}.${k}`);
+            // Provider inputs reach policies JSON-encoded ("defaultTags": "{...}").
+            if (h.type.startsWith("pulumi:providers:") && typeof v === "string" && /^[[{]/.test(v)) {
+                try {
+                    v = convert(JSON.parse(v), `${h.name}.${k}`);
+                } catch (e) {
+                    // Not JSON after all: keep the text.
+                }
+            }
+            props[k] = v;
+        }
+        const r = Object.assign({}, info[h.urn] || {}, {
+            type: h.type,
+            name: h.name,
+            urn: h.urn,
+            props,
+            parent: h.parent,
+            dependencies: h.dependencies || [],
+            propertyDependencies: h.propertyDependencies || {},
+        });
+        r.options = r.options || {};
+        r.secretInputs = r.secretInputs || [];
+        resources.push(r);
+        byUrn[r.urn] = r;
     }
-    const tags = read(v, "tags");
-    return tags === UNKNOWN ? UNKNOWN : tags || {};
+
+    // Who refers to whom: dependencies, property dependencies, and values equal to (or built from) another
+    // resource's output.
+    const refsOf = new Map();
+    const collect = (v, out) => {
+        const u = v !== null && typeof v === "object" ? unknowns.get(v) : undefined;
+        if (u) {
+            u.refs.forEach((x) => ownerOfHash[x.hash] && out.push({ to: byUrn[ownerOfHash[x.hash].urn], output: x.prop }));
+        } else if (Array.isArray(v)) {
+            v.forEach((e) => collect(e, out));
+        } else if (v && typeof v === "object") {
+            Object.keys(v).forEach((k) => collect(v[k], out));
+        }
+    };
+    for (const r of resources) {
+        const out = [];
+        r.dependencies.forEach((u) => byUrn[u] && out.push({ to: byUrn[u], output: undefined }));
+        Object.keys(r.propertyDependencies).forEach((k) =>
+            r.propertyDependencies[k].forEach((u) => byUrn[u] && out.push({ to: byUrn[u], output: undefined })),
+        );
+        for (const k of Object.keys(r.props)) {
+            // A resource's own id and arn are itself.
+            if (k !== "id" && k !== "arn") {
+                collect(r.props[k], out);
+            }
+        }
+        refsOf.set(r, out.filter((x) => x.to && x.to !== r));
+    }
+
+    return { scan, stackUrn: stackRes ? stackRes.urn : "", resources, byUrn, refsOf };
 }
 
-const PLATFORM_IMPORT = 'import * as platform from "@acme/platform"';
-const providerHint = (team) => `const provider = platform.provider("${team || "<team>"}")`;
+function typeMatcher(patterns) {
+    const list = [].concat(patterns);
+    return (type) => list.some((p) => p === "*" || p === type || (p.endsWith("*") && type.startsWith(p.slice(0, -1))));
+}
 
-// Inside a component the platform owns, the component is the thing to check (and to report on).
-const PLATFORM_COMPONENTS = ["acme:storage:Bucket", "acme:db:Postgres", "acme:network:Service", "acme:iam:Role"];
+function makeContext(m, report) {
+    const unique = (xs) => xs.filter((x, i) => xs.indexOf(x) === i);
+    // Without a scan context (an older CLI, or a program that didn't finish), everything reads as empty.
+    const project = Object.assign({ name: "", config: {}, stackConfig: {} }, m.scan.project);
+    const program = Object.assign(
+        { imports: [], configRead: [], sideEffects: [], nondeterminism: [], outputs: [], invokes: [], stackReferences: [],
+          files: [], localPackages: {}, packageJson: { dependencies: {}, devDependencies: {} } },
+        m.scan.program,
+    );
+    const ctx = {
+        stack: m.scan.stack,
+        project,
+        program,
+        // A project config value: the stack's (plain values only), else Pulumi.yaml's default.
+        config(key) {
+            const full = key.indexOf(":") >= 0 ? key : `${ctx.project.name}:${key}`;
+            const s = ctx.project.stackConfig[full];
+            if (s && !s.secure && s.value !== undefined) {
+                return s.value;
+            }
+            const d = ctx.project.config[full];
+            return d ? d.default : undefined;
+        },
+        resources: (type) => (type ? m.resources.filter((r) => typeMatcher(type)(r.type)) : m.resources.slice()),
+        get: (urn) => m.byUrn[urn],
+        parent: (r) => m.byUrn[r.parent],
+        children: (r) => m.resources.filter((x) => x.parent === r.urn),
+        descendants(r) {
+            const out = [];
+            const walk = (x) => ctx.children(x).forEach((k) => (out.push(k), walk(k)));
+            walk(r);
+            return out;
+        },
+        ancestors(r) {
+            const out = [];
+            for (let p = m.byUrn[r.parent]; p; p = m.byUrn[p.parent]) {
+                out.push(p);
+            }
+            return out;
+        },
+        // The nearest ancestor that is the given resource, or has the given type (or one of the given types).
+        within(r, what) {
+            const match = what && what.urn ? (a) => a === what : (a) => typeMatcher(what)(a.type);
+            return ctx.ancestors(r).find(match);
+        },
+        // The resources r refers to; with `output`, only through that output's value (e.g. "id").
+        references: (r, output) =>
+            unique(m.refsOf.get(r).filter((x) => output === undefined || x.output === output).map((x) => x.to)),
+        referencedBy: (r, output) => m.resources.filter((x) => ctx.references(x, output).indexOf(r) >= 0),
+        providerOf: (r) => m.byUrn[r.provider],
+        // Every known string in a value, as [path, text]; values only a deployment knows are left out.
+        strings(v, path) {
+            const out = [];
+            const walk = (x, p) => {
+                if (typeof x === "string") {
+                    out.push([p, x]);
+                } else if (x !== null && typeof x === "object" && !unknowns.has(x)) {
+                    Object.keys(x).forEach((k) => walk(x[k], p ? `${p}.${k}` : k));
+                }
+            };
+            walk(v, path || "");
+            return out;
+        },
+        // JSON text to a value, or undefined if it isn't JSON.
+        parseJSON(text) {
+            if (text !== null && typeof text === "object" && unknowns.has(text)) {
+                throw new UnknownValue(unknowns.get(text).what);
+            }
+            if (typeof text !== "string") {
+                return undefined;
+            }
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                return undefined;
+            }
+        },
+        reportViolation: report,
+    };
+    return ctx;
+}
+
+const policyList = [];
+const authored = [];
+
+function policy(def) {
+    authored.push(def);
+    const perResource = def.resourceTypes !== undefined;
+    const matches = perResource ? typeMatcher(def.resourceTypes) : undefined;
+    policyList.push({
+        name: def.name,
+        description: def.description,
+        enforcementLevel: def.enforcementLevel,
+        severity: def.severity,
+        remediationSteps: def.remediationSteps,
+        kind: "stack",
+        validate(input, host) {
+            if (!models.has(input)) {
+                models.set(input, buildModel(input));
+            }
+            const m = models.get(input);
+            const run = (r) => {
+                const found = [];
+                const report = (message, where) => {
+                    let urn;
+                    if (where === undefined) {
+                        urn = r ? r.urn : m.stackUrn;
+                    } else if (where.urn && m.byUrn[where.urn]) {
+                        urn = where.urn;
+                    } else if (where.file) {
+                        // A line of code that isn't a resource's: the scan places `<stack urn>#<file>:<line>` there.
+                        urn = `${m.stackUrn}#${where.file}:${where.line || 0}`;
+                    } else {
+                        throw new Error(`${def.name}: reportViolation's 'where' must be a resource or have a file`);
+                    }
+                    found.push([String(message), urn]);
+                };
+                const ctx = makeContext(m, report);
+                try {
+                    if (r) {
+                        def.validate(r, ctx);
+                    } else {
+                        def.validate(ctx);
+                    }
+                } catch (e) {
+                    if (!(e instanceof UnknownValue)) {
+                        throw e;
+                    }
+                    host.reportViolation(
+                        {
+                            message: `can't run policy '${def.name}' before deployment: ${r ? `'${r.name}' ` : "the program "}${e.message}`,
+                            enforcementLevel: "advisory",
+                        },
+                        r ? r.urn : m.stackUrn,
+                    );
+                    return;
+                }
+                found.forEach(([msg, urn]) => host.reportViolation(msg, urn));
+            };
+            if (perResource) {
+                m.resources.filter((r) => matches(r.type)).forEach(run);
+            } else {
+                run(undefined);
+            }
+        },
+    });
+}
+
+// =====================================================================================================================
+// Pack: the approved choices, and the policies.
+// =====================================================================================================================
 
 // The approved choices, in one place: the policies enforce them, and agent-rules.js turns them into instructions.
 const APPROVED = {
     components: {
         "acme:storage:Bucket": 'new platform.storage.Bucket(name, { team, dataClass: "public" | "internal" | "confidential" }, { provider })',
-        "acme:db:Postgres": 'new platform.db.Postgres(name, { team, size, password: config.requireSecret(key) }, { provider, protect: isProd })',
+        "acme:db:Postgres": "new platform.db.Postgres(name, { team, size, password: config.requireSecret(key) }, { provider, protect: isProd })",
         "acme:network:Service": "new platform.network.Service(name, { team, vpcId, port, publicSubnetIds? }, { provider })",
         "acme:iam:Role": 'new platform.identity.Role(name, { team, service: "lambda.amazonaws.com", managedPolicyArns }, { provider })',
     },
@@ -144,13 +383,14 @@ const APPROVED = {
         "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
         "arn:aws:iam::aws:policy/ReadOnlyAccess",
     ],
+    // Type -> [the directory that may create it, what to use instead].
     sharedInfra: {
-        "aws:ec2/vpc:Vpc": ["src/network/", "the network stack: `new pulumi.StackReference(`acme/network/${pulumi.getStack()}`).requireOutput(\"vpcId\")`"],
-        "aws:ec2/subnet:Subnet": ["src/network/", "the network stack's `privateSubnetIds` / `publicSubnetIds` outputs"],
-        "aws:ec2/natGateway:NatGateway": ["src/network/", "the network stack (its private subnets already route through NAT)"],
+        "aws:ec2/vpc:Vpc": ["src/network/", "the network stack's vpcId output, through a stack reference"],
+        "aws:ec2/subnet:Subnet": ["src/network/", "the network stack's subnet outputs"],
+        "aws:ec2/natGateway:NatGateway": ["src/network/", "the network stack's private subnets, which already route through NAT"],
         "aws:ec2/internetGateway:InternetGateway": ["src/network/", "the network stack's public subnets"],
-        "aws:kms/key:Key": ["platform/", "the platform stack's keys (`acme/platform/<stack>` output `dataKeyArn`), or a platform component that encrypts for you"],
-        "aws:route53/zone:Zone": ["platform/", "the platform stack's zones (`acme/platform/<stack>` output `zoneId`)"],
+        "aws:kms/key:Key": ["platform/", "the platform stack's keys, or a platform component that encrypts for you"],
+        "aws:route53/zone:Zone": ["platform/", "the platform stack's zones"],
     },
     forbiddenTypes: ["aws:organizations/", "aws:account/", "aws:iam/accountAlias:", "aws:iam/accountPasswordPolicy:", "aws:iam/samlProvider:", "aws:iam/openIdConnectProvider:"],
     locations: ["src/<team>/", "platform/"],
@@ -163,1226 +403,750 @@ const APPROVED = {
     },
 };
 globalThis.__acmeGuardrailsApproved = APPROVED;
+
+// The pack's own vocabulary.
+const PLATFORM_COMPONENTS = ["acme:storage:Bucket", "acme:db:Postgres", "acme:network:Service", "acme:iam:Role"];
 const POSTGRES_CLASS = { small: "db.t4g.small", medium: "db.r6g.large", large: "db.r6g.2xlarge" };
-const insidePlatform = (g, r) => g.ancestors(r).some((a) => a.type.startsWith("acme:"));
+const teamOf = (file) => (/^src\/([^/]+)\//.exec(file || "") || [])[1];
+const isProvider = (r) => r.type.startsWith("pulumi:providers:");
+const short = (type) => type.split(":").pop();
+const stackKind = (ctx) => (ctx.stack === "prod" ? "prod" : "dev");
+const entryFile = (ctx) => (ctx.project.main || ctx.program.packageJson.main || "index.ts").replace(/^\.\//, "");
 
-const policies = [
-    // ------------------------------------------------------------------------------------------------------------
-    // Golden paths and components
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "use-platform-bucket",
-        description: "S3 buckets are created with the @acme/platform storage component, not the raw AWS resource.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Replace the raw bucket with `new platform.storage.Bucket(name, { team, dataClass }, { provider })`.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                if (r.type !== "aws:s3/bucket:Bucket" && r.type !== "aws:s3/bucketV2:BucketV2") {
-                    continue;
-                }
-                if (g.ancestors(r).some((a) => a.type === "acme:storage:Bucket")) {
-                    continue;
-                }
-                const team = g.teamOf(g.info(r).file);
-                ctx.reportViolation(
-                    `Bucket '${r.name}' at ${g.where(r)} is a raw ${r.type.split(":").pop()}. Replace it with the ` +
-                        `platform component: \`new platform.storage.Bucket("${r.name}", { team: "${team || "<team>"}", ` +
-                        `dataClass: "internal" }, { provider })\` (${PLATFORM_IMPORT}; dataClass is "public", "internal" ` +
-                        `or "confidential"). It adds encryption, versioning, a public access block and tags. Use ` +
-                        `\`.bucketName\` and \`.arn\` where you used the raw bucket's \`bucket\` and \`arn\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "use-platform-database",
-        description: "Databases are created with the @acme/platform Postgres component, not raw RDS resources.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Replace the raw RDS resource with `new platform.db.Postgres(name, { team, size, password }, { provider })`.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                if (r.type !== "aws:rds/instance:Instance" && r.type !== "aws:rds/cluster:Cluster") {
-                    continue;
-                }
-                if (g.ancestors(r).some((a) => a.type === "acme:db:Postgres")) {
-                    continue;
-                }
-                const team = g.teamOf(g.info(r).file);
-                ctx.reportViolation(
-                    `Database '${r.name}' at ${g.where(r)} is a raw ${r.type.split(":").pop()}. Use the platform ` +
-                        `component: \`new platform.db.Postgres("${r.name}", { team: "${team || "<team>"}", size: "small", ` +
-                        `password: config.requireSecret("<key>") }, { provider, protect: pulumi.getStack() === "prod" })\` ` +
-                        `(${PLATFORM_IMPORT}). It is private, encrypted and backed up. Read replicas aren't offered by ` +
-                        `the platform yet: ask the platform team instead of creating raw RDS.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "approved-platform-modules",
-        description: "Only supported @acme/platform modules and components are used; deprecated ones are not.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Import from `@acme/platform` and use its supported components.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const deprecated = {
-                "@acme/platform/legacy": "deprecated since @acme/platform 2.0",
-            };
-            const replacements = {
-                "acme:legacy:Queue":
-                    "a plain `new aws.sqs.Queue(name, { ... }, { provider })` (the platform has no queue component yet)",
-            };
-            for (const imp of g.ctx.program.imports) {
-                if (deprecated[imp.module] && !imp.file.startsWith("platform/")) {
-                    ctx.reportViolation(
-                        `${imp.file}:${imp.line} imports \`${imp.module}\`, ${deprecated[imp.module]}. Remove the import ` +
-                            `and use the supported components from \`${PLATFORM_IMPORT}\` (storage.Bucket, db.Postgres, ` +
-                            `network.Service).`,
-                        g.at(imp.file, imp.line),
-                    );
-                }
-            }
-            for (const r of input.resources) {
-                if (r.type.startsWith("acme:") && PLATFORM_COMPONENTS.indexOf(r.type) < 0) {
-                    ctx.reportViolation(
-                        `'${r.name}' at ${g.where(r)} is a ${r.type}, which is not a supported platform component. ` +
-                            `Replace it with ${replacements[r.type] || `one of ${PLATFORM_COMPONENTS.join(", ")}`}.`,
-                        r.urn,
-                    );
-                }
-            }
-            const platform = g.ctx.program.localPackages["@acme/platform"];
-            if (platform && platform.version && parseInt(platform.version, 10) < 2) {
-                ctx.reportViolation(
-                    `@acme/platform is ${platform.version}; version 2 or later is required. Update the dependency.`,
-                );
-            }
-        },
-    },
-    {
-        name: "postgres-size-by-stack",
-        description: "Platform databases use the sizes allowed for the stack: small in dev, medium or large in prod.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Pick a size allowed in this stack, per stack (config), not one size for all stacks.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const allowed = { dev: ["small"], prod: ["medium", "large"] }[g.stackName] || ["small", "medium"];
-            for (const r of input.resources) {
-                if (r.type !== "acme:db:Postgres") {
-                    continue;
-                }
-                const size = read(r.props, "size");
-                if (isUnknown(size) || allowed.indexOf(size) >= 0) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `Database '${r.name}' at ${g.where(r)} has size "${size}", but stack "${g.stackName}" allows ` +
-                        `${allowed.map((s) => `"${s}"`).join(" or ")}. If the size comes from config, set it in ` +
-                        `Pulumi.${g.stackName}.yaml (e.g. \`${g.project}:dbSize: ${allowed[0]}\`); otherwise choose it ` +
-                        `per stack in code. Don't change other stacks' sizes.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "bucket-component-invariants",
-        description: "Every acme:storage:Bucket has a public access block, versioning and server-side encryption.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Fix the component in @acme/platform so every instance gets all three children.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const c of input.resources) {
-                if (c.type !== "acme:storage:Bucket") {
-                    continue;
-                }
-                const kids = input.resources.filter((r) => r.parent === c.urn);
-                const has = (type, ok) => kids.some((k) => k.type === type && (!ok || ok(k)));
-                const missing = [];
-                if (
-                    !has("aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock", (k) =>
-                        ["blockPublicAcls", "blockPublicPolicy", "ignorePublicAcls", "restrictPublicBuckets"].every(
-                            (f) => read(k.props, f) === true,
-                        ),
-                    )
-                ) {
-                    missing.push("a public access block with all four settings on");
-                }
-                if (!has("aws:s3/bucketVersioning:BucketVersioning", (k) => read(k.props, "versioningConfiguration.status") === "Enabled")) {
-                    missing.push("versioning enabled");
-                }
-                if (!has("aws:s3/bucketServerSideEncryptionConfiguration:BucketServerSideEncryptionConfiguration")) {
-                    missing.push("server-side encryption");
-                }
-                if (missing.length === 0) {
-                    continue;
-                }
-                const impl = kids.map((k) => g.info(k).file).find((f) => f) || "the component's source";
-                ctx.reportViolation(
-                    `acme:storage:Bucket '${c.name}' (declared at ${g.where(c)}, dataClass ` +
-                        `"${read(c.props, "dataClass")}") has no ${missing.join(", no ")}. This is a bug in the component, ` +
-                        `not in the code that uses it: fix the Bucket class in ${impl} so every instance gets them. Don't ` +
-                        `add the missing resources from app code.`,
-                    c.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "component-encapsulation",
-        description: "Code outside a platform component doesn't attach resources to the component's internals.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Use the component's own methods or inputs instead of attaching to its children.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            const api = {
-                "acme:network:Service": "`service.allowFrom(name, privateCidr)` (private CIDRs only)",
-                "acme:storage:Bucket": "the component's inputs (ask the platform team if none fits)",
-                "acme:db:Postgres": "the component's inputs (ask the platform team if none fits)",
-            };
-            // The id of every resource inside a platform component, by value. Before deployment it is an identifiable
-            // unknown, the same text wherever the program used it. Only `id`: attaching a resource to another goes by
-            // its id, while `arn` is often an output the component exposes on purpose (a role's arn for a function).
-            const owned = {};
-            for (const r of input.resources) {
-                const comp = g.ancestors(r).find((a) => PLATFORM_COMPONENTS.indexOf(a.type) >= 0);
-                if (!comp) {
-                    continue;
-                }
-                for (const f of ["id"]) {
-                    const v = read(r.props, f);
-                    if (typeof v === "string" && v) {
-                        owned[v] = { child: r, comp };
-                    }
-                }
-            }
-            for (const r of input.resources) {
-                if (r.type === STACK) {
-                    continue;
-                }
-                const mine = g.ancestors(r);
-                for (const [path, v] of strings(r.props, "")) {
-                    const o = owned[v];
-                    if (!o || o.child === r || mine.indexOf(o.comp) >= 0 || path === "id" || path === "arn") {
-                        continue;
-                    }
-                    ctx.reportViolation(
-                        `'${r.name}' (${r.type.split(":").pop()}) at ${g.where(r)} attaches to '${o.child.name}' ` +
-                            `through \`${path}\`, but that ${o.child.type.split(":").pop()} belongs to ${o.comp.type} ` +
-                            `'${o.comp.name}'. Don't change a component's internals from outside: use ` +
-                            `${api[o.comp.type] || "the component's API"}, and remove '${r.name}'.`,
-                        r.urn,
-                    );
-                    break;
-                }
-            }
-        },
-    },
+// ---------------------------------------------------------------------------------------------------------------------
+// Golden paths and components
+// ---------------------------------------------------------------------------------------------------------------------
 
-    // ------------------------------------------------------------------------------------------------------------
-    // Naming
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "kebab-case-names",
-        description: "Logical resource names are kebab-case.",
-        enforcementLevel: "mandatory",
-        severity: "low",
-        remediationSteps: "Rename the resource to its kebab-case form.",
-        kind: "resource",
-        validate(input, ctx) {
-            if (input.type.startsWith("pulumi:pulumi:") || /^[a-z0-9]+(-[a-z0-9]+)*$/.test(input.name)) {
-                return;
-            }
-            const kebab = input.name
-                .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-                .replace(/[^A-Za-z0-9]+/g, "-")
-                .replace(/^-|-$/g, "")
-                .toLowerCase();
+policy({
+    name: "use-platform-bucket",
+    description: "S3 buckets are created with the @acme/platform storage component, not the raw AWS resource.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Replace the raw bucket with `new platform.storage.Bucket(name, { team, dataClass }, { provider })`.",
+    resourceTypes: ["aws:s3/bucket:Bucket", "aws:s3/bucketV2:BucketV2"],
+    validate(r, ctx) {
+        if (!ctx.within(r, "acme:storage:Bucket")) {
             ctx.reportViolation(
-                `Rename '${input.name}' to '${kebab}': logical names are kebab-case.`,
+                "Use platform.storage.Bucket instead of a raw S3 bucket; it adds encryption, versioning, a public access block and tags.",
             );
-        },
+        }
     },
-    {
-        name: "physical-name-prefix",
-        description: "Explicit physical names start with <project>-<stack>-; otherwise leave them out for auto-naming.",
-        enforcementLevel: "mandatory",
-        severity: "low",
-        remediationSteps: "Remove the explicit name, or prefix it with `${pulumi.getProject()}-${pulumi.getStack()}-`.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const prefix = `${g.project}-${g.stackName}-`;
-            for (const r of input.resources) {
-                if (!g.isCustom(r) || g.isProvider(r) || g.info(r).read || insidePlatform(g, r)) {
-                    continue;
-                }
-                for (const f of ["name", "bucket", "identifier"]) {
-                    const v = read(r.props, f);
-                    if (typeof v !== "string" || isUnknown(v) || v.startsWith(prefix)) {
-                        continue;
-                    }
-                    ctx.reportViolation(
-                        `'${r.name}' at ${g.where(r)} sets \`${f}: "${v}"\`, a physical name that will collide across ` +
-                            `stacks. Remove \`${f}\` so Pulumi auto-names it (preferred), or prefix it: ` +
-                            `\`${f}: \`\${pulumi.getProject()}-\${pulumi.getStack()}-${v}\`\`.`,
-                        r.urn,
-                    );
-                }
-            }
-        },
-    },
+});
 
-    // ------------------------------------------------------------------------------------------------------------
-    // Code and files
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "team-ownership",
-        description: "Resources declared under src/<team>/ belong to that team (component `team` input, or a team tag).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Set the team to the directory's team, or move the code to the owning team's directory.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            for (const r of input.resources) {
-                const team = g.teamOf(g.info(r).file);
-                if (!team || g.isProvider(r) || g.info(r).read || r.type.startsWith("pulumi:")) {
-                    continue;
-                }
-                let found, how;
-                if (!g.isCustom(r)) {
-                    found = read(r.props, "team");
-                    how = "its `team` input";
-                } else {
-                    found = read(r.props, "tags.team");
-                    how = "its `team` tag";
-                    if (found === undefined && g.info(r).provider && g.byUrn[g.info(r).provider]) {
-                        const tags = providerTags(g.byUrn[g.info(r).provider]);
-                        found = tags === UNKNOWN ? UNKNOWN : tags && tags.team;
-                        how = "its provider's default `team` tag";
-                    }
-                }
-                if (isUnknown(found) || found === team) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    found === undefined
-                        ? `'${r.name}' at ${g.where(r)} has no owning team. Code in src/${team}/ belongs to ${team}: ` +
-                              `pass \`{ provider }\` with \`${providerHint(team)}\` (it tags team=${team}), or set ` +
-                              `\`tags: { team: "${team}" }\`.`
-                        : `'${r.name}' at ${g.where(r)} is declared in src/${team}/ but ${how} says "${found}". Set it ` +
-                              `to "${team}", or move the resource to src/${found}/ if ${found} owns it.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "no-resources-in-entrypoint",
-        description: "The entry point (index.ts) only wires team modules together; it declares no resources.",
-        enforcementLevel: "advisory",
-        severity: "low",
-        remediationSteps: "Move the resource into the owning team's module and export what index.ts needs.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const entry = (g.ctx.project.main || g.ctx.program.packageJson.main || "index.ts").replace(/^\.\//, "");
-            const entries = [entry, "index.ts", "index.js"];
-            for (const r of input.resources) {
-                if (entries.indexOf(g.info(r).file) < 0 || g.isProvider(r) || r.type.startsWith("pulumi:")) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' is declared in the entry point (${g.where(r)}). Move it into the owning team's module ` +
-                        `(src/<team>/index.ts, with that team's provider), export it there, and re-export from ` +
-                        `${g.info(r).file} only what other stacks need.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "no-resources-in-apply",
-        description: "Resources are not created inside apply callbacks.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Create the resource at the top level and pass the Output as its input.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                if (!g.info(r).createdInApply) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' is created inside an \`apply\` callback (${g.where(r)}). Previews don't show such ` +
-                        `resources reliably and their dependencies are hidden. Create it at the top level and pass the ` +
-                        `Output as the input; build strings with \`pulumi.interpolate\`, e.g. ` +
-                        `\`value: pulumi.interpolate\`postgres://\${db.endpoint}/app\`\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "hermetic-program",
-        description: "The program doesn't run processes or reach the network while it deploys.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Pass the value in through stack config instead of computing it at deploy time.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            for (const s of g.ctx.program.sideEffects) {
-                const what = s.kind === "process" ? `runs \`${s.target}\`` : `calls ${s.kind} ${s.target}`;
-                ctx.reportViolation(
-                    `${s.file || "The program"}:${s.line || "?"} ${what} at deploy time. Programs must be hermetic: the ` +
-                        `result differs between laptops, CI and Deployments, and previews can't see it. Pass the value in ` +
-                        `as stack config (declared in Pulumi.yaml, read with \`config.get("...")\`) and remove the call.`,
-                    g.at(s.file, s.line),
-                );
-            }
-        },
-    },
-
-    // ------------------------------------------------------------------------------------------------------------
-    // Pulumi best practices
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "protect-stateful-in-prod",
-        description: "In prod, resources that hold data are protected (protect or retainOnDelete).",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Add `protect: pulumi.getStack() === \"prod\"` to the resource options.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx || g.stackName !== "prod") {
-                return;
-            }
-            const stateful = (r) =>
-                r.type === "acme:db:Postgres" ||
-                (r.type === "acme:storage:Bucket" && read(r.props, "dataClass") === "confidential") ||
-                [
-                    "aws:rds/instance:Instance",
-                    "aws:rds/cluster:Cluster",
-                    "aws:s3/bucket:Bucket",
-                    "aws:s3/bucketV2:BucketV2",
-                    "aws:dynamodb/table:Table",
-                ].indexOf(r.type) >= 0;
-            for (const r of input.resources) {
-                // A component's children are covered by the component.
-                if (!stateful(r) || insidePlatform(g, r)) {
-                    continue;
-                }
-                const o = g.info(r).options || {};
-                if (o.protect === true || o.retainOnDelete === true) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' at ${g.where(r)} holds data and isn't protected in prod. Add \`protect: ` +
-                        `pulumi.getStack() === "prod"\` (or \`retainOnDelete: true\`) to its resource options, next to ` +
-                        `\`provider\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "secrets-stay-secret",
-        description: "Passwords and secret config stay secrets: in resource inputs and in how config is read.",
-        enforcementLevel: "mandatory",
-        severity: "critical",
-        remediationSteps: "Read secret config with `config.requireSecret`/`getSecret`, and pass secrets as Outputs.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const sensitive = ["password", "masterPassword", "secretString", "privateKey", "apiKey", "token"];
-            const flagged = {};
-            for (const r of input.resources) {
-                if (r.type === STACK || g.isProvider(r)) {
-                    continue;
-                }
-                const secret = g.info(r).secretInputs || [];
-                for (const f of sensitive) {
-                    const v = read(r.props, f);
-                    // A value from another resource's output can't be judged before deployment.
-                    if (v === undefined || isUnknown(v) || secret.indexOf(f) >= 0) {
-                        continue;
-                    }
-                    if (g.ancestors(r).some((a) => flagged[a.urn])) {
-                        continue;
-                    }
-                    flagged[r.urn] = true;
-                    ctx.reportViolation(
-                        `'${r.name}' at ${g.where(r)} gets \`${f}\` as plain text, so it is stored unencrypted in the ` +
-                            `state. Pass a secret: read it with \`config.requireSecret("...")\`, or wrap it with ` +
-                            `\`pulumi.secret(...)\`.`,
-                        r.urn,
-                    );
-                }
-            }
-            const declared = g.ctx.project.config || {};
-            const stackCfg = g.ctx.project.stackConfig || {};
-            for (const c of g.ctx.program.configRead) {
-                const isSecret = (declared[c.key] && declared[c.key].secret) || (stackCfg[c.key] && stackCfg[c.key].secure);
-                if (!isSecret || c.secret) {
-                    continue;
-                }
-                const fixed = c.method.replace(/^(get|require)/, "$1Secret");
-                ctx.reportViolation(
-                    `${c.file}:${c.line} reads secret config \`${c.key}\` with \`config.${c.method}("${c.name}")\`, ` +
-                        `which turns it into plain text. Use \`config.${fixed}("${c.name}")\`; it returns an Output ` +
-                        `you can pass straight to the resource.`,
-                    g.at(c.file, c.line),
-                );
-            }
-        },
-    },
-    {
-        name: "declared-config",
-        description: "Every config key the program reads is declared in Pulumi.yaml with a type and description.",
-        enforcementLevel: "mandatory",
-        severity: "low",
-        remediationSteps: "Declare the key under `config:` in Pulumi.yaml.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const declared = g.ctx.project.config || {};
-            for (const c of g.ctx.program.configRead) {
-                if (c.namespace !== g.project) {
-                    continue;
-                }
-                const d = declared[c.key];
-                if (d && d.description) {
-                    continue;
-                }
-                const type = { Number: "integer", Boolean: "boolean", Object: "object" }[
-                    (/(Number|Boolean|Object)$/.exec(c.method) || [])[1]
-                ] || "string";
-                ctx.reportViolation(
-                    `${c.file}:${c.line} reads config \`${c.key}\`, which Pulumi.yaml ` +
-                        `${d ? "declares without a description" : "doesn't declare"}. Add it under \`config:\` in ` +
-                        `Pulumi.yaml: \`${c.name}: { type: ${type}, description: "<what it is>"` +
-                        `${c.required ? "" : ", default: <value>"}${c.secret ? ", secret: true" : ""} }\`.`,
-                    g.at(c.file, c.line),
-                );
-            }
-        },
-    },
-    {
-        name: "no-hardcoded-arns",
-        description: "Resource inputs don't contain literal ARNs (account IDs included); ARNs come from resources, config or lookups.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Use the resource's `.arn` output, a stack reference, aws.getCallerIdentityOutput, or config.",
-        kind: "resource",
-        validate(input, ctx) {
-            if (input.type.startsWith("pulumi:providers:")) {
-                return;
-            }
-            for (const [path, v] of strings(input.props, "")) {
-                // AWS managed policies are global names, not resources of ours; identifiable unknowns are outputs.
-                const m = /arn:aws[a-z-]*:[a-z0-9-]*:[a-z0-9-]*:(\d{12})?:?[^\s"']*/.exec(v);
-                if (!m || /^arn:aws:iam::aws:policy\//.test(m[0]) || /output-[0-9a-f]{16}\./.test(v)) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${input.name}' hardcodes the ARN \`${m[0]}\`${m[1] ? ` (account ${m[1]})` : ""} in \`${path}\`. ` +
-                        `Reference it instead: the resource's \`.arn\` if this program creates it, a stack reference ` +
-                        `output if another stack does, or build it with \`pulumi.interpolate\` from ` +
-                        `\`aws.getCallerIdentityOutput({}, { provider }).accountId\` (use \`pulumi.jsonStringify\` for ` +
-                        `policy documents).`,
-                );
-                return;
-            }
-        },
-    },
-    {
-        name: "explicit-provider-default-tags",
-        description: "AWS resources use the team's explicit provider, which sets default tags (team, env).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Pass `{ provider }` from `platform.provider(team)` to every resource.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            for (const r of input.resources) {
-                if (!g.isCustom(r) || g.isProvider(r) || !r.type.startsWith("aws:") || g.info(r).read) {
-                    continue;
-                }
-                const team = g.teamOf(g.info(r).file);
-                const p = g.byUrn[g.info(r).provider];
-                if (!p) {
-                    ctx.reportViolation(
-                        `'${r.name}' at ${g.where(r)} uses the default AWS provider, so it gets no default tags and ` +
-                            `follows whatever region the environment has. Pass \`{ provider }\` in its options, with ` +
-                            `\`${providerHint(team)}\` (${PLATFORM_IMPORT}).`,
-                        r.urn,
-                    );
-                    continue;
-                }
-                const tags = providerTags(p) || {};
-                const missing = ["team", "env"].filter((t) => tags === UNKNOWN || !tags[t]);
-                if (missing.length > 0) {
-                    ctx.reportViolation(
-                        `'${r.name}' at ${g.where(r)} uses provider '${p.name}', which has no default ` +
-                            `${missing.join("/")} tags. Use \`${providerHint(team)}\` instead of a hand-made provider.`,
-                        r.urn,
-                    );
-                }
-            }
-        },
-    },
-    {
-        name: "no-ignore-changes-wildcard",
-        description: "Resources don't ignore all changes (`ignoreChanges: [\"*\"]`).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "List the specific properties another system manages, or remove ignoreChanges.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                const ic = (g.info(r).options || {}).ignoreChanges || [];
-                if (ic.indexOf("*") < 0) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' at ${g.where(r)} has \`ignoreChanges: ["*"]\`, which hides every drift and every future ` +
-                        `change to it. Remove the option, or list only the properties something else manages, e.g. ` +
-                        `\`ignoreChanges: ["tags"]\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "dependency-hygiene",
-        description: "package.json pins versions (no latest or *), with supported Pulumi SDK majors.",
-        enforcementLevel: "advisory",
-        severity: "low",
-        remediationSteps: "Pin a version range in package.json and commit the lockfile.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const pj = g.ctx.program.packageJson;
-            const local = g.ctx.program.localPackages || {};
-            const minMajor = { "@pulumi/pulumi": 3, "@pulumi/aws": 7 };
-            const deps = Object.assign({}, pj.devDependencies, pj.dependencies);
-            for (const name of Object.keys(deps).sort()) {
-                const range = String(deps[name]);
-                if (local[name]) {
-                    continue;
-                }
-                if (/^(latest|\*|x|)$/.test(range.trim()) || /^(git|https?):|^github:/.test(range)) {
-                    ctx.reportViolation(
-                        `package.json asks for \`"${name}": "${range}"\`. Pin a range (e.g. \`"^1.2.0"\`, the version ` +
-                            `you tested) so scans, previews and deployments run the same code.`,
-                        g.at("package.json", 0),
-                    );
-                    continue;
-                }
-                const m = /(\d+)/.exec(range);
-                if (minMajor[name] && m && parseInt(m[1], 10) < minMajor[name]) {
-                    ctx.reportViolation(
-                        `package.json asks for ${name} ${range}; major ${minMajor[name]} or later is required.`,
-                        g.at("package.json", 0),
-                    );
-                }
-            }
-        },
-    },
-
-    // ------------------------------------------------------------------------------------------------------------
-    // Size, retention and cost per stack
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "instance-types-by-stack",
-        description: "EC2 instance types and RDS classes come from the families allowed in the stack (burstable in dev).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Pick an allowed family for this stack, per stack.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const st = g.stackName === "prod" ? "prod" : "dev";
-            const sizes = ["nano", "micro", "small", "medium", "large", "xlarge"];
-            for (const r of input.resources) {
-                let v, allowed, field;
-                if (r.type === "aws:ec2/instance:Instance") {
-                    v = read(r.props, "instanceType");
-                    allowed = APPROVED.instanceFamilies[st];
-                    field = "instanceType";
-                } else if (r.type === "aws:rds/instance:Instance" && !g.ancestors(r).some((a) => a.type === "acme:db:Postgres")) {
-                    // Platform databases are sized by postgres-size-by-stack.
-                    v = read(r.props, "instanceClass");
-                    allowed = APPROVED.dbClassFamilies[st];
-                    field = "instanceClass";
-                } else {
-                    continue;
-                }
-                if (typeof v !== "string" || isUnknown(v)) {
-                    continue;
-                }
-                const family = v.split(".").slice(0, -1).join(".");
-                const size = v.split(".").pop();
-                const tooBig = st === "dev" && sizes.indexOf(size) > sizes.indexOf(APPROVED.maxDevInstanceSize);
-                if (allowed.indexOf(family) >= 0 && !tooBig) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' at ${g.where(r)} uses \`${field}: "${v}"\`, but stack "${g.stackName}" allows the ` +
-                        `${allowed.join(", ")} families${st === "dev" ? ` up to ${APPROVED.maxDevInstanceSize}` : ""}. ` +
-                        `Choose it per stack, e.g. \`${field}: pulumi.getStack() === "prod" ? "${v}" : "${allowed[allowed.length - 1]}.small"\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "log-retention-by-stack",
-        description: "Log groups set a retention of at least 7 days in dev and 90 in prod.",
-        enforcementLevel: "mandatory",
-        severity: "low",
-        remediationSteps: "Set retentionInDays per stack.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const min = APPROVED.logRetentionDays[g.stackName === "prod" ? "prod" : "dev"];
-            for (const r of input.resources) {
-                if (r.type !== "aws:cloudwatch/logGroup:LogGroup") {
-                    continue;
-                }
-                const days = read(r.props, "retentionInDays");
-                if (isUnknown(days) || (typeof days === "number" && days >= min)) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `Log group '${r.name}' at ${g.where(r)} ${days === undefined ? "keeps logs forever (no retentionInDays)" : `keeps logs ${days} days`}; ` +
-                        `stack "${g.stackName}" needs at least ${min}. Set \`retentionInDays: pulumi.getStack() === "prod" ? ` +
-                        `${APPROVED.logRetentionDays.prod} : ${APPROVED.logRetentionDays.dev}\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "rds-backups-in-prod",
-        description: "In prod, RDS instances keep backups for at least 7 days and have deletion protection on.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Set backupRetentionPeriod and deletionProtection (or use platform.db.Postgres, which does).",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx || g.stackName !== "prod") {
-                return;
-            }
-            for (const r of input.resources) {
-                if (r.type !== "aws:rds/instance:Instance" && r.type !== "aws:rds/cluster:Cluster") {
-                    continue;
-                }
-                const days = read(r.props, "backupRetentionPeriod");
-                const dp = read(r.props, "deletionProtection");
-                const missing = [];
-                if (!isUnknown(days) && !(typeof days === "number" && days >= APPROVED.rdsBackupDays)) {
-                    missing.push(`\`backupRetentionPeriod: ${APPROVED.rdsBackupDays}\` (it is ${days === undefined ? "unset" : days})`);
-                }
-                if (!isUnknown(dp) && dp !== true) {
-                    missing.push("`deletionProtection: true`");
-                }
-                if (missing.length === 0) {
-                    continue;
-                }
-                const comp = g.ancestors(r).find((a) => a.type === "acme:db:Postgres");
-                ctx.reportViolation(
-                    `Database '${r.name}' at ${g.where(r)} needs ${missing.join(" and ")} in prod. ` +
-                        (comp
-                            ? `It is inside platform.db.Postgres '${comp.name}': fix the component in ${g.info(r).file}.`
-                            : `Set them per stack (\`pulumi.getStack() === "prod"\`), or use \`platform.db.Postgres\`, which does.`),
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "cost-estimate",
-        description: "A rough monthly cost per team, from a small price table, stays within the team's budget (stack config teamBudgets).",
-        enforcementLevel: "advisory",
-        severity: "low",
-        remediationSteps: "Downsize the top items for this stack, or raise the team's budget in Pulumi.<stack>.yaml.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const cfg = g.ctx.project.stackConfig[`${g.project}:teamBudgets`];
-            const budgets = cfg && cfg.value;
-            if (!budgets || typeof budgets !== "object") {
-                return;
-            }
-            const P = APPROVED.prices;
-            const items = {};
-            for (const r of input.resources) {
-                let price, what;
-                if (r.type === "acme:db:Postgres") {
-                    what = POSTGRES_CLASS[read(r.props, "size")];
-                } else if (r.type === "aws:ec2/instance:Instance") {
-                    what = read(r.props, "instanceType");
-                } else if (r.type === "aws:rds/instance:Instance" && !g.ancestors(r).some((a) => a.type === "acme:db:Postgres")) {
-                    what = read(r.props, "instanceClass");
-                } else if (r.type === "aws:ec2/natGateway:NatGateway") {
-                    what = "natGateway";
-                } else if (r.type === "aws:lb/loadBalancer:LoadBalancer") {
-                    what = "loadBalancer";
-                }
-                price = typeof what === "string" ? P[what] : undefined;
-                if (price === undefined) {
-                    continue;
-                }
-                const own = [r].concat(g.ancestors(r)).map((x) => g.teamOf(g.info(x).file)).find((t) => t);
-                const team = own || "unowned";
-                (items[team] = items[team] || []).push({ r, what, price });
-            }
-            for (const team of Object.keys(items).sort()) {
-                const total = items[team].reduce((a, x) => a + x.price, 0);
-                const budget = budgets[team];
-                if (budget === undefined || total <= budget) {
-                    continue;
-                }
-                const top = items[team]
-                    .sort((a, b) => b.price - a.price)
-                    .slice(0, 3)
-                    .map((x) => `'${x.r.name}' ${x.what} ~$${x.price} (${g.where(x.r)})`)
-                    .join(", ");
-                ctx.reportViolation(
-                    `Team ${team} would cost about $${Math.round(total)}/month in stack "${g.stackName}", over its ` +
-                        `$${budget} budget. Top items: ${top}. Downsize them for this stack, or ask for a bigger budget ` +
-                        `(\`${g.project}:teamBudgets\` in Pulumi.${g.stackName}.yaml). Rough list prices only.`,
-                    g.at(`Pulumi.${g.stackName}.yaml`, 0),
-                );
-            }
-        },
-    },
-
-    // ------------------------------------------------------------------------------------------------------------
-    // Network, identity, shared infrastructure and blast radius
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "shared-infra-ownership",
-        description: "VPCs, subnets, NAT and internet gateways belong to the network team; KMS keys and DNS zones to the platform team.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Use the owning team's stack through a stack reference instead of creating your own.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            for (const r of input.resources) {
-                const owner = APPROVED.sharedInfra[r.type];
-                if (!owner || (g.info(r).file || "").startsWith(owner[0])) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' at ${g.where(r)} creates a ${r.type.split(":").pop()}, which only ${owner[0]} may ` +
-                        `create. Remove it and use ${owner[1]}.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "public-lb-via-service",
-        description: "Internet-facing load balancers are created only through platform.network.Service.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Use `new platform.network.Service(name, { team, vpcId, port, publicSubnetIds }, { provider })`.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                if (r.type !== "aws:lb/loadBalancer:LoadBalancer" && r.type !== "aws:alb/loadBalancer:LoadBalancer") {
-                    continue;
-                }
-                if (read(r.props, "internal") === true || g.ancestors(r).some((a) => a.type === "acme:network:Service")) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' at ${g.where(r)} is an internet-facing load balancer made by hand. Use ` +
-                        `\`new platform.network.Service("${r.name}", { team, vpcId, port, publicSubnetIds }, { provider })\`: ` +
-                        `it adds the security group, target group, logs and TLS defaults; read its \`.url\`.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "provider-region-allowed",
-        description: "Every explicit AWS provider's region is one of the stack's allowed regions (config allowedRegions).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Use platform.provider(team), which takes the stack's region, or an allowed region.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const cfg = g.ctx.project.stackConfig[`${g.project}:allowedRegions`];
-            const allowed = cfg && Array.isArray(cfg.value) ? cfg.value : undefined;
-            if (!allowed) {
-                return;
-            }
-            for (const r of input.resources) {
-                if (r.type !== "pulumi:providers:aws") {
-                    continue;
-                }
-                const region = read(r.props, "region");
-                if (typeof region !== "string" || isUnknown(region) || allowed.indexOf(region) >= 0) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `Provider '${r.name}' at ${g.where(r)} deploys to ${region}, but stack "${g.stackName}" allows ` +
-                        `${allowed.join(", ")} (\`${g.project}:allowedRegions\`). Use \`${APPROVED.provider}\`, which ` +
-                        `uses the stack's region; if you really need another region, ask to add it to allowedRegions.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "no-iam-users",
-        description: "No IAM users, access keys or user policies: workloads and CI use roles.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Use platform.identity.Role (for CI: an OIDC role) instead of an IAM user.",
-        kind: "resource",
-        validate(input, ctx) {
-            if (!/^aws:iam\/(user|accessKey|userPolicy|userPolicyAttachment|userLoginProfile|userGroupMembership):/.test(input.type)) {
-                return;
-            }
+policy({
+    name: "use-platform-database",
+    description: "Databases are created with the @acme/platform Postgres component, not raw RDS resources.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Replace the raw RDS resource with `new platform.db.Postgres(name, { team, size, password }, { provider })`.",
+    resourceTypes: ["aws:rds/instance:Instance", "aws:rds/cluster:Cluster"],
+    validate(r, ctx) {
+        if (!ctx.within(r, "acme:db:Postgres")) {
             ctx.reportViolation(
-                `'${input.name}' is an IAM ${input.type.split(":").pop()}. IAM users mean long-lived keys. Use a role: ` +
-                    `\`${APPROVED.components["acme:iam:Role"]}\`; CI assumes a role through OIDC, ask the platform team for it.`,
+                "Use platform.db.Postgres instead of a raw RDS database; it is private, encrypted and backed up. Read replicas aren't offered yet: ask the platform team.",
             );
-        },
+        }
     },
-    {
-        name: "iam-least-privilege",
-        description: "IAM policies don't allow `*` actions or resources, and attach only approved AWS managed policies.",
-        enforcementLevel: "mandatory",
-        severity: "critical",
-        remediationSteps: "List the actions and resource ARNs the workload needs; attach only approved managed policies.",
-        kind: "resource",
-        validate(input, ctx) {
-            const docs = [];
-            if (/^aws:iam\/(rolePolicy|policy|userPolicy|groupPolicy):/.test(input.type)) {
-                docs.push(["policy", read(input.props, "policy")]);
-            }
-            if (input.type === "aws:iam/role:Role") {
-                const inline = read(input.props, "inlinePolicies");
-                (Array.isArray(inline) ? inline : []).forEach((p, i) => docs.push([`inlinePolicies[${i}].policy`, read(p, "policy")]));
-            }
-            for (const [path, doc] of docs) {
-                if (typeof doc !== "string" || isUnknown(doc)) {
-                    continue;
-                }
-                let parsed;
-                try {
-                    parsed = JSON.parse(doc);
-                } catch (e) {
-                    continue;
-                }
-                const stmts = [].concat(parsed.Statement || []);
-                const bad = stmts.filter((st) => st.Effect !== "Deny" && [].concat(st.Action || [], st.Resource || []).some((x) => x === "*"));
-                if (bad.length > 0) {
-                    ctx.reportViolation(
-                        `'${input.name}' grants \`*\` in \`${path}\` (${bad.map((st) => `Action ${JSON.stringify(st.Action)} on ${JSON.stringify(st.Resource)}`).join("; ")}). ` +
-                            `List the exact actions (e.g. "sqs:ReceiveMessage") and the resource ARNs, built from the ` +
-                            `resources' \`.arn\` outputs with \`pulumi.jsonStringify\`.`,
-                    );
-                }
-            }
-            if (/^aws:iam\/(rolePolicyAttachment|policyAttachment|userPolicyAttachment|groupPolicyAttachment):/.test(input.type)) {
-                const arn = read(input.props, "policyArn");
-                if (typeof arn === "string" && !isUnknown(arn) && /^arn:aws:iam::aws:policy\//.test(arn) && APPROVED.managedPolicyArns.indexOf(arn) < 0) {
-                    ctx.reportViolation(
-                        `'${input.name}' attaches the AWS managed policy \`${arn}\`, which isn't approved. Approved: ` +
-                            `${APPROVED.managedPolicyArns.map((a) => a.split("/").pop()).join(", ")}. Otherwise write a ` +
-                            `policy with the exact actions and resources this workload needs.`,
-                    );
-                }
-            }
-        },
-    },
-    {
-        name: "role-permission-boundary",
-        description: "IAM roles set the company permission boundary; platform.identity.Role does it for you.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Use platform.identity.Role instead of aws.iam.Role.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            for (const r of input.resources) {
-                if (r.type !== "aws:iam/role:Role" || g.ancestors(r).some((a) => a.type === "acme:iam:Role")) {
-                    continue;
-                }
-                if (read(r.props, "permissionsBoundary") !== undefined) {
-                    continue;
-                }
-                const team = g.teamOf(g.info(r).file);
-                ctx.reportViolation(
-                    `Role '${r.name}' at ${g.where(r)} has no permission boundary. Use \`new platform.identity.Role("${r.name}", ` +
-                        `{ team: "${team || "<team>"}", service: "<service>.amazonaws.com", managedPolicyArns: [...] }, { provider })\`, ` +
-                        `which sets the boundary from the platform stack; read \`.arn\` and \`.name\` as before.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "allowed-locations",
-        description: "Resources are declared only under src/<team>/ or platform/ (index.ts wires modules).",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Move the resource into the owning team's directory.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            for (const r of input.resources) {
-                const f = g.info(r).file;
-                if (!f || /^(src\/[^/]+\/|platform\/)/.test(f) || /^index\.[jt]s$/.test(f) || r.type.startsWith("pulumi:")) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' is declared in ${g.where(r)}, outside src/<team>/ and platform/, so no team owns it. ` +
-                        `Move it into the owning team's directory (src/<team>/...) and export it from there.`,
-                    r.urn,
-                );
-            }
-        },
-    },
-    {
-        name: "forbidden-resource-types",
-        description: "App stacks don't create organization- or account-level resources.",
-        enforcementLevel: "mandatory",
-        severity: "high",
-        remediationSteps: "Remove the resource; account-level settings are managed by the platform team.",
-        kind: "resource",
-        validate(input, ctx) {
-            const hit = APPROVED.forbiddenTypes.find((t) => input.type.startsWith(t));
-            if (hit) {
-                ctx.reportViolation(
-                    `'${input.name}' is a ${input.type}: organization and account settings (${APPROVED.forbiddenTypes.join(", ")}) ` +
-                        `are owned by the platform team, and changing them affects every stack in the account. Remove it ` +
-                        `and ask the platform team.`,
-                );
-            }
-        },
-    },
-    {
-        name: "security-review",
-        description: "IAM and network resources declared in app code are flagged for a security review (advisory).",
-        enforcementLevel: "advisory",
-        severity: "low",
-        remediationSteps: "No change needed; a reviewer from security looks at these. Prefer platform components.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            const re = /^aws:(iam\/|ec2\/(securityGroup|securityGroupRule|vpc|internetGateway|natGateway|vpcPeeringConnection|networkAcl)|vpc\/securityGroup|lb\/loadBalancer|alb\/loadBalancer)/;
-            for (const r of input.resources) {
-                if (!re.test(r.type) || insidePlatform(g, r)) {
-                    continue;
-                }
-                ctx.reportViolation(
-                    `'${r.name}' (${r.type.split(":").pop()}) at ${g.where(r)} changes identity or network access: a ` +
-                        `security reviewer will look at it. Platform components (platform.identity.Role, ` +
-                        `platform.network.Service) don't need this review.`,
-                    r.urn,
-                );
-            }
-        },
-    },
+});
 
-    // ------------------------------------------------------------------------------------------------------------
-    // Definition of done, outputs and determinism
-    // ------------------------------------------------------------------------------------------------------------
-    {
-        name: "service-definition-of-done",
-        description: "Every service (platform.network.Service or Lambda function) has an alarm and a log group with retention.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Add an aws.cloudwatch.MetricAlarm and a LogGroup with retentionInDays that reference the service.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            const kids = {};
-            input.resources.forEach((r) => r.parent && (kids[r.parent] = kids[r.parent] || []).push(r));
-            const subtree = (r) => {
-                const out = new Set([r.urn]);
-                const walk = (x) => (kids[x.urn] || []).forEach((k) => (out.add(k.urn), walk(k)));
-                walk(r);
-                return out;
-            };
-            const refs = (x) => {
-                const out = [x.parent].concat(x.dependencies || []);
-                Object.keys(x.propertyDependencies || {}).forEach((k) => out.push(...x.propertyDependencies[k]));
-                return out;
-            };
-            for (const r of input.resources) {
-                const isService = r.type === "acme:network:Service" || (r.type === "aws:lambda/function:Function" && !insidePlatform(g, r));
-                if (!isService) {
-                    continue;
-                }
-                const mine = subtree(r);
-                const linked = (x) => mine.has(x.urn) || refs(x).some((u) => mine.has(u));
-                const missing = [];
-                if (!input.resources.some((x) => x.type === "aws:cloudwatch/metricAlarm:MetricAlarm" && linked(x))) {
-                    missing.push(
-                        r.type === "acme:network:Service"
-                            ? `an alarm: \`new aws.cloudwatch.MetricAlarm("${r.name}-5xx", { namespace: "AWS/ApplicationELB", metricName: "HTTPCode_Target_5XX_Count", dimensions: { TargetGroup: ${r.name.replace(/-./g, (m) => m[1].toUpperCase())}.targetGroupArnSuffix }, ... }, { provider })\``
-                            : `an alarm: \`new aws.cloudwatch.MetricAlarm("${r.name}-errors", { namespace: "AWS/Lambda", metricName: "Errors", dimensions: { FunctionName: fn.name }, ... }, { provider })\``,
-                    );
-                }
-                const logs = input.resources.filter((x) => x.type === "aws:cloudwatch/logGroup:LogGroup" && linked(x));
-                if (!logs.some((x) => typeof read(x.props, "retentionInDays") === "number")) {
-                    missing.push(
-                        r.type === "acme:network:Service"
-                            ? "a log group with retention (the component creates one; don't remove it)"
-                            : `a log group with retention: \`new aws.cloudwatch.LogGroup("${r.name}-logs", { name: pulumi.interpolate\`/aws/lambda/\${fn.name}\`, retentionInDays: pulumi.getStack() === "prod" ? 90 : 14 }, { provider })\``,
-                    );
-                }
-                if (missing.length > 0) {
-                    ctx.reportViolation(
-                        `Service '${r.name}' at ${g.where(r)} isn't done: it needs ${missing.join(", and ")}. Every ` +
-                            `service ships with an alarm and logs that expire.`,
-                        r.urn,
-                    );
-                }
+policy({
+    name: "approved-platform-modules",
+    description: "Only supported @acme/platform modules and components are used; deprecated ones are not.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Import from `@acme/platform` and use its supported components.",
+    validate(ctx) {
+        const deprecated = { "@acme/platform/legacy": "deprecated since @acme/platform 2.0" };
+        const replacements = { "acme:legacy:Queue": "a plain SQS queue with the team provider (the platform has no queue component yet)" };
+        for (const imp of ctx.program.imports) {
+            if (deprecated[imp.module] && !imp.file.startsWith("platform/")) {
+                ctx.reportViolation(`${imp.module} is ${deprecated[imp.module]}; use the supported components from @acme/platform.`, imp);
             }
-        },
+        }
+        for (const r of ctx.resources("acme:*")) {
+            if (PLATFORM_COMPONENTS.indexOf(r.type) < 0) {
+                ctx.reportViolation(`${r.type} isn't a supported platform component; use ${replacements[r.type] || PLATFORM_COMPONENTS.join(", ")}.`, r);
+            }
+        }
+        const platform = ctx.program.localPackages["@acme/platform"];
+        if (platform && platform.version && parseInt(platform.version, 10) < 2) {
+            ctx.reportViolation(`@acme/platform ${platform.version} is too old; version 2 or later is required.`);
+        }
     },
-    {
-        name: "required-stack-outputs",
-        description: "The program exports every stack output listed in the project config requiredOutputs.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Export the missing outputs from index.ts.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
-                return;
-            }
-            const key = `${g.project}:requiredOutputs`;
-            const sc = g.ctx.project.stackConfig[key];
-            const decl = g.ctx.project.config[key];
-            const required = (sc && sc.value) || (decl && decl.default);
-            if (!Array.isArray(required)) {
-                return;
-            }
-            const have = g.ctx.program.outputs.map((o) => o.name);
-            const missing = required.filter((n) => have.indexOf(n) < 0);
-            if (missing.length > 0) {
-                const entry = (g.ctx.project.main || g.ctx.program.packageJson.main || "index.ts").replace(/^\.\//, "");
+});
+
+policy({
+    name: "postgres-size-by-stack",
+    description: "Platform databases use the sizes allowed for the stack: small in dev, medium or large in prod.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Pick a size allowed in this stack, per stack (config), not one size for all stacks.",
+    resourceTypes: ["acme:db:Postgres"],
+    validate(r, ctx) {
+        const allowed = APPROVED.postgresSizes[ctx.stack] || APPROVED.postgresSizes.other;
+        if (allowed.indexOf(r.props.size) < 0) {
+            ctx.reportViolation(
+                `Size "${r.props.size}" isn't allowed in stack ${ctx.stack}, which takes ${allowed.join(" or ")}; choose the size per stack, in its config or by stack name.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "bucket-component-invariants",
+    description: "Every acme:storage:Bucket has a public access block, versioning and server-side encryption.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Fix the component in @acme/platform so every instance gets all three children.",
+    resourceTypes: ["acme:storage:Bucket"],
+    validate(r, ctx) {
+        const kids = ctx.children(r);
+        const has = (type, ok) => kids.some((k) => k.type === type && ok(k.props));
+        const missing = [];
+        const flags = ["blockPublicAcls", "blockPublicPolicy", "ignorePublicAcls", "restrictPublicBuckets"];
+        if (!has("aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock", (p) => flags.every((f) => p[f] === true))) {
+            missing.push("public access block");
+        }
+        if (!has("aws:s3/bucketVersioning:BucketVersioning", (p) => (p.versioningConfiguration || {}).status === "Enabled")) {
+            missing.push("versioning");
+        }
+        if (!has("aws:s3/bucketServerSideEncryptionConfiguration:BucketServerSideEncryptionConfiguration", () => true)) {
+            missing.push("server-side encryption");
+        }
+        if (missing.length > 0) {
+            const impl = kids.map((k) => k.file).find((f) => f) || "@acme/platform";
+            ctx.reportViolation(
+                `This ${r.props.dataClass} bucket has no ${missing.join(" or ")}; that's a bug in the platform's Bucket component (${impl}), not in this code.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "component-encapsulation",
+    description: "Code outside a platform component doesn't attach resources to the component's internals.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Use the component's own methods or inputs instead of attaching to its children.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        const api = { "acme:network:Service": "its allowFrom method (private CIDRs only)" };
+        // Attaching goes by the child's id; an arn is often an output the component exposes on purpose.
+        for (const child of ctx.references(r, "id")) {
+            const comp = ctx.within(child, PLATFORM_COMPONENTS);
+            if (comp && !ctx.within(r, comp)) {
                 ctx.reportViolation(
-                    `The stack doesn't export ${missing.map((n) => `\`${n}\``).join(", ")}, which other stacks and tools ` +
-                        `depend on (\`requiredOutputs\` in Pulumi.yaml). Export ${missing.length > 1 ? "them" : "it"} from ` +
-                        `${entry}, e.g. \`export const ${missing[0]} = <team module>.<resource>.<output>;\`.`,
-                    g.at(entry, 0),
+                    `This attaches to ${child.name}, inside ${comp.type} ${comp.name}; use ${api[comp.type] || "the component's inputs"} instead of changing its internals.`,
                 );
-            }
-        },
-    },
-    {
-        name: "deterministic-names",
-        description: "The program doesn't use Date.now(), Math.random() or crypto.randomUUID(): every run must declare the same resources.",
-        enforcementLevel: "mandatory",
-        severity: "medium",
-        remediationSteps: "Use a fixed name, or a random.RandomId/RandomString resource.",
-        kind: "stack",
-        validate(input, ctx) {
-            const g = graph(input.resources);
-            if (!g.ctx) {
                 return;
             }
-            for (const c of g.ctx.program.nondeterminism || []) {
-                ctx.reportViolation(
-                    `${c.file}:${c.line} calls ${c.call}, which gives a different value on every run, so a name or ` +
-                        `input built from it differs every time the program runs. Use a fixed name (Pulumi auto-names ` +
-                        `physical names for you), or a \`random.RandomId\` resource (@pulumi/random).`,
-                    g.at(c.file, c.line),
-                );
-            }
-        },
+        }
     },
-];
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Naming
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "kebab-case-names",
+    description: "Logical resource names are kebab-case.",
+    enforcementLevel: "mandatory",
+    severity: "low",
+    remediationSteps: "Rename the resource to its kebab-case form.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if (r.type.startsWith("pulumi:pulumi:") || /^[a-z0-9]+(-[a-z0-9]+)*$/.test(r.name)) {
+            return;
+        }
+        const kebab = r.name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+        ctx.reportViolation(`Rename '${r.name}' to '${kebab}': logical names are kebab-case.`);
+    },
+});
+
+policy({
+    name: "physical-name-prefix",
+    description: "Explicit physical names start with <project>-<stack>-; otherwise leave them out for auto-naming.",
+    enforcementLevel: "mandatory",
+    severity: "low",
+    remediationSteps: "Remove the explicit name, or prefix it with `${pulumi.getProject()}-${pulumi.getStack()}-`.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if (!r.custom || isProvider(r) || r.read || ctx.within(r, "acme:*")) {
+            return;
+        }
+        const prefix = `${ctx.project.name}-${ctx.stack}-`;
+        for (const f of ["name", "bucket", "identifier"]) {
+            const v = r.props[f];
+            if (typeof v === "string" && !v.startsWith(prefix)) {
+                ctx.reportViolation(`The physical name "${v}" will collide across stacks; leave ${f} out so Pulumi auto-names it, or start it with ${prefix}.`);
+            }
+        }
+    },
+});
+
+policy({
+    name: "deterministic-names",
+    description: "The program doesn't use Date.now(), Math.random() or crypto.randomUUID(): every run must declare the same resources.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Use a fixed name, or a random.RandomId/RandomString resource.",
+    validate(ctx) {
+        for (const c of ctx.program.nondeterminism) {
+            ctx.reportViolation(
+                `${c.call} gives a different value on every run, so names or inputs built from it change on every update; use a fixed name or a random.RandomId resource.`,
+                c,
+            );
+        }
+    },
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Code, files and blast radius
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "team-ownership",
+    description: "Resources declared under src/<team>/ belong to that team (component `team` input, or a team tag).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Set the team to the directory's team, or move the code to the owning team's directory.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        const team = teamOf(r.file);
+        if (!team || isProvider(r) || r.read || r.type.startsWith("pulumi:")) {
+            return;
+        }
+        let found = r.custom ? (r.props.tags || {}).team : r.props.team;
+        let how = r.custom ? "its team tag" : "its team input";
+        const provider = ctx.providerOf(r);
+        if (r.custom && found === undefined && provider) {
+            found = ((provider.props.defaultTags || {}).tags || {}).team;
+            how = "its provider's default team tag";
+        }
+        if (found === undefined) {
+            ctx.reportViolation(`Nothing marks this as ${team}'s, though it's in src/${team}/; use the ${team} team provider (it sets the team tag) or tag it team=${team}.`);
+        } else if (found !== team) {
+            ctx.reportViolation(`It's in src/${team}/ but ${how} says "${found}"; set it to "${team}", or move it to src/${found}/.`);
+        }
+    },
+});
+
+policy({
+    name: "no-resources-in-entrypoint",
+    description: "The entry point (index.ts) only wires team modules together; it declares no resources.",
+    enforcementLevel: "advisory",
+    severity: "low",
+    remediationSteps: "Move the resource into the owning team's module and export what index.ts needs.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if ([entryFile(ctx), "index.ts", "index.js"].indexOf(r.file) >= 0 && !isProvider(r) && !r.type.startsWith("pulumi:")) {
+            ctx.reportViolation("The entry point only wires modules together; declare this in the owning team's module under src/<team>/ and export it from there.");
+        }
+    },
+});
+
+policy({
+    name: "allowed-locations",
+    description: "Resources are declared only under src/<team>/ or platform/ (index.ts wires modules).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Move the resource into the owning team's directory.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if (r.file && !/^(src\/[^/]+\/|platform\/)/.test(r.file) && !/^index\.[jt]s$/.test(r.file) && !r.type.startsWith("pulumi:")) {
+            ctx.reportViolation(`${r.file} is outside src/<team>/ and platform/, so no team owns this; move it into the owning team's directory.`);
+        }
+    },
+});
+
+policy({
+    name: "forbidden-resource-types",
+    description: "App stacks don't create organization- or account-level resources.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Remove the resource; account-level settings are managed by the platform team.",
+    resourceTypes: APPROVED.forbiddenTypes.map((t) => `${t}*`),
+    validate(r, ctx) {
+        ctx.reportViolation(`${short(r.type)} is an account-level setting that affects every stack in the account; remove it and ask the platform team.`);
+    },
+});
+
+policy({
+    name: "no-resources-in-apply",
+    description: "Resources are not created inside apply callbacks.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Create the resource at the top level and pass the Output as its input.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if (r.createdInApply) {
+            ctx.reportViolation("This is created inside an apply callback, so previews can't show it reliably; create it at the top level and pass the Output as its input.");
+        }
+    },
+});
+
+policy({
+    name: "hermetic-program",
+    description: "The program doesn't run processes or reach the network while it deploys.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Pass the value in through stack config instead of computing it at deploy time.",
+    validate(ctx) {
+        for (const s of ctx.program.sideEffects) {
+            const what = s.kind === "process" ? `Running "${s.target}"` : `Calling ${s.kind} ${s.target}`;
+            ctx.reportViolation(`${what} at deploy time gives different results on laptops, CI and Deployments; pass the value in as stack config instead.`, s);
+        }
+    },
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Size, retention and cost per stack
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "instance-types-by-stack",
+    description: "EC2 instance types and RDS classes come from the families allowed in the stack (burstable in dev).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Pick an allowed family for this stack, per stack.",
+    resourceTypes: ["aws:ec2/instance:Instance", "aws:rds/instance:Instance"],
+    validate(r, ctx) {
+        // Platform databases are sized by postgres-size-by-stack.
+        if (ctx.within(r, "acme:db:Postgres")) {
+            return;
+        }
+        const st = stackKind(ctx);
+        const ec2 = r.type === "aws:ec2/instance:Instance";
+        const v = ec2 ? r.props.instanceType : r.props.instanceClass;
+        if (typeof v !== "string") {
+            return;
+        }
+        const allowed = ec2 ? APPROVED.instanceFamilies[st] : APPROVED.dbClassFamilies[st];
+        const sizes = ["nano", "micro", "small", "medium", "large", "xlarge"];
+        const family = v.split(".").slice(0, -1).join(".");
+        const tooBig = st === "dev" && sizes.indexOf(v.split(".").pop()) > sizes.indexOf(APPROVED.maxDevInstanceSize);
+        if (allowed.indexOf(family) < 0 || tooBig) {
+            ctx.reportViolation(
+                `${v} isn't allowed in stack ${ctx.stack}, which takes the ${allowed.join(", ")} families${st === "dev" ? ` up to ${APPROVED.maxDevInstanceSize}` : ""}; choose the type per stack.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "log-retention-by-stack",
+    description: "Log groups set a retention of at least 7 days in dev and 90 in prod.",
+    enforcementLevel: "mandatory",
+    severity: "low",
+    remediationSteps: "Set retentionInDays per stack.",
+    resourceTypes: ["aws:cloudwatch/logGroup:LogGroup"],
+    validate(r, ctx) {
+        const min = APPROVED.logRetentionDays[stackKind(ctx)];
+        const days = r.props.retentionInDays;
+        if (!(typeof days === "number" && days >= min)) {
+            ctx.reportViolation(`${days === undefined ? "Logs are kept forever" : `Logs are kept ${days} days`}; stack ${ctx.stack} needs a retention of at least ${min} days.`);
+        }
+    },
+});
+
+policy({
+    name: "rds-backups-in-prod",
+    description: "In prod, RDS instances keep backups for at least 7 days and have deletion protection on.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Set backupRetentionPeriod and deletionProtection (or use platform.db.Postgres, which does).",
+    resourceTypes: ["aws:rds/instance:Instance", "aws:rds/cluster:Cluster"],
+    validate(r, ctx) {
+        if (ctx.stack !== "prod") {
+            return;
+        }
+        const days = r.props.backupRetentionPeriod;
+        const missing = [];
+        if (!(typeof days === "number" && days >= APPROVED.rdsBackupDays)) {
+            missing.push(`backups kept at least ${APPROVED.rdsBackupDays} days (it has ${days === undefined ? "none set" : days})`);
+        }
+        if (r.props.deletionProtection !== true) {
+            missing.push("deletion protection");
+        }
+        if (missing.length > 0) {
+            const comp = ctx.within(r, "acme:db:Postgres");
+            ctx.reportViolation(
+                `In prod this database needs ${missing.join(" and ")}; ${comp ? `fix the platform's Postgres component (${r.file})` : "set them for prod, or use platform.db.Postgres, which does"}.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "cost-estimate",
+    description: "A rough monthly cost per team, from a small price table, stays within the team's budget (stack config teamBudgets).",
+    enforcementLevel: "advisory",
+    severity: "low",
+    remediationSteps: "Downsize the top items for this stack, or raise the team's budget in Pulumi.<stack>.yaml.",
+    validate(ctx) {
+        const budgets = ctx.config("teamBudgets");
+        if (!budgets) {
+            return;
+        }
+        const items = {};
+        for (const r of ctx.resources()) {
+            let what;
+            if (r.type === "acme:db:Postgres") {
+                what = POSTGRES_CLASS[r.props.size];
+            } else if (r.type === "aws:ec2/instance:Instance") {
+                what = r.props.instanceType;
+            } else if (r.type === "aws:rds/instance:Instance" && !ctx.within(r, "acme:db:Postgres")) {
+                what = r.props.instanceClass;
+            } else if (r.type === "aws:ec2/natGateway:NatGateway") {
+                what = "natGateway";
+            } else if (r.type === "aws:lb/loadBalancer:LoadBalancer") {
+                what = "loadBalancer";
+            }
+            const price = APPROVED.prices[what];
+            if (price === undefined) {
+                continue;
+            }
+            const team = [r].concat(ctx.ancestors(r)).map((x) => teamOf(x.file)).find((t) => t) || "unowned";
+            (items[team] = items[team] || []).push({ r, what, price });
+        }
+        for (const team of Object.keys(items).sort()) {
+            const total = items[team].reduce((a, x) => a + x.price, 0);
+            if (budgets[team] === undefined || total <= budgets[team]) {
+                continue;
+            }
+            const top = items[team].sort((a, b) => b.price - a.price).slice(0, 3).map((x) => `${x.r.name} (${x.what}, ~$${x.price})`);
+            ctx.reportViolation(
+                `Team ${team} would cost about $${Math.round(total)}/month in ${ctx.stack}, over its $${budgets[team]} budget; the top items are ${top.join(", ")}. Rough list prices.`,
+                { file: `Pulumi.${ctx.stack}.yaml` },
+            );
+        }
+    },
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Network, identity and shared infrastructure
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "shared-infra-ownership",
+    description: "VPCs, subnets, NAT and internet gateways belong to the network team; KMS keys and DNS zones to the platform team.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Use the owning team's stack through a stack reference instead of creating your own.",
+    resourceTypes: Object.keys(APPROVED.sharedInfra),
+    validate(r, ctx) {
+        const [owner, instead] = APPROVED.sharedInfra[r.type];
+        if (!(r.file || "").startsWith(owner)) {
+            ctx.reportViolation(`Only ${owner} creates a ${short(r.type)}; use ${instead}.`);
+        }
+    },
+});
+
+policy({
+    name: "public-lb-via-service",
+    description: "Internet-facing load balancers are created only through platform.network.Service.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Use `new platform.network.Service(name, { team, vpcId, port, publicSubnetIds }, { provider })`.",
+    resourceTypes: ["aws:lb/loadBalancer:LoadBalancer", "aws:alb/loadBalancer:LoadBalancer"],
+    validate(r, ctx) {
+        if (r.props.internal !== true && !ctx.within(r, "acme:network:Service")) {
+            ctx.reportViolation("Put internet-facing services behind platform.network.Service with public subnets; it adds the security group, target group, logs and TLS defaults.");
+        }
+    },
+});
+
+policy({
+    name: "provider-region-allowed",
+    description: "Every explicit AWS provider's region is one of the stack's allowed regions (config allowedRegions).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Use platform.provider(team), which takes the stack's region, or an allowed region.",
+    resourceTypes: ["pulumi:providers:aws"],
+    validate(r, ctx) {
+        const allowed = ctx.config("allowedRegions");
+        if (Array.isArray(allowed) && typeof r.props.region === "string" && allowed.indexOf(r.props.region) < 0) {
+            ctx.reportViolation(
+                `${r.props.region} isn't one of stack ${ctx.stack}'s regions (${allowed.join(", ")}); use the team provider from platform.provider, which takes the stack's region.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "no-iam-users",
+    description: "No IAM users, access keys or user policies: workloads and CI use roles.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Use platform.identity.Role (for CI: an OIDC role) instead of an IAM user.",
+    resourceTypes: ["aws:iam/user:*", "aws:iam/accessKey:*", "aws:iam/userPolicy:*", "aws:iam/userPolicyAttachment:*", "aws:iam/userLoginProfile:*", "aws:iam/userGroupMembership:*"],
+    validate(r, ctx) {
+        ctx.reportViolation("IAM users mean long-lived keys; use platform.identity.Role for workloads, and an OIDC role from the platform team for CI.");
+    },
+});
+
+policy({
+    name: "iam-least-privilege",
+    description: "IAM policies don't allow `*` actions or resources, and attach only approved AWS managed policies.",
+    enforcementLevel: "mandatory",
+    severity: "critical",
+    remediationSteps: "List the actions and resource ARNs the workload needs; attach only approved managed policies.",
+    resourceTypes: ["aws:iam/rolePolicy:*", "aws:iam/policy:*", "aws:iam/userPolicy:*", "aws:iam/groupPolicy:*", "aws:iam/role:Role", "aws:iam/rolePolicyAttachment:*", "aws:iam/policyAttachment:*", "aws:iam/userPolicyAttachment:*", "aws:iam/groupPolicyAttachment:*"],
+    validate(r, ctx) {
+        const docs = r.type === "aws:iam/role:Role" ? (r.props.inlinePolicies || []).map((p) => p.policy) : [r.props.policy];
+        for (const doc of docs) {
+            const parsed = ctx.parseJSON(doc);
+            const statements = [].concat((parsed && parsed.Statement) || []);
+            if (statements.some((s) => s.Effect !== "Deny" && [].concat(s.Action || [], s.Resource || []).indexOf("*") >= 0)) {
+                ctx.reportViolation("This policy allows * actions or resources; list the exact actions and the resource ARNs the workload needs.");
+            }
+        }
+        const arn = r.props.policyArn;
+        if (typeof arn === "string" && arn.startsWith("arn:aws:iam::aws:policy/") && APPROVED.managedPolicyArns.indexOf(arn) < 0) {
+            ctx.reportViolation(
+                `The AWS managed policy ${arn.split("/").pop()} isn't approved; attach one of ${APPROVED.managedPolicyArns.map((a) => a.split("/").pop()).join(", ")}, or a policy with the exact actions needed.`,
+            );
+        }
+    },
+});
+
+policy({
+    name: "role-permission-boundary",
+    description: "IAM roles set the company permission boundary; platform.identity.Role does it for you.",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Use platform.identity.Role instead of aws.iam.Role.",
+    resourceTypes: ["aws:iam/role:Role"],
+    validate(r, ctx) {
+        if (!ctx.within(r, "acme:iam:Role") && r.props.permissionsBoundary === undefined) {
+            ctx.reportViolation("This role has no permission boundary; use platform.identity.Role, which sets the company boundary.");
+        }
+    },
+});
+
+policy({
+    name: "no-hardcoded-arns",
+    description: "Resource inputs don't contain literal ARNs (account IDs included); ARNs come from resources, config or lookups.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Use the resource's `.arn` output, a stack reference, aws.getCallerIdentityOutput, or config.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if (isProvider(r)) {
+            return;
+        }
+        for (const [path, text] of ctx.strings(r.props)) {
+            const m = /arn:aws[a-z-]*:[a-z0-9-]*:[a-z0-9-]*:(\d{12})?:?[^\s"']*/.exec(text);
+            // AWS managed policies are global names, not resources of ours.
+            if (m && !m[0].startsWith("arn:aws:iam::aws:policy/")) {
+                ctx.reportViolation(
+                    `${path} hardcodes ${m[1] ? `account ${m[1]} in ` : ""}the ARN ${m[0]}; take it from the resource's arn, a stack reference, or aws.getCallerIdentity.`,
+                );
+                return;
+            }
+        }
+    },
+});
+
+policy({
+    name: "security-review",
+    description: "IAM and network resources declared in app code are flagged for a security review (advisory).",
+    enforcementLevel: "advisory",
+    severity: "low",
+    remediationSteps: "No change needed; a reviewer from security looks at these. Prefer platform components.",
+    resourceTypes: ["aws:iam/*", "aws:ec2/securityGroup*", "aws:ec2/vpc*", "aws:ec2/internetGateway*", "aws:ec2/natGateway*", "aws:ec2/networkAcl*", "aws:vpc/securityGroup*", "aws:lb/loadBalancer*", "aws:alb/loadBalancer*"],
+    validate(r, ctx) {
+        if (!ctx.within(r, "acme:*")) {
+            ctx.reportViolation(`This ${short(r.type)} changes identity or network access, so security will review it; platform components don't need this review.`);
+        }
+    },
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Definition of done
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "service-definition-of-done",
+    description: "Every service (platform.network.Service or Lambda function) has an alarm and a log group with retention.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Add an aws.cloudwatch.MetricAlarm and a LogGroup with retentionInDays that reference the service.",
+    resourceTypes: ["acme:network:Service", "aws:lambda/function:Function"],
+    validate(r, ctx) {
+        if (r.type === "aws:lambda/function:Function" && ctx.within(r, "acme:*")) {
+            return;
+        }
+        const mine = [r].concat(ctx.descendants(r));
+        const linked = (x) => mine.indexOf(x) >= 0 || ctx.references(x).some((y) => mine.indexOf(y) >= 0);
+        const missing = [];
+        if (!ctx.resources("aws:cloudwatch/metricAlarm:MetricAlarm").some(linked)) {
+            missing.push("an alarm on it");
+        }
+        if (!ctx.resources("aws:cloudwatch/logGroup:LogGroup").some((x) => linked(x) && typeof x.props.retentionInDays === "number")) {
+            missing.push("a log group with retention");
+        }
+        if (missing.length > 0) {
+            ctx.reportViolation(`This service isn't done: it needs ${missing.join(" and ")}. Every service ships with an alarm and logs that expire.`);
+        }
+    },
+});
+
+policy({
+    name: "required-stack-outputs",
+    description: "The program exports every stack output listed in the project config requiredOutputs.",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Export the missing outputs from index.ts.",
+    validate(ctx) {
+        const required = ctx.config("requiredOutputs");
+        if (!Array.isArray(required)) {
+            return;
+        }
+        const have = ctx.program.outputs.map((o) => o.name);
+        const missing = required.filter((n) => have.indexOf(n) < 0);
+        if (missing.length > 0) {
+            ctx.reportViolation(`The stack doesn't export ${missing.join(", ")}, which other stacks and tools depend on (requiredOutputs in Pulumi.yaml).`, { file: entryFile(ctx) });
+        }
+    },
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Pulumi best practices
+// ---------------------------------------------------------------------------------------------------------------------
+
+policy({
+    name: "protect-stateful-in-prod",
+    description: "In prod, resources that hold data are protected (protect or retainOnDelete).",
+    enforcementLevel: "mandatory",
+    severity: "high",
+    remediationSteps: "Add `protect: pulumi.getStack() === \"prod\"` to the resource options.",
+    resourceTypes: ["acme:db:Postgres", "acme:storage:Bucket", "aws:rds/instance:Instance", "aws:rds/cluster:Cluster", "aws:s3/bucket:Bucket", "aws:s3/bucketV2:BucketV2", "aws:dynamodb/table:Table"],
+    validate(r, ctx) {
+        // A component's children are covered by the component; only confidential platform buckets count.
+        if (ctx.stack !== "prod" || ctx.within(r, "acme:*") || (r.type === "acme:storage:Bucket" && r.props.dataClass !== "confidential")) {
+            return;
+        }
+        if (r.options.protect !== true && r.options.retainOnDelete !== true) {
+            ctx.reportViolation("This holds data and isn't protected in prod; set protect (or retainOnDelete) in its resource options for prod.");
+        }
+    },
+});
+
+policy({
+    name: "secrets-stay-secret",
+    description: "Passwords and secret config stay secrets: in resource inputs and in how config is read.",
+    enforcementLevel: "mandatory",
+    severity: "critical",
+    remediationSteps: "Read secret config with `config.requireSecret`/`getSecret`, and pass secrets as Outputs.",
+    validate(ctx) {
+        const sensitive = ["password", "masterPassword", "secretString", "privateKey", "apiKey", "token"];
+        const flagged = [];
+        for (const r of ctx.resources()) {
+            if (isProvider(r) || ctx.ancestors(r).some((a) => flagged.indexOf(a) >= 0)) {
+                continue;
+            }
+            const f = sensitive.find((k) => typeof r.props[k] === "string" && r.secretInputs.indexOf(k) < 0);
+            if (f) {
+                flagged.push(r);
+                ctx.reportViolation(`${f} is passed as plain text, so it's stored unencrypted in the state; pass a secret, such as one read with config.requireSecret.`, r);
+            }
+        }
+        for (const c of ctx.program.configRead) {
+            const declared = ctx.project.config[c.key] || {};
+            const set = ctx.project.stackConfig[c.key] || {};
+            if ((declared.secret || set.secure) && !c.secret) {
+                ctx.reportViolation(`Secret config ${c.key} is read with ${c.method}, which turns it into plain text; use ${c.method.replace(/^(get|require)/, "$1Secret")}.`, c);
+            }
+        }
+    },
+});
+
+policy({
+    name: "declared-config",
+    description: "Every config key the program reads is declared in Pulumi.yaml with a type and description.",
+    enforcementLevel: "mandatory",
+    severity: "low",
+    remediationSteps: "Declare the key under `config:` in Pulumi.yaml.",
+    validate(ctx) {
+        for (const c of ctx.program.configRead) {
+            const d = ctx.project.config[c.key];
+            if (c.namespace === ctx.project.name && !(d && d.description)) {
+                ctx.reportViolation(`Config ${c.key} is read here but ${d ? "has no description" : "isn't declared"} in Pulumi.yaml; declare it under config with a type and a description.`, c);
+            }
+        }
+    },
+});
+
+policy({
+    name: "explicit-provider-default-tags",
+    description: "AWS resources use the team's explicit provider, which sets default tags (team, env).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "Pass `{ provider }` from `platform.provider(team)` to every resource.",
+    resourceTypes: ["aws:*"],
+    validate(r, ctx) {
+        if (!r.custom || r.read) {
+            return;
+        }
+        const p = ctx.providerOf(r);
+        if (!p) {
+            ctx.reportViolation("This uses the default AWS provider, so it gets no default tags and whatever region the environment has; use the team provider from platform.provider.");
+            return;
+        }
+        const tags = (p.props.defaultTags || {}).tags || {};
+        const missing = ["team", "env"].filter((t) => !tags[t]);
+        if (missing.length > 0) {
+            ctx.reportViolation(`Provider ${p.name} sets no default ${missing.join(" or ")} tag; use the team provider from platform.provider instead of a hand-made one.`);
+        }
+    },
+});
+
+policy({
+    name: "no-ignore-changes-wildcard",
+    description: "Resources don't ignore all changes (`ignoreChanges: [\"*\"]`).",
+    enforcementLevel: "mandatory",
+    severity: "medium",
+    remediationSteps: "List the specific properties another system manages, or remove ignoreChanges.",
+    resourceTypes: ["*"],
+    validate(r, ctx) {
+        if ((r.options.ignoreChanges || []).indexOf("*") >= 0) {
+            ctx.reportViolation("ignoreChanges on everything hides all drift and all future changes; list only the properties something else manages, or remove it.");
+        }
+    },
+});
+
+policy({
+    name: "dependency-hygiene",
+    description: "package.json pins versions (no latest or *), with supported Pulumi SDK majors.",
+    enforcementLevel: "advisory",
+    severity: "low",
+    remediationSteps: "Pin a version range in package.json and commit the lockfile.",
+    validate(ctx) {
+        const pj = ctx.program.packageJson;
+        const minMajor = { "@pulumi/pulumi": 3, "@pulumi/aws": 7 };
+        const deps = Object.assign({}, pj.devDependencies, pj.dependencies);
+        for (const name of Object.keys(deps).sort()) {
+            const range = String(deps[name]);
+            const major = /(\d+)/.exec(range);
+            if (ctx.program.localPackages[name]) {
+                continue;
+            } else if (/^(latest|\*|x|)$/.test(range.trim()) || /^(git|https?):|^github:/.test(range)) {
+                ctx.reportViolation(`${name} is "${range}"; pin the version range you tested, so scans, previews and deployments run the same code.`, { file: "package.json" });
+            } else if (minMajor[name] && major && parseInt(major[1], 10) < minMajor[name]) {
+                ctx.reportViolation(`${name} ${range} is too old; major ${minMajor[name]} or later is required.`, { file: "package.json" });
+            }
+        }
+    },
+});
 
 globalThis.__pulumiPolicyPack = {
     abiVersion: 1,
     name: "acme-guardrails",
     version: "0.1.0",
     description: "Acme guardrails: golden-path components, conventions and Pulumi best practices.",
-    policies,
+    policies: policyList,
 };
+// For tools (agent-rules.js): the policies as written, and the approved choices.
+globalThis.__acmeGuardrails = { policies: authored, approved: APPROVED };

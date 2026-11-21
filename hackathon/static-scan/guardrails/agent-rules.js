@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // agent-rules.js [pack dir]: prints an agent-instructions section (for CLAUDE.md / AGENTS.md) generated from the
-// guardrails pack: the approved choices, then every policy with its level, description and fix. The rules come from
+// guardrails pack: the approved choices, then every policy with its level, the types it checks, its description and
+// its fix. It reads `globalThis.__acmeGuardrails` ({policies, approved}), which the pack sets. The rules come from
 // the same file the scan runs, so the instructions and the checks can't drift apart.
 "use strict";
 const fs = require("fs");
@@ -12,7 +13,10 @@ const sandbox = { console };
 sandbox.globalThis = sandbox;
 vm.runInNewContext(fs.readFileSync(path.join(dir, "policies.js"), "utf8"), sandbox, { filename: "policies.js" });
 const pack = sandbox.__pulumiPolicyPack;
-const A = sandbox.__acmeGuardrailsApproved || {};
+// The policies as written (with the resource types they check) and the approved choices; the v1 list as a fallback.
+const authored = sandbox.__acmeGuardrails || {};
+const policies = authored.policies || pack.policies;
+const A = authored.approved || sandbox.__acmeGuardrailsApproved || {};
 
 const out = [];
 out.push(`## Infrastructure guardrails (${pack.name} ${pack.version})`, "");
@@ -52,9 +56,10 @@ if (A.locations) {
     out.push(`- Resources live in ${A.locations.join(" or ")}; \`index.ts\` only wires modules and exports outputs.`);
 }
 out.push("", "### Policies", "");
-for (const p of pack.policies) {
+for (const p of policies) {
     const level = p.enforcementLevel === "mandatory" ? "**mandatory**" : p.enforcementLevel;
-    out.push(`- \`${p.name}\` (${level}): ${p.description}${p.remediationSteps ? ` Fix: ${p.remediationSteps}` : ""}`);
+    const scope = p.resourceTypes && p.resourceTypes.indexOf("*") < 0 ? ` (checks ${p.resourceTypes.map((t) => `\`${t}\``).join(", ")})` : "";
+    out.push(`- \`${p.name}\` (${level})${scope}: ${p.description}${p.remediationSteps ? ` Fix: ${p.remediationSteps}` : ""}`);
 }
 out.push("");
 process.stdout.write(out.join("\n"));
