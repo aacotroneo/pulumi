@@ -78,6 +78,10 @@ type scanGraph struct {
 	Fallbacks  int              `json:"failedApplies"`
 	Errors     []scanMessage    `json:"errors"`
 	Timings    map[string]int64 `json:"timings"`
+	// Program is the program-level part of the scan context (see policy_scan_context.go).
+	Program map[string]any `json:"program"`
+
+	info scanProjectInfo
 }
 
 type scanMessage struct {
@@ -99,6 +103,14 @@ type scanResource struct {
 	PropertyDependencies map[string][]string `json:"propertyDependencies"`
 	SourcePosition       *scanPosition       `json:"sourcePosition"`
 	Object               map[string]any      `json:"object"`
+	Custom               bool                `json:"custom"`
+	Remote               bool                `json:"remote"`
+	Read                 bool                `json:"read"`
+	ID                   string              `json:"id"`
+	Provider             string              `json:"provider"`
+	Version              string              `json:"version"`
+	Options              map[string]any      `json:"options"`
+	CreatedInApply       bool                `json:"createdInApply"`
 }
 
 // scanFinding is one policy result tied to the line of code that declared the resource. Its fields map onto an
@@ -281,6 +293,9 @@ func newPolicyScanCmd(loadAnalyzers loadAnalyzersFunc) *cobra.Command {
 			}
 			if l.err != nil {
 				return fmt.Errorf("loading policy packs: %w", l.err)
+			}
+			if graph.info, err = newScanProjectInfo(proj, projectDir, stackName); err != nil {
+				return err
 			}
 
 			analyzeStart := time.Now()
@@ -629,8 +644,16 @@ func scanStackResources(
 		}
 		return props, nil
 	}
+	secrets := map[string][]string{}
+	stackIdx := -1
+	var stackWithOutputs map[string]any
 	for i := range g.Resources {
 		r := &g.Resources[i]
+		if raw, err := unmarshal(r.URN, r.Object); err == nil {
+			if ps := secretPaths(raw); len(ps) > 0 {
+				secrets[r.URN] = ps
+			}
+		}
 		inputs, _ := u.rewrite(r.Object).(map[string]any)
 		if inputs == nil {
 			inputs = map[string]any{}
@@ -656,7 +679,10 @@ func scanStackResources(
 			Type:       urn.Type(),
 			Name:       r.Name,
 			Properties: resource.FromResourcePropertyMap(props),
-			Options:    plugin.AnalyzerResourceOptions{Parent: resource.URN(r.Parent)},
+			Options:    scanAnalyzerOptions(r),
+		}
+		if r.Type == resource.RootStackType.String() && stackIdx < 0 {
+			stackIdx, stackWithOutputs = len(out), withOutputs
 		}
 		views = append(views, view)
 		view.Properties = resource.FromResourcePropertyMap(stackProps)
@@ -667,7 +693,39 @@ func scanStackResources(
 			PropertyDependencies: pdeps,
 		})
 	}
+	if stackIdx >= 0 {
+		ctx, err := buildScanContext(g, secrets)
+		if err != nil {
+			return nil, nil, err
+		}
+		withCtx := maps.Clone(stackWithOutputs)
+		withCtx[scanContextKey] = ctx
+		props, err := unmarshal(string(out[stackIdx].URN), withCtx)
+		if err != nil {
+			return nil, nil, err
+		}
+		out[stackIdx].Properties = resource.FromResourcePropertyMap(props)
+	}
 	return out, views, nil
+}
+
+// scanAnalyzerOptions fills the resource options the analyzer protocol already has a place for.
+func scanAnalyzerOptions(r *scanResource) plugin.AnalyzerResourceOptions {
+	opts := plugin.AnalyzerResourceOptions{Parent: resource.URN(r.Parent)}
+	if v, ok := r.Options["protect"].(bool); ok {
+		opts.Protect = v
+	}
+	if v, ok := r.Options["ignoreChanges"].([]any); ok {
+		for _, s := range v {
+			if s, ok := s.(string); ok {
+				opts.IgnoreChanges = append(opts.IgnoreChanges, s)
+			}
+		}
+	}
+	if v, ok := r.Options["deleteBeforeReplace"].(bool); ok {
+		opts.DeleteBeforeReplace = &v
+	}
+	return opts
 }
 
 // undecidedPrefix starts the message a policy SDK reports when a policy reads a value that's unknown before
@@ -718,6 +776,7 @@ func analyzeScanGraph(ctx context.Context, g *scanGraph, analyzers []plugin.Anal
 		if urn == "" {
 			urn = stackURN
 		}
+		urn, atFile, atLine, at := scanFindingPosition(urn)
 		r := byURN[urn]
 		f := scanFinding{
 			URN:              urn,
@@ -738,6 +797,12 @@ func analyzeScanGraph(ctx context.Context, g *scanGraph, analyzers []plugin.Anal
 					!strings.Contains(rel, "node_modules") {
 					f.URI, f.Line, f.Column, f.File = p.URI, p.Line, p.Column, rel
 				}
+			}
+		}
+		if at {
+			f.File, f.Line, f.Column, f.URI = atFile, atLine, 0, ""
+			if atFile != "" {
+				f.URI = "file://" + filepath.Join(root, atFile)
 			}
 		}
 		if strings.HasPrefix(f.Message, undecidedPrefix) {

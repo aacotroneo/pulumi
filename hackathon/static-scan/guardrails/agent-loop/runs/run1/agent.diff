@@ -1,0 +1,44 @@
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/Pulumi.yaml /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/Pulumi.yaml
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/Pulumi.yaml	2026-11-21 12:09:12
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/Pulumi.yaml	2026-11-21 12:09:58
+@@ -9,3 +9,7 @@
+     type: string
+     secret: true
+     description: Master password of the search database.
++  paymentsDbPassword:
++    type: string
++    secret: true
++    description: Master password of the payments database.
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/index.ts /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/index.ts
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/index.ts	2026-11-21 12:09:12
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/index.ts	2026-11-21 12:09:57
+@@ -3,5 +3,7 @@
+ import * as search from "./src/search";
+ 
+ export const receiptsBucket = payments.receipts.bucketName;
++export const invoicesBucket = payments.invoices.bucketName;
++export const paymentsDbEndpoint = payments.db.endpoint;
+ export const searchDbEndpoint = search.db.endpoint;
+ export const reindexQueue = search.reindex.url;
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/src/payments/index.ts /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/src/payments/index.ts
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/before/src/payments/index.ts	2026-11-21 12:09:12
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run1/work/src/payments/index.ts	2026-11-21 12:09:55
+@@ -3,9 +3,18 @@
+ import * as platform from "@acme/platform";
+ 
+ const team = "payments";
++const config = new pulumi.Config();
+ const isProd = pulumi.getStack() === "prod";
+ const provider = platform.provider(team);
+ 
+ export const receipts = new platform.storage.Bucket("payments-receipts", { team, dataClass: "confidential" }, { provider, protect: isProd });
++
++export const invoices = new platform.storage.Bucket("payments-invoices", { team, dataClass: "confidential" }, { provider, protect: isProd });
++
++export const db = new platform.db.Postgres(
++    "payments-db",
++    { team, size: isProd ? "medium" : "small", password: config.requireSecret("paymentsDbPassword") },
++    { provider, protect: isProd },
++);
+ 
+ new aws.cloudwatch.LogGroup("payments-api-logs", { retentionInDays: 30 }, { provider });

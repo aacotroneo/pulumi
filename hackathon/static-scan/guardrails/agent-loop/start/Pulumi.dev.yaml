@@ -1,0 +1,4 @@
+config:
+  aws:region: us-west-2
+  acme-shop:searchDbPassword:
+    secure: AAABAGx1Ja9x2bWSkvWjh0p3yKpSvDsUQvhVSv6EUmOI3ow6IELRTQ==

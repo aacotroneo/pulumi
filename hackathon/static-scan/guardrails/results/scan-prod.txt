@@ -1,0 +1,171 @@
+warning: using pulumi-language-purejs from $PATH at /Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi-purejs-pr/bin/pulumi-language-purejs
+Policy scan of acme-shop (/Users/alejandrocotroneo/go/src/github.com/pulumi/pulumi/hackathon/static-scan/guardrails/program): 66 resources
+
+Pulumi.prod.yaml:0:0  pulumi:pulumi:Stack acme-shop-prod
+  advisory  acme-guardrails/cost-estimate: A rough monthly cost per team, from a small price table, stays within the team's budget (stack config teamBudgets).
+            Team payments would cost about $725/month in stack "prod", over its $600 budget. Top items: 'payments-db' db.r6g.2xlarge ~$700 (src/payments/index.ts:16), 'payments-ledger-replica' db.t4g.small ~$25 (src/payments/index.ts:23). Downsize them for this stack, or ask for a bigger budget (`acme-shop:teamBudgets` in Pulumi.prod.yaml). Rough list prices only.
+
+index.ts:0:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/required-stack-outputs: The program exports every stack output listed in the project config requiredOutputs.
+            The stack doesn't export `searchApiUrl`, which other stacks and tools depend on (`requiredOutputs` in Pulumi.yaml). Export it from index.ts, e.g. `export const searchApiUrl = <team module>.<resource>.<output>;`.
+
+index.ts:8:16  aws:sns/topic:Topic ops-alerts
+  advisory  acme-guardrails/no-resources-in-entrypoint: The entry point (index.ts) only wires team modules together; it declares no resources.
+            'ops-alerts' is declared in the entry point (index.ts:8). Move it into the owning team's module (src/<team>/index.ts, with that team's provider), export it there, and re-export from index.ts only what other stacks need.
+
+lib/ops.ts:5:22  aws:sns/topic:Topic ops-pager
+  mandatory acme-guardrails/allowed-locations: Resources are declared only under src/<team>/ or platform/ (index.ts wires modules).
+            'ops-pager' is declared in lib/ops.ts:5, outside src/<team>/ and platform/, so no team owns it. Move it into the owning team's directory (src/<team>/...) and export it from there.
+
+package.json:0:0  pulumi:pulumi:Stack acme-shop-prod
+  advisory  acme-guardrails/dependency-hygiene: package.json pins versions (no latest or *), with supported Pulumi SDK majors.
+            package.json asks for `"zod": "latest"`. Pin a range (e.g. `"^1.2.0"`, the version you tested) so scans, previews and deployments run the same code.
+
+src/payments/index.ts:14:23  aws:s3/bucket:Bucket payments-exports
+  mandatory acme-guardrails/protect-stateful-in-prod: In prod, resources that hold data are protected (protect or retainOnDelete).
+            'payments-exports' at src/payments/index.ts:14 holds data and isn't protected in prod. Add `protect: pulumi.getStack() === "prod"` (or `retainOnDelete: true`) to its resource options, next to `provider`.
+  mandatory acme-guardrails/use-platform-bucket: S3 buckets are created with the @acme/platform storage component, not the raw AWS resource.
+            Bucket 'payments-exports' at src/payments/index.ts:14 is a raw Bucket. Replace it with the platform component: `new platform.storage.Bucket("payments-exports", { team: "payments", dataClass: "internal" }, { provider })` (import * as platform from "@acme/platform"; dataClass is "public", "internal" or "confidential"). It adds encryption, versioning, a public access block and tags. Use `.bucketName` and `.arn` where you used the raw bucket's `bucket` and `arn`.
+
+src/payments/index.ts:23:23  aws:rds/instance:Instance payments-ledger-replica
+  mandatory acme-guardrails/protect-stateful-in-prod: In prod, resources that hold data are protected (protect or retainOnDelete).
+            'payments-ledger-replica' at src/payments/index.ts:23 holds data and isn't protected in prod. Add `protect: pulumi.getStack() === "prod"` (or `retainOnDelete: true`) to its resource options, next to `provider`.
+  mandatory acme-guardrails/rds-backups-in-prod: In prod, RDS instances keep backups for at least 7 days and have deletion protection on.
+            Database 'payments-ledger-replica' at src/payments/index.ts:23 needs `backupRetentionPeriod: 7` (it is unset) and `deletionProtection: true` in prod. Set them per stack (`pulumi.getStack() === "prod"`), or use `platform.db.Postgres`, which does.
+  mandatory acme-guardrails/use-platform-database: Databases are created with the @acme/platform Postgres component, not raw RDS resources.
+            Database 'payments-ledger-replica' at src/payments/index.ts:23 is a raw Instance. Use the platform component: `new platform.db.Postgres("payments-ledger-replica", { team: "payments", size: "small", password: config.requireSecret("<key>") }, { provider, protect: pulumi.getStack() === "prod" })` (import * as platform from "@acme/platform"). It is private, encrypted and backed up. Read replicas aren't offered by the platform yet: ask the platform team instead of creating raw RDS.
+
+src/payments/index.ts:29:5  aws:ssm/parameter:Parameter payments-db-url
+  mandatory acme-guardrails/no-resources-in-apply: Resources are not created inside apply callbacks.
+            'payments-db-url' is created inside an `apply` callback (src/payments/index.ts:29). Previews don't show such resources reliably and their dependencies are hidden. Create it at the top level and pass the Output as the input; build strings with `pulumi.interpolate`, e.g. `value: pulumi.interpolate`postgres://${db.endpoint}/app``.
+
+src/payments/index.ts:32:1  aws:cloudwatch/logGroup:LogGroup payments-api-logs
+  mandatory acme-guardrails/log-retention-by-stack: Log groups set a retention of at least 7 days in dev and 90 in prod.
+            Log group 'payments-api-logs' at src/payments/index.ts:32 keeps logs 30 days; stack "prod" needs at least 90. Set `retentionInDays: pulumi.getStack() === "prod" ? 90 : 7`.
+  mandatory acme-guardrails/no-ignore-changes-wildcard: Resources don't ignore all changes (`ignoreChanges: ["*"]`).
+            'payments-api-logs' at src/payments/index.ts:32 has `ignoreChanges: ["*"]`, which hides every drift and every future change to it. Remove the option, or list only the properties something else manages, e.g. `ignoreChanges: ["tags"]`.
+
+src/payments/webhook.ts:11:24  aws:lambda/function:Function payments-webhook
+  mandatory acme-guardrails/service-definition-of-done: Every service (platform.network.Service or Lambda function) has an alarm and a log group with retention.
+            Service 'payments-webhook' at src/payments/webhook.ts:11 isn't done: it needs an alarm: `new aws.cloudwatch.MetricAlarm("payments-webhook-errors", { namespace: "AWS/Lambda", metricName: "Errors", dimensions: { FunctionName: fn.name }, ... }, { provider })`, and a log group with retention: `new aws.cloudwatch.LogGroup("payments-webhook-logs", { name: pulumi.interpolate`/aws/lambda/${fn.name}`, retentionInDays: pulumi.getStack() === "prod" ? 90 : 14 }, { provider })`. Every service ships with an alarm and logs that expire.
+
+src/payments/webhook.ts:19:1  aws:kms/key:Key payments-key
+  mandatory acme-guardrails/shared-infra-ownership: VPCs, subnets, NAT and internet gateways belong to the network team; KMS keys and DNS zones to the platform team.
+            'payments-key' at src/payments/webhook.ts:19 creates a Key, which only platform/ may create. Remove it and use the platform stack's keys (`acme/platform/<stack>` output `dataKeyArn`), or a platform component that encrypts for you.
+
+src/payments/webhook.ts:20:1  aws:iam/accountAlias:AccountAlias payments-alias
+  mandatory acme-guardrails/forbidden-resource-types: App stacks don't create organization- or account-level resources.
+            'payments-alias' is a aws:iam/accountAlias:AccountAlias: organization and account settings (aws:organizations/, aws:account/, aws:iam/accountAlias:, aws:iam/accountPasswordPolicy:, aws:iam/samlProvider:, aws:iam/openIdConnectProvider:) are owned by the platform team, and changing them affects every stack in the account. Remove it and ask the platform team.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'payments-alias' (AccountAlias) at src/payments/webhook.ts:20 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/identity.ts:12:1  aws:iam/user:User search-ci
+  mandatory acme-guardrails/no-iam-users: No IAM users, access keys or user policies: workloads and CI use roles.
+            'search-ci' is an IAM User. IAM users mean long-lived keys. Use a role: `new platform.identity.Role(name, { team, service: "lambda.amazonaws.com", managedPolicyArns }, { provider })`; CI assumes a role through OIDC, ask the platform team for it.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-ci' (User) at src/search/identity.ts:12 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/identity.ts:13:17  aws:iam/role:Role search-indexer
+  mandatory acme-guardrails/role-permission-boundary: IAM roles set the company permission boundary; platform.identity.Role does it for you.
+            Role 'search-indexer' at src/search/identity.ts:13 has no permission boundary. Use `new platform.identity.Role("search-indexer", { team: "search", service: "<service>.amazonaws.com", managedPolicyArns: [...] }, { provider })`, which sets the boundary from the platform stack; read `.arn` and `.name` as before.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-indexer' (Role) at src/search/identity.ts:13 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/identity.ts:14:1  aws:iam/rolePolicy:RolePolicy search-indexer-all
+  mandatory acme-guardrails/iam-least-privilege: IAM policies don't allow `*` actions or resources, and attach only approved AWS managed policies.
+            'search-indexer-all' grants `*` in `policy` (Action "*" on "*"). List the exact actions (e.g. "sqs:ReceiveMessage") and the resource ARNs, built from the resources' `.arn` outputs with `pulumi.jsonStringify`.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-indexer-all' (RolePolicy) at src/search/identity.ts:14 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/identity.ts:15:1  aws:iam/rolePolicyAttachment:RolePolicyAttachment search-indexer-admin
+  mandatory acme-guardrails/iam-least-privilege: IAM policies don't allow `*` actions or resources, and attach only approved AWS managed policies.
+            'search-indexer-admin' attaches the AWS managed policy `arn:aws:iam::aws:policy/AdministratorAccess`, which isn't approved. Approved: AWSLambdaBasicExecutionRole, AWSLambdaVPCAccessExecutionRole, AmazonSSMManagedInstanceCore, ReadOnlyAccess. Otherwise write a policy with the exact actions and resources this workload needs.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-indexer-admin' (RolePolicyAttachment) at src/search/identity.ts:15 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/index.ts:4:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/approved-platform-modules: Only supported @acme/platform modules and components are used; deprecated ones are not.
+            src/search/index.ts:4 imports `@acme/platform/legacy`, deprecated since @acme/platform 2.0. Remove the import and use the supported components from `import * as platform from "@acme/platform"` (storage.Bucket, db.Postgres, network.Service).
+
+src/search/index.ts:13:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/hermetic-program: The program doesn't run processes or reach the network while it deploys.
+            src/search/index.ts:13 runs `git rev-parse --short HEAD` at deploy time. Programs must be hermetic: the result differs between laptops, CI and Deployments, and previews can't see it. Pass the value in as stack config (declared in Pulumi.yaml, read with `config.get("...")`) and remove the call.
+
+src/search/index.ts:14:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/declared-config: Every config key the program reads is declared in Pulumi.yaml with a type and description.
+            src/search/index.ts:14 reads config `acme-shop:indexReplicas`, which Pulumi.yaml doesn't declare. Add it under `config:` in Pulumi.yaml: `indexReplicas: { type: integer, description: "<what it is>", default: <value> }`.
+
+src/search/index.ts:17:22  acme:storage:Bucket search-index
+  mandatory acme-guardrails/team-ownership: Resources declared under src/<team>/ belong to that team (component `team` input, or a team tag).
+            'search-index' at src/search/index.ts:17 is declared in src/search/ but its `team` input says "payments". Set it to "search", or move the resource to src/payments/ if payments owns it.
+
+src/search/index.ts:18:23  acme:storage:Bucket search-assets
+  mandatory acme-guardrails/bucket-component-invariants: Every acme:storage:Bucket has a public access block, versioning and server-side encryption.
+            acme:storage:Bucket 'search-assets' (declared at src/search/index.ts:18, dataClass "public") has no server-side encryption. This is a bug in the component, not in the code that uses it: fix the Bucket class in platform/storage.ts so every instance gets them. Don't add the missing resources from app code.
+
+src/search/index.ts:20:19  acme:db:Postgres search-db
+  mandatory acme-guardrails/protect-stateful-in-prod: In prod, resources that hold data are protected (protect or retainOnDelete).
+            'search-db' at src/search/index.ts:20 holds data and isn't protected in prod. Add `protect: pulumi.getStack() === "prod"` (or `retainOnDelete: true`) to its resource options, next to `provider`.
+  mandatory acme-guardrails/secrets-stay-secret: Passwords and secret config stay secrets: in resource inputs and in how config is read.
+            'search-db' at src/search/index.ts:20 gets `password` as plain text, so it is stored unencrypted in the state. Pass a secret: read it with `config.requireSecret("...")`, or wrap it with `pulumi.secret(...)`.
+
+src/search/index.ts:22:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/secrets-stay-secret: Passwords and secret config stay secrets: in resource inputs and in how config is read.
+            src/search/index.ts:22 reads secret config `acme-shop:searchDbPassword` with `config.require("searchDbPassword")`, which turns it into plain text. Use `config.requireSecret("searchDbPassword")`; it returns an Output you can pass straight to the resource.
+
+src/search/index.ts:27:1  aws:ec2/securityGroupRule:SecurityGroupRule search-api-ssh
+  mandatory acme-guardrails/component-encapsulation: Code outside a platform component doesn't attach resources to the component's internals.
+            'search-api-ssh' (SecurityGroupRule) at src/search/index.ts:27 attaches to 'search-api-sg' through `securityGroupId`, but that SecurityGroup belongs to acme:network:Service 'search-api'. Don't change a component's internals from outside: use `service.allowFrom(name, privateCidr)` (private CIDRs only), and remove 'search-api-ssh'.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-api-ssh' (SecurityGroupRule) at src/search/index.ts:27 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/index.ts:29:1  aws:sqs/queue:Queue searchEvents
+  mandatory acme-guardrails/kebab-case-names: Logical resource names are kebab-case.
+            Rename 'searchEvents' to 'search-events': logical names are kebab-case.
+  mandatory acme-guardrails/physical-name-prefix: Explicit physical names start with <project>-<stack>-; otherwise leave them out for auto-naming.
+            'searchEvents' at src/search/index.ts:29 sets `name: "search-events"`, a physical name that will collide across stacks. Remove `name` so Pulumi auto-names it (preferred), or prefix it: `name: `${pulumi.getProject()}-${pulumi.getStack()}-search-events``.
+
+src/search/index.ts:31:17  aws:sqs/queue:Queue search-reindex
+  mandatory acme-guardrails/explicit-provider-default-tags: AWS resources use the team's explicit provider, which sets default tags (team, env).
+            'search-reindex' at src/search/index.ts:31 uses the default AWS provider, so it gets no default tags and follows whatever region the environment has. Pass `{ provider }` in its options, with `const provider = platform.provider("search")` (import * as platform from "@acme/platform").
+  mandatory acme-guardrails/team-ownership: Resources declared under src/<team>/ belong to that team (component `team` input, or a team tag).
+            'search-reindex' at src/search/index.ts:31 has no owning team. Code in src/search/ belongs to search: pass `{ provider }` with `const provider = platform.provider("search")` (it tags team=search), or set `tags: { team: "search" }`.
+
+src/search/index.ts:33:1  aws:sqs/queuePolicy:QueuePolicy search-reindex-policy
+  mandatory acme-guardrails/no-hardcoded-arns: Resource inputs don't contain literal ARNs (account IDs included); ARNs come from resources, config or lookups.
+            'search-reindex-policy' hardcodes the ARN `arn:aws:iam::123456789012:role/search-indexer` (account 123456789012) in `policy`. Reference it instead: the resource's `.arn` if this program creates it, a stack reference output if another stack does, or build it with `pulumi.interpolate` from `aws.getCallerIdentityOutput({}, { provider }).accountId` (use `pulumi.jsonStringify` for policy documents).
+
+src/search/index.ts:44:1  acme:legacy:Queue search-legacy-jobs
+  mandatory acme-guardrails/approved-platform-modules: Only supported @acme/platform modules and components are used; deprecated ones are not.
+            'search-legacy-jobs' at src/search/index.ts:44 is a acme:legacy:Queue, which is not a supported platform component. Replace it with a plain `new aws.sqs.Queue(name, { ... }, { provider })` (the platform has no queue component yet).
+
+src/search/network.ts:15:13  aws:ec2/vpc:Vpc search-vpc
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-vpc' (Vpc) at src/search/network.ts:15 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+  mandatory acme-guardrails/shared-infra-ownership: VPCs, subnets, NAT and internet gateways belong to the network team; KMS keys and DNS zones to the platform team.
+            'search-vpc' at src/search/network.ts:15 creates a Vpc, which only src/network/ may create. Remove it and use the network stack: `new pulumi.StackReference(`acme/network/${pulumi.getStack()}`).requireOutput("vpcId")`.
+
+src/search/network.ts:16:1  aws:lb/loadBalancer:LoadBalancer search-public
+  mandatory acme-guardrails/public-lb-via-service: Internet-facing load balancers are created only through platform.network.Service.
+            'search-public' at src/search/network.ts:16 is an internet-facing load balancer made by hand. Use `new platform.network.Service("search-public", { team, vpcId, port, publicSubnetIds }, { provider })`: it adds the security group, target group, logs and TLS defaults; read its `.url`.
+  advisory  acme-guardrails/security-review: IAM and network resources declared in app code are flagged for a security review (advisory).
+            'search-public' (LoadBalancer) at src/search/network.ts:16 changes identity or network access: a security reviewer will look at it. Platform components (platform.identity.Role, platform.network.Service) don't need this review.
+
+src/search/network.ts:19:12  pulumi:providers:aws search-eu
+  mandatory acme-guardrails/provider-region-allowed: Every explicit AWS provider's region is one of the stack's allowed regions (config allowedRegions).
+            Provider 'search-eu' at src/search/network.ts:19 deploys to eu-west-1, but stack "prod" allows us-east-1, us-west-2 (`acme-shop:allowedRegions`). Use `const provider = platform.provider("<team>")`, which uses the stack's region; if you really need another region, ask to add it to allowedRegions.
+
+src/search/network.ts:26:0  pulumi:pulumi:Stack acme-shop-prod
+  mandatory acme-guardrails/deterministic-names: The program doesn't use Date.now(), Math.random() or crypto.randomUUID(): every run must declare the same resources.
+            src/search/network.ts:26 calls Date.now(), which gives a different value on every run, so a name or input built from it differs every time the program runs. Use a fixed name (Pulumi auto-names physical names for you), or a `random.RandomId` resource (@pulumi/random).
+
+Side effects blocked (network, processes; results are unknown or empty): process git rev-parse --short HEAD
+
+Fixtures used: stackReference acme/network/prod
+
+Unknown without a fixture (add them to PulumiScan.yaml to make them known): aws:index/getCallerIdentity:getCallerIdentity, stackReference acme/platform/prod
+
+apply callbacks run on unknown values with probes: 9 (0 fell back to unknown)
+
+36 mandatory, 11 advisory violations; 0 policy results can't be decided before deployment (488ms)
+error: one or more mandatory policy violations were found

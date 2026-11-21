@@ -1,0 +1,32 @@
+name: acme-shop
+description: Acme's shop backend. Teams own src/<team>/ and build on the @acme/platform components.
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+config:
+  dbSize:
+    type: string
+    description: Size of the payments database (small in dev; medium or large in prod).
+    default: small
+  paymentsDbPassword:
+    type: string
+    secret: true
+    description: Master password of the payments database.
+  searchDbPassword:
+    type: string
+    secret: true
+    description: Master password of the search database.
+  allowedRegions:
+    type: array
+    items:
+      type: string
+    description: Regions this stack may deploy to; every explicit provider's region must be one of them.
+  teamBudgets:
+    description: Monthly budget per team in USD, checked against the guardrails' rough cost estimate.
+  requiredOutputs:
+    type: array
+    items:
+      type: string
+    description: Stack outputs other stacks and tools depend on; the program must export each one.
+    default: [receiptsBucket, searchApiUrl]

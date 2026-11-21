@@ -36,3 +36,10 @@ new Bucket("private", {
     // A callback that can't run on a probe falls back to unknown.
     region: bucket.id.apply((id) => JSON.parse(id).region),
 });
+
+// The scan context: resource options, secret inputs, a resource created in an apply, config reads.
+bucket.id.apply(() => {
+    new Bucket("in-apply", { note: "made in an apply" });
+});
+new Bucket("guarded", { password: pulumi.secret("s3cr3t") }, { protect: true, ignoreChanges: ["acl"] });
+config.get("tier");

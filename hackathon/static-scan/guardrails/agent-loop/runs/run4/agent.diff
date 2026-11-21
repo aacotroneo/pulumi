@@ -1,0 +1,45 @@
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/Pulumi.yaml /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/Pulumi.yaml
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/Pulumi.yaml	2026-11-21 13:55:21
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/Pulumi.yaml	2026-11-21 13:55:58
+@@ -4,3 +4,8 @@
+   name: nodejs
+   options:
+     typescript: true
++config:
++  paymentsDbPassword:
++    type: string
++    secret: true
++    description: Master password for the payments team's Postgres database (set with `pulumi config set --secret`).
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/index.ts /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/index.ts
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/index.ts	2026-11-21 13:55:21
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/index.ts	2026-11-21 13:56:00
+@@ -3,4 +3,6 @@
+ import * as search from "./src/search";
+ 
+ export const receiptsBucket = payments.receipts.bucketName;
++export const invoicesBucket = payments.invoices.bucketName;
++export const paymentsDbEndpoint = payments.db.endpoint;
+ export const reindexQueue = search.reindex.url;
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/src/payments/index.ts /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/src/payments/index.ts
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/before/src/payments/index.ts	2026-11-21 13:55:21
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run4/work/src/payments/index.ts	2026-11-21 13:55:56
+@@ -5,7 +5,19 @@
+ const team = "payments";
+ const isProd = pulumi.getStack() === "prod";
+ const provider = platform.provider(team);
++const config = new pulumi.Config();
+ 
+ export const receipts = new platform.storage.Bucket("payments-receipts", { team, dataClass: "confidential" }, { provider, protect: isProd });
++
++// Invoices bucket. Guardrails require the platform component instead of a raw aws.s3.BucketV2.
++export const invoices = new platform.storage.Bucket("payments-invoices", { team, dataClass: "confidential" }, { provider, protect: isProd });
++
++// Payments database: Postgres 16 via the platform component (raw aws.rds.Instance isn't allowed).
++// Sizes are fixed by the platform: small (db.t4g.small) in dev, medium (db.r6g.large) in prod.
++export const db = new platform.db.Postgres(
++    "payments-db",
++    { team, size: isProd ? "medium" : "small", password: config.requireSecret("paymentsDbPassword") },
++    { provider, protect: isProd },
++);
+ 
+ new aws.cloudwatch.LogGroup("payments-api-logs", { retentionInDays: isProd ? 90 : 14 }, { provider });

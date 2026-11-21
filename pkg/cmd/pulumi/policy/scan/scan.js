@@ -195,6 +195,114 @@ const stubs = new Set();
 const errors = [];
 const warnings = [];
 
+// The scan context policies see on the Stack resource (`scan` in its props; see policy_scan_context.go).
+const imports = [];
+const importSeen = new Set();
+const sideEffects = [];
+const configRead = [];
+const configSeen = new Set();
+const packages = [];
+let stackOutputs = [];
+
+const isOwnFile = (f) => !!f && f.startsWith(codeRoot + path.sep) && !f.includes(`${path.sep}node_modules${path.sep}`);
+// The innermost frame of the current stack in the program's own code, as {file, line} (file relative to the code
+// root), skipping this driver. With ts-node, stack traces are source-mapped to the .ts lines.
+function programFrame(fileHint) {
+    const limit = Error.stackTraceLimit;
+    Error.stackTraceLimit = 40;
+    const stack = new Error().stack || "";
+    Error.stackTraceLimit = limit;
+    for (const line of stack.split("\n").slice(1)) {
+        const m = /\(?((?:file:\/\/)?\/[^():]+):(\d+):(\d+)\)?\s*$/.exec(line);
+        if (!m) {
+            continue;
+        }
+        const file = m[1].startsWith("file://") ? require("url").fileURLToPath(m[1]) : m[1];
+        if (file === __filename || !isOwnFile(file) || (fileHint && file !== fileHint)) {
+            continue;
+        }
+        return { file: path.relative(codeRoot, file), line: parseInt(m[2], 10), column: parseInt(m[3], 10) };
+    }
+    return {};
+}
+
+// Calls to Date.now, Math.random and crypto.randomUUID from the program's own code: values that differ on every run,
+// which make names and inputs churn between previews and updates. Only the immediate caller is checked (cheap).
+const nondeterminism = [];
+function recordNondeterminism() {
+    const seen = new Set();
+    const wrap = (obj, key, label) => {
+        const orig = obj[key];
+        obj[key] = function () {
+            const holder = {};
+            const limit = Error.stackTraceLimit;
+            Error.stackTraceLimit = 2;
+            Error.captureStackTrace(holder, obj[key]);
+            Error.stackTraceLimit = limit;
+            const m = /\(?((?:file:\/\/)?\/[^():]+):(\d+):(\d+)\)?\s*$/.exec((holder.stack || "").split("\n")[1] || "");
+            if (m && isOwnFile(m[1])) {
+                const file = path.relative(codeRoot, m[1]);
+                const k = `${label}\0${file}:${m[2]}`;
+                if (!seen.has(k)) {
+                    seen.add(k);
+                    nondeterminism.push({ call: label, file, line: parseInt(m[2], 10), column: parseInt(m[3], 10) });
+                }
+            }
+            return orig.apply(this, arguments);
+        };
+    };
+    wrap(Date, "now", "Date.now()");
+    wrap(Math, "random", "Math.random()");
+    const crypto = require("crypto");
+    if (typeof crypto.randomUUID === "function") {
+        wrap(crypto, "randomUUID", "crypto.randomUUID()");
+    }
+}
+
+function lockfileOf(dir) {
+    for (const f of ["package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock"]) {
+        if (fs.existsSync(path.join(dir, f))) {
+            return path.relative(codeRoot, path.join(dir, f)) || f;
+        }
+    }
+    return undefined;
+}
+
+function programContext(state) {
+    const pkg = readJSON(path.join(programDir, "package.json")) || {};
+    const files = Object.keys(Module._cache)
+        .filter((f) => isOwnFile(f) && !f.startsWith(STUB_PREFIX))
+        .map((f) => path.relative(codeRoot, f))
+        .sort();
+    const local = {};
+    for (const [name, dir] of localPackages) {
+        const lp = readJSON(path.join(dir, "package.json")) || {};
+        local[name] = { dir: path.relative(codeRoot, dir), version: lp.version || "" };
+    }
+    return {
+        packageJson: {
+            name: pkg.name || "",
+            version: pkg.version || "",
+            dependencies: pkg.dependencies || {},
+            devDependencies: pkg.devDependencies || {},
+        },
+        lockfile: lockfileOf(programDir) || (workspace ? lockfileOf(workspace.root) : undefined) || "",
+        localPackages: local,
+        files,
+        imports,
+        configRead,
+        invokes: [...(state.invokeCalls || [])].sort(),
+        stackReferences: resources.filter((r) => r.type === "pulumi:pulumi:StackReference").map((r) => r.id || r.name),
+        outputs: stackOutputs,
+        packages,
+        sideEffects,
+        nondeterminism,
+        networkBlocked: [...networkBlocked].sort(),
+        stubs: [...stubs].sort(),
+        missingConfig: [...(state.missingConfig || [])].sort(),
+    };
+}
+
 function writeGraph() {
     timings.total = Date.now() - t0;
     const state = globalThis.__pulumiPolicyScan || {};
@@ -213,6 +321,7 @@ function writeGraph() {
         unknownInvokes: sorted(state.unknownInvokes),
         probedApplies: state.probedApplies || 0,
         failedApplies: state.failedApplies || 0,
+        program: programContext(state),
         errors,
         warnings,
         timings,
@@ -388,6 +497,22 @@ Module._resolveFilename = function (request, parent, isMain, options) {
     if (request.startsWith(STUB_PREFIX)) {
         return request;
     }
+    // The program's imports of packages, with where they are.
+    if (isBare(request) && parent && isOwnFile(parent.filename)) {
+        const importPkg = request.startsWith("@") ? request.split("/").slice(0, 2).join("/") : request.split("/")[0];
+        const key = `${request}\0${parent.filename}`;
+        if (!importSeen.has(key)) {
+            importSeen.add(key);
+            const at = programFrame(parent.filename);
+            imports.push({
+                module: request,
+                package: importPkg,
+                local: localPackages.has(importPkg),
+                file: path.relative(codeRoot, parent.filename),
+                line: at.line || 0,
+            });
+        }
+    }
     if (request === "@pulumi/pulumi" || request.startsWith("@pulumi/pulumi/")) {
         return origResolve.call(this, sdkDir + request.slice("@pulumi/pulumi".length), parent, isMain, options);
     }
@@ -424,6 +549,7 @@ Module._resolveFilename = function (request, parent, isMain, options) {
     // reaching the network.
     if (fromProgram && !allowNetwork && NETWORK_PACKAGES.test(pkgName)) {
         networkBlocked.add(`module ${pkgName}`);
+        sideEffects.push({ kind: "module", target: pkgName, file: path.relative(codeRoot, from), line: (programFrame(from).line || 0) });
         return stubFor(request);
     }
     // The program's @pulumi/* imports come from the cache; libraries resolve their own (possibly nested) versions.
@@ -527,12 +653,58 @@ function loadMonitorClass() {
                     sp = frame;
                 }
             }
+            const has = (m) => typeof req[m] === "function";
+            const opt = (m) => (has(m) ? req[m]() : undefined);
+            const options = {};
+            if (has("hasProtect") ? req.hasProtect() : false) {
+                options.protect = req.getProtect();
+            }
+            if (has("hasRetainondelete") ? req.hasRetainondelete() : false) {
+                options.retainOnDelete = req.getRetainondelete();
+            }
+            const lists = {
+                ignoreChanges: "getIgnorechangesList",
+                replaceOnChanges: "getReplaceonchangesList",
+                additionalSecretOutputs: "getAdditionalsecretoutputsList",
+                hideDiffs: "getHidediffsList",
+                replaceWith: "getReplaceWithList",
+                aliasURNs: "getAliasurnsList",
+            };
+            for (const [k, m] of Object.entries(lists)) {
+                const v = opt(m);
+                if (v && v.length) {
+                    options[k] = v;
+                }
+            }
+            const aliases = opt("getAliasesList");
+            if (aliases && aliases.length) {
+                options.aliases = aliases.map((a) => (a.toObject ? a.toObject() : String(a)));
+            }
+            if (opt("getDeletedwith")) {
+                options.deletedWith = req.getDeletedwith();
+            }
+            if (opt("getDeletebeforereplacedefined")) {
+                options.deleteBeforeReplace = req.getDeletebeforereplace();
+            }
+            if (opt("getImportid")) {
+                options.import = req.getImportid();
+            }
+            const ct = opt("getCustomtimeouts");
+            if (ct && (ct.getCreate() || ct.getUpdate() || ct.getDelete())) {
+                options.customTimeouts = { create: ct.getCreate(), update: ct.getUpdate(), delete: ct.getDelete() };
+            }
+            const packageRef = opt("getPackageref") || "";
+            const pkgOf = packages.find((p) => p.ref === packageRef);
+            const inApply = scanState().createdInApply;
             resources.push(
                 Object.assign(
                     {
                         urn,
                         type: req.getType(),
                         name: req.getName(),
+                        version: opt("getVersion") || (pkgOf ? pkgOf.version : ""),
+                        options,
+                        createdInApply: !!(inApply && inApply.has(`${req.getType()}::${req.getName()}`)),
                         custom: req.getCustom ? req.getCustom() : true,
                         remote: req.getRemote ? req.getRemote() : false,
                         parent: req.getParent(),
@@ -592,8 +764,38 @@ function loadMonitorClass() {
             }
         }
 
-        registerResourceOutputs(_req, callback) {
+        registerResourceOutputs(req, callback) {
+            try {
+                if (req.getUrn && req.getUrn().split("::")[2] === "pulumi:pulumi:Stack" && req.getOutputs()) {
+                    const SECRET = "1b47061264138c4ac30d75fd1eb44270";
+                    const outs = req.getOutputs().toJavaScript();
+                    stackOutputs = Object.keys(outs)
+                        .sort()
+                        .map((name) => {
+                            const v = outs[name];
+                            const secret = !!(v && typeof v === "object" && v["4dabf18193072939515e22adb298388d"] === SECRET);
+                            return { name, secret };
+                        });
+                }
+            } catch {
+                // Outputs are context only.
+            }
             callback(null, {});
+        }
+
+        registerPackage(req, callback) {
+            const ref = `scan-package-${packages.length}`;
+            const param = req.getParameterization ? req.getParameterization() : undefined;
+            packages.push({
+                ref,
+                name: req.getName(),
+                version: req.getVersion(),
+                downloadURL: req.getDownloadUrl ? req.getDownloadUrl() : "",
+                parameterization: param ? { name: param.getName(), version: param.getVersion() } : undefined,
+            });
+            const resp = new resproto.RegisterPackageResponse();
+            resp.setRef(ref);
+            callback(null, resp);
         }
 
         // Hooks and component method calls: nothing runs them here.
@@ -617,7 +819,8 @@ function loadMonitorClass() {
         getDeploymentInfo(_req, callback) {
             const resp = new resproto.DeploymentInfo();
             resp.setSupportedfeaturesList(
-                Object.values(resproto.ResourceMonitorFeature).filter((v) => typeof v === "number" && v !== 0),
+                // Every feature, secrets (0) included: else secrets reach policies as plain values.
+                Object.values(resproto.ResourceMonitorFeature).filter((v) => typeof v === "number"),
             );
             callback(null, resp);
         }
@@ -640,6 +843,49 @@ function loadConfig() {
     fixtures = Object.assign({ invokes: {}, stackReferences: {} }, cfg.fixtures || {});
     // The SDK reads invoke fixtures from the shared scan state (runtime/policyScan.ts).
     scanState().invokes = fixtures.invokes || {};
+}
+
+// Every config read, with whether it's secret, required and set, and where the program reads it.
+function recordConfigReads() {
+    const { Config } = require("@pulumi/pulumi/config");
+    const { getConfig } = require("@pulumi/pulumi/runtime/config");
+    for (const kind of ["", "Boolean", "Number", "Object"]) {
+        for (const [method, secret, required] of [
+            [`get${kind}`, false, false],
+            [`getSecret${kind}`, true, false],
+            [`require${kind}`, false, true],
+            [`requireSecret${kind}`, true, true],
+        ]) {
+            const orig = Config.prototype[method];
+            if (typeof orig !== "function") {
+                continue;
+            }
+            Config.prototype[method] = function (key) {
+                try {
+                    const fullKey = `${this.name}:${key}`;
+                    const at = programFrame();
+                    const seen = `${fullKey}\0${at.file}:${at.line}`;
+                    if (!configSeen.has(seen)) {
+                        configSeen.add(seen);
+                        configRead.push({
+                            key: fullKey,
+                            namespace: this.name,
+                            name: key,
+                            secret,
+                            required,
+                            found: getConfig(fullKey) !== undefined,
+                            method,
+                            file: at.file || "",
+                            line: at.line || 0,
+                        });
+                    }
+                } catch {
+                    // Context only.
+                }
+                return orig.apply(this, arguments);
+            };
+        }
+    }
 }
 
 function registerTypeScript() {
@@ -779,6 +1025,7 @@ function blockNetwork() {
         for (const fn of ["request", "get"]) {
             mod[fn] = function (a) {
                 networkBlocked.add(`${modName} ${urlOf(a)}`);
+                sideEffects.push(Object.assign({ kind: modName, target: urlOf(a) }, programFrame()));
                 const req = new EventEmitter();
                 for (const m of ["end", "write", "setTimeout", "setHeader", "setNoDelay", "setSocketKeepAlive", "flushHeaders"]) {
                     req[m] = () => req;
@@ -796,6 +1043,7 @@ function blockNetwork() {
     const { scanUnknown } = sdkRequire("./runtime/policyScan");
     globalThis.fetch = async (input) => {
         networkBlocked.add(`fetch ${urlOf(typeof input === "object" && input.url ? input.url : input)}`);
+        sideEffects.push(Object.assign({ kind: "fetch", target: urlOf(typeof input === "object" && input.url ? input.url : input) }, programFrame()));
         return {
             ok: true,
             status: 200,
@@ -819,7 +1067,11 @@ function blockProcesses() {
     const cp = require("child_process");
     const { EventEmitter } = require("events");
     const { Readable, Writable } = require("stream");
-    const note = (file, argv) => networkBlocked.add(`process ${[file, ...(argv || [])].join(" ").slice(0, 80)}`);
+    const note = (file, argv) => {
+        const cmd = [file, ...(argv || [])].join(" ").slice(0, 80);
+        networkBlocked.add(`process ${cmd}`);
+        sideEffects.push(Object.assign({ kind: "process", target: cmd }, programFrame()));
+    };
     const empty = (opts) => (opts && (typeof opts === "string" || opts.encoding) && opts.encoding !== "buffer" ? "" : Buffer.alloc(0));
     const argsOf = (a, b) => (Array.isArray(a) ? [a, b] : [[], a]);
     cp.execSync = (cmd, opts) => (note(cmd), empty(opts));
@@ -884,6 +1136,7 @@ async function main() {
     process.chdir(programDir);
 
     let since = Date.now();
+    recordNondeterminism();
     const runtime = require("@pulumi/pulumi/runtime");
     const ScanMonitor = loadMonitorClass();
     runtime.setMockOptions(new ScanMonitor(), project, stack, true /* preview */, "organization");
@@ -894,6 +1147,7 @@ async function main() {
             store[k] = true;
         }
     }
+    recordConfigReads();
     mark("sdk", since);
 
     since = Date.now();

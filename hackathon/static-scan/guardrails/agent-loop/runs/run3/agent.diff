@@ -1,0 +1,32 @@
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/before/Pulumi.yaml /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/work/Pulumi.yaml
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/before/Pulumi.yaml	2026-11-21 12:13:14
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/work/Pulumi.yaml	2026-11-21 12:14:07
+@@ -4,3 +4,8 @@
+   name: nodejs
+   options:
+     typescript: true
++config:
++  paymentsDbPassword:
++    type: string
++    description: Master password for the payments team's Postgres database (src/payments).
++    secret: true
+diff -ruN /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/before/src/payments/index.ts /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/work/src/payments/index.ts
+--- /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/before/src/payments/index.ts	2026-11-21 12:13:14
++++ /private/tmp/claude-501/-Users-alejandrocotroneo-go-src-github-com-pulumi-pulumi/f5471e69-8067-42a3-89e8-e64c163c6231/scratchpad/agent-loop/run3/work/src/payments/index.ts	2026-11-21 12:14:16
+@@ -9,3 +9,16 @@
+ export const receipts = new platform.storage.Bucket("payments-receipts", { team, dataClass: "confidential" }, { provider, protect: isProd });
+ 
+ new aws.cloudwatch.LogGroup("payments-api-logs", { retentionInDays: 30 }, { provider });
++
++const config = new pulumi.Config();
++
++// Invoices hold customer billing data, so they're classed like receipts: confidential, protected in prod.
++export const invoices = new platform.storage.Bucket("payments-invoices", { team, dataClass: "confidential" }, { provider, protect: isProd });
++
++// Postgres 16. The platform doesn't offer db.t3.micro: dev gets its smallest size, "small" (db.t4g.small), and
++// prod must be "medium" or "large", so prod gets "medium" (db.r6g.large).
++export const db = new platform.db.Postgres(
++    "payments-db",
++    { team, size: isProd ? "medium" : "small", password: config.requireSecret("paymentsDbPassword") },
++    { provider, protect: isProd },
++);

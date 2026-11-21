@@ -1,0 +1,4 @@
+runtime: purejs
+main: policies.js
+version: 0.1.0
+description: "Golden-path inventory: how much of the cloud is built through platform components, and which versions."

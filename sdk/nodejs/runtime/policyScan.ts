@@ -157,6 +157,9 @@ export function scanPartial(value: any): any {
  */
 export function scanInvokeResult(tok: string): { result: any; isKnown: boolean } {
     const state = policyScanState();
+    const st = state as any;
+    st.invokeCalls = st.invokeCalls || new Set<string>();
+    st.invokeCalls.add(tok);
     for (const key of [tok, tok.split(":").pop()!]) {
         if (Object.prototype.hasOwnProperty.call(state.invokes, key)) {
             state.usedFixtures.add(`invoke ${key}`);
@@ -176,4 +179,47 @@ export function scanInvokeResult(tok: string): { result: any; isKnown: boolean }
 export function scanMissingConfig<T>(fullKey: string, placeholder: T): T {
     policyScanState().missingConfig.add(fullKey);
     return placeholder;
+}
+
+/**
+ * Marks the code that runs inside an `apply` callback during a scan, so resources created there can be reported. An
+ * async context, so it follows the callback across awaits.
+ */
+let applyContext: any;
+function scanApplyContext(): any {
+    if (applyContext === undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { AsyncLocalStorage } = require("async_hooks");
+        const g = globalThis as any;
+        // One context for every copy of the SDK the program loads.
+        g.__pulumiPolicyScanApply = g.__pulumiPolicyScanApply || new AsyncLocalStorage();
+        applyContext = g.__pulumiPolicyScanApply;
+    }
+    return applyContext;
+}
+
+/**
+ * Runs an `apply` callback, marked as such during a scan.
+ *
+ * @internal
+ */
+export function scanRunApply<R>(fn: () => R): R {
+    if (!isPolicyScan()) {
+        return fn();
+    }
+    return scanApplyContext().run(true, fn);
+}
+
+/**
+ * Records that a resource is being created; during a scan, notes whether that happens inside an `apply` callback.
+ *
+ * @internal
+ */
+export function scanNoteResource(type: string, name: string): void {
+    if (!isPolicyScan() || scanApplyContext().getStore() !== true) {
+        return;
+    }
+    const s = policyScanState() as any;
+    s.createdInApply = s.createdInApply || new Set<string>();
+    s.createdInApply.add(`${type}::${name}`);
 }

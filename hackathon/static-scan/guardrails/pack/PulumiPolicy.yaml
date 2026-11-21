@@ -1,0 +1,4 @@
+runtime: purejs
+main: policies.js
+version: 0.1.0
+description: "Acme guardrails: golden-path components, conventions and Pulumi best practices, written for agents to act on."

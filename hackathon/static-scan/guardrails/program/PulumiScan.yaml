@@ -1,0 +1,4 @@
+# Fixtures for `pulumi policy scan`: what only a deployment would know.
+stackReferences:
+  acme/network/dev: { vpcId: vpc-0dev0000000000001, publicSubnetIds: [subnet-0dev000000000001, subnet-0dev000000000002] }
+  acme/network/prod: { vpcId: vpc-0prod000000000001, publicSubnetIds: [subnet-0prod00000000001, subnet-0prod00000000002] }
